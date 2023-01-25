@@ -7,8 +7,11 @@ import {
 } from "react-leaflet";
 import { CRS, LatLng, Icon, Point, map } from "leaflet";
 import { useState } from "react";
+import { motion, useAnimationControls } from "framer-motion";
+
 
 export default function Map() {
+    const controls = useAnimationControls();
     const mapData = [
         {
             key: "northShrouds",
@@ -54,7 +57,7 @@ export default function Map() {
         const [position, setPosition] = useState<LatLng | null>(null);
         useMapEvents({
             click(e) {
-                console.log(e.latlng.lat, ",", e.latlng.lng);
+                //console.log(e.latlng.lat, ",", e.latlng.lng);
                 setPosition(e.latlng);
             },
         });
@@ -64,57 +67,81 @@ export default function Map() {
         );
     }
 
-    function changeLocation(target: string | undefined) {
-        mapData.map((map) => {
-            if (map.key === target) setCurrentMap(map);
+    async function changeLocation(target: string | undefined) {
+        await controls.start({
+            display: "block",
+            opacity: 1,
+            transition: { duration: 0.1 },
+        }).then(async () => {
+            mapData.map((map) => {
+                if (map.key === target) setCurrentMap(map);
+            });
+            await controls.start({
+                display: "block",
+                opacity: 0,
+                transition: { duration: 0.1 },
+            }).then(() => {
+                controls.start({
+                    display: "none",
+                })
+            })
         });
     }
 
     return (
-        <MapContainer
-            center={[0, 0]}
-            zoom={1}
-            minZoom={1}
-            maxZoom={5}
-            crs={CRS.Simple}
-            maxBounds={[
-                [-100, -100],
-                [100, 100],
-            ]}
-            attributionControl={false}
-            scrollWheelZoom={true}
-            doubleClickZoom={false}
-        >
-            <ImageOverlay
-                bounds={[
+        <>
+            <MapContainer
+                key={currentMap.key}
+                center={[0, 0]}
+                zoom={1}
+                minZoom={1}
+                maxZoom={5}
+                crs={CRS.Simple}
+                maxBounds={[
                     [-100, -100],
                     [100, 100],
                 ]}
-                url={currentMap.url}
-            />
-            <GuessMarker />
-            {currentMap.markers.map((element, index) => {
-                return (
-                    <Marker
-                        key={"key" + element.name + index}
-                        position={[element.latLng[0], element.latLng[1]]}
-                        opacity={0}
-                    >
-                        <Tooltip
-                            eventHandlers={{
-                                click: () => {changeLocation(element.target)}
-                            }}
-                            permanent
-                            direction="top"
-                            offset={new Point(-16, 38)}
-                            interactive={true}
-                            className="hover:text-cyan-100 tracking-wide text-cyan-200 text-shadow-sm shadow-black text-base font-myriad bg-transparent shadow-none border-none before:border-none duration-200"
+                attributionControl={false}
+                scrollWheelZoom={true}
+                doubleClickZoom={false}
+            >
+                <ImageOverlay
+                    bounds={[
+                        [-100, -100],
+                        [100, 100],
+                    ]}
+                    url={currentMap.url}
+                />
+                <GuessMarker />
+                {currentMap.markers.map((element, index) => {
+                    return (
+                        <Marker
+                            key={"key" + element.name + index}
+                            position={[element.latLng[0], element.latLng[1]]}
+                            opacity={0}
                         >
-                            {element.name}
-                        </Tooltip>
-                    </Marker>
-                );
-            })}
-        </MapContainer>
+                            <Tooltip
+                                eventHandlers={{
+                                    click: () => {
+                                        changeLocation(element.target);
+                                    },
+                                }}
+                                permanent
+                                direction="top"
+                                offset={new Point(-16, 38)}
+                                interactive={true}
+                                className="hover:text-cyan-100 tracking-wide text-cyan-200 text-shadow-sm shadow-black text-base font-myriad bg-transparent shadow-none border-none before:border-none"
+                            >
+                                {element.name}
+                            </Tooltip>
+                        </Marker>
+                    );
+                })}
+            </MapContainer>
+            <motion.div
+                animate={controls}
+                className="absolute top-0 left-0 w-full h-full z-20 backdrop-blur opacity-0 hidden"
+            ></motion.div>
+        </>
     );
 }
