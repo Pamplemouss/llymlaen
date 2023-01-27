@@ -11,7 +11,7 @@ export default function Home() {
         if (viewer == null) {
             viewer = new Viewer({
                 container: document.getElementById("viewer") as HTMLElement,
-                panorama: 'thevault.jpeg',
+                panorama: 'limsa.jpeg',
             });
         }
     })
@@ -28,8 +28,10 @@ export default function Home() {
             <div className="w-screen h-screen flex">
                 <div className="m-auto flex w-full h-full relative">
                     <div id="viewer" className="w-full h-full"></div>
-                    <div className="shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-yellow-100 rounded-xl overflow-hidden absolute bottom-12 right-12 w-96 h-96 scale-[0.65] hover:scale-100 focus:scale-100 origin-bottom-right opacity-50 hover:opacity-100 duration-200">
-                        <Map></Map>
+                    <div className=" p-5 absolute bottom-12 right-12 w-[30rem] h-[30rem] scale-[0.65] hover:scale-100 focus:scale-100 origin-bottom-right opacity-50 hover:opacity-100 duration-200">
+                        <div className="overflow-hidden w-full h-full shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-yellow-100 rounded-xl ">
+                            <Map></Map>
+                        </div>
                     </div>
                 </div>
             </div>
