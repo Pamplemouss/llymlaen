@@ -4,52 +4,136 @@ import {
     Marker,
     useMapEvents,
     Tooltip,
+    Polyline,
+    useMap,
 } from "react-leaflet";
-import { CRS, LatLng, Icon, Point, LatLngBoundsExpression } from "leaflet";
-import { useEffect, useState } from "react";
+import { CRS, LatLng, Icon, Point, LatLngBoundsExpression, LatLngExpression } from "leaflet";
+import { useContext, useEffect, useState } from "react";
 import { motion, useAnimationControls } from "framer-motion";
 import Control from 'react-leaflet-custom-control'
 import MapData from '../data/mapData'
 import { Region, Zone } from '../data/mapData'
+import GameContext from '@/components/GameContext';
+import { invLerp, calculateDist, getUrl } from '@/Utilities';
 
 
-export default function Map() {
+interface FuncProps {
+    toFind: any;
+}
+
+export default function Map({toFind}: FuncProps) {
+    const gameContext = useContext(GameContext);
     const controls = useAnimationControls();
     const bounds : LatLngBoundsExpression = ([[-110,-110], [110,110]]);
-    const [currentMap, setCurrentMap] = useState<Zone | Region>(MapData.zones[0]);
-    const [region, setRegion] = useState((currentMap as Zone).region);
+    const [currentMap, setCurrentMap] = useState<Zone | Region>(MapData.regions[0]);
+    const [region, setRegion] = useState((currentMap as Region));
+    const [guessPos, setGuessPos] = useState<[number, number] | null>(null);
+    const [polyline, setPolyline] = useState<LatLngExpression[] | null>(null);
     const [zonesMenuOpen, setZonesMenuOpen] = useState(false);
     const [regionsMenuOpen, setRegionsMenuOpen] = useState(false);
+    const [score, setScore] = useState<number | null>(null);
+    const scoreSystem = {
+        region: 10,
+        map: 20,
+        dist: 70,
+        total: 100,
+        distMax: 110,
+    }
     const guessIcon = new Icon({
         iconUrl: "flag.png",
         iconAnchor: [5, 30],
         iconSize: [35, 35],
-        className: "leaflet-guess-icon",
+    });
+    const answerIcon = new Icon({
+        iconUrl: "FFXIV_Quest_Icon.webp",
+        iconAnchor: [24, 33],
+        iconSize: [35, 35],
     });
 
-    function getUrl(name: string) {
-        return (name.toLowerCase().replaceAll(" ", "_") + ".png");
+    function guess() {
+        if (guessPos === null) return;
+
+        var calculScore = 0;
+        if (region.name === toFind.region) calculScore += scoreSystem.region;
+        if (currentMap.name === toFind.name) calculScore += scoreSystem.map;
+        if (currentMap.name === toFind.name) {
+            var dist = calculateDist(guessPos, toFind.pos);
+            console.log(dist)
+            if (dist < 2) calculScore += scoreSystem.dist;
+            else if (dist < scoreSystem.distMax) calculScore += (invLerp(scoreSystem.distMax,2,dist) * scoreSystem.dist);
+        }
+        
+        setScore(Math.floor(calculScore));
+        gameContext.setIsPlaying(false);
+        setZonesMenuOpen(false);
+        setRegionsMenuOpen(false);
+        if (currentMap.name === toFind.name) {
+            setPolyline([[guessPos[0], guessPos[1]], [toFind.pos[0], toFind.pos[1]]]);
+        }
+        else {
+            var answerZone: Zone | undefined = MapData.zones.find(zone => zone.name == toFind.name)
+            changeLocation(answerZone!);
+        }        
     }
 
     function GuessMarker() {
-        const [position, setPosition] = useState<LatLng | null>(null);
         useMapEvents({
             click(e) {
-                //console.log(e.latlng.lat, ",", e.latlng.lng);
-                /*setZonesMenuOpen(false);
-                setRegionsMenuOpen(false);*/
-                setPosition(e.latlng);
+                //console.log(e.latlng.lat + ", " + e.latlng.lng)
+                if (!gameContext.isPlaying) return;
+                if (!currentMap.hasOwnProperty("region")) return; // Don't place marker if in region mode
+                if ((e.originalEvent.target as Element)!.classList.contains("leaflet-container")) {
+                    setZonesMenuOpen(false);
+                    setRegionsMenuOpen(false);
+                    setGuessPos([e.latlng.lat, e.latlng.lng]);
+                }
             },
         });
 
-        return position === null ? null : (
-            <Marker position={position} icon={guessIcon}></Marker>
+        return guessPos === null ? null : (
+            <Marker position={new LatLng(guessPos[0],guessPos[1])} icon={guessIcon}></Marker>
         );
     }
 
+    function MapControl() {
+        const map = useMap();
+
+        useEffect(() => {
+            if (!gameContext.isPlaying) {
+                setTimeout(() => {
+                    map.invalidateSize(true);
+                    setTimeout(() => {
+                        map.setZoomAround(toFind.pos, 3)
+                    }, 300)
+                }, 500);
+            } 
+            else {
+                setTimeout(() => {
+                    map.invalidateSize(false);
+                }, 800);
+            }
+        }, [gameContext.isPlaying])
+
+        return null;
+    }
+
+    function LineToAnswer() {
+        return (polyline !== null && currentMap.name === toFind.name) ? (
+            <Polyline pathOptions={{color: "black", dashArray: "1 8"}} positions={polyline} />
+        ) : null;
+    }
+
+    function AnswerMarker() {
+        return (!gameContext.isPlaying && currentMap.name === toFind.name) ? (
+            <Marker position={toFind.pos} icon={answerIcon}></Marker>
+        ) : null;
+    }
+
     async function changeLocation(target: Zone | Region) {
+        if (!gameContext.isPlaying) return;
         setZonesMenuOpen(false);
         setRegionsMenuOpen(false);
+        setGuessPos(null)
 
         await controls.start({
             display: "block",
@@ -60,7 +144,7 @@ export default function Map() {
             await controls.start({
                 display: "block",
                 opacity: 0,
-                transition: { duration: 0.1 },
+                transition: { duration: 0.3 },
             }).then(() => {
                 controls.start({
                     display: "none",
@@ -77,7 +161,6 @@ export default function Map() {
     return (
         <>
             <MapContainer
-                key={currentMap.name}
                 center={[0, 0]}
                 zoom={1}
                 minZoom={1}
@@ -93,9 +176,13 @@ export default function Map() {
                         [-110, -110],
                         [110, 110],
                     ]}
-                    url={getUrl(currentMap.name)}
+                    url={"maps/" + getUrl(currentMap.name)}
                 />
+                <MapControl />
                 <GuessMarker />
+                <LineToAnswer />
+                <AnswerMarker />
+
                 {currentMap.markersZone.map((marker, index) => {
                     return (
                         <Marker
@@ -113,7 +200,7 @@ export default function Map() {
                                 direction="top"
                                 offset={new Point(-16, 38)}
                                 interactive={true}
-                                className="hover:text-cyan-100 tracking-wide text-cyan-200 text-shadow-sm shadow-black text-base font-myriad bg-transparent shadow-none border-none before:border-none"
+                                className="p-[2px] hover:text-cyan-100 tracking-wide text-cyan-200 text-shadow-sm shadow-black text-base font-myriad bg-transparent shadow-none border-none before:border-none"
                             >
                                 {marker.target.name}
                             </Tooltip>
@@ -128,8 +215,8 @@ export default function Map() {
                     </div>
                     <div className="absolute left-12 top-2 text-yellow-50 z-20">
                         <div className="relative flex">
-                            <div onClick={() => {setRegionsMenuOpen(!regionsMenuOpen); setZonesMenuOpen(false)}} className="cursor-pointer h-5 w-5 select-none text-gray-300 text-base font-bold ffxivBtn rounded-full text-center shadow-[0px_1px_5px_rgba(0,0,0,0.7)] inline-flex justify-center items-center"><span className={`duration-200 ${regionsMenuOpen ? "rotate-90" : ""}`}>&#62;</span></div>
-                            <div onClick={() => {setRegionsMenuOpen(!regionsMenuOpen); setZonesMenuOpen(false)}} className="cursor-pointer ml-2 text-sm text-shadow shadow-amber-300/50 inline-flex justify-center items-center"><span>{region.name}</span></div>
+                            <div onClick={() => { if (gameContext.isPlaying) {setRegionsMenuOpen(!regionsMenuOpen); setZonesMenuOpen(false)}}} className="cursor-pointer h-5 w-5 select-none text-gray-300 text-base font-bold ffxivBtn rounded-full text-center shadow-[0px_1px_5px_rgba(0,0,0,0.7)] inline-flex justify-center items-center"><span className={`duration-200 ${regionsMenuOpen ? "rotate-90" : ""}`}>&#62;</span></div>
+                            <div onClick={() => { if (gameContext.isPlaying) {setRegionsMenuOpen(!regionsMenuOpen); setZonesMenuOpen(false)}}} className="cursor-pointer ml-2 text-sm text-shadow shadow-amber-300/50 inline-flex justify-center items-center"><span>{region.name}</span></div>
                             {regionsMenuOpen && (
                                 <motion.div
                                     initial={{ scale: 0 }}
@@ -145,8 +232,8 @@ export default function Map() {
                             )}
                         </div>
                         <div className="relative flex mt-3">
-                            <div onClick={() => {setZonesMenuOpen(!zonesMenuOpen); setRegionsMenuOpen(false)}} className="cursor-pointer h-5 w-5 select-none text-gray-300 text-base font-bold ffxivBtn rounded-full text-center shadow-[0px_1px_5px_rgba(0,0,0,0.7)] inline-flex justify-center items-center"><span className={`duration-200 ${zonesMenuOpen ? "rotate-90" : ""}`}>&#62;</span></div>
-                            <div onClick={() => {setZonesMenuOpen(!zonesMenuOpen); setRegionsMenuOpen(false)}} className="cursor-pointer ml-2 text-sm text-shadow shadow-amber-300/50 inline-flex justify-center items-center"><span>{currentMap.hasOwnProperty("region") ? currentMap.name : "--"}</span></div>
+                            <div onClick={() => { if (gameContext.isPlaying) {setZonesMenuOpen(!zonesMenuOpen); setRegionsMenuOpen(false)}}} className="cursor-pointer h-5 w-5 select-none text-gray-300 text-base font-bold ffxivBtn rounded-full text-center shadow-[0px_1px_5px_rgba(0,0,0,0.7)] inline-flex justify-center items-center"><span className={`duration-200 ${zonesMenuOpen ? "rotate-90" : ""}`}>&#62;</span></div>
+                            <div onClick={() => { if (gameContext.isPlaying) {setZonesMenuOpen(!zonesMenuOpen); setRegionsMenuOpen(false)}}} className="cursor-pointer ml-2 text-sm text-shadow shadow-amber-300/50 inline-flex justify-center items-center"><span>{currentMap.hasOwnProperty("region") ? currentMap.name : "--"}</span></div>
                             {zonesMenuOpen ? (
                                 <motion.div
                                     initial={{ scale: 0 }}
@@ -162,6 +249,27 @@ export default function Map() {
                             ) : null}
                         </div>
                     </div>
+                </Control>
+                <Control position="bottomright">
+                    { gameContext.isPlaying ? (
+                        <div onClick={() => guess()} className={`${guessPos == null ? "opacity-50" : ""} py-1 px-6 text-slate-200 font-semibold shadow-md shadow-[rgba(0,0,0,0.75)] text-yellow-100 cursor-pointer rounded-full text-center ffxivBtn`}>Guess</div>
+                    ) : null}
+                </Control>
+                <Control position="bottomleft">
+                    { !gameContext.isPlaying ? (
+                        <div className="bg-slate-800 -left-0 absolute w-full -bottom-2 py-8 flex flex-col">
+                            <div className="w-4/12 m-auto h-2 bg-slate-600 rounded-full flex overflow-hidden relative">
+                                <motion.div initial={{ width: 100*(scoreSystem.region/scoreSystem.total)+"%" }} className="z-10 border-r-2 border-slate-800"></motion.div>
+                                <motion.div initial={{ width: 100*(scoreSystem.map/scoreSystem.total)+"%" }} className="z-10 border-r-2 border-slate-800"></motion.div>
+                                <motion.div
+                                    transition={{ delay: 1.5, duration: 0.75 }}
+                                    animate={{ width: 100*(score!/scoreSystem.total)+"%" }}
+                                    className={`absolute h-full bg-green-400`}>
+                                </motion.div>
+                            </div>
+                            <div className="mt-4 text-lg text-slate-400 m-auto">Your score : {score}/100</div>
+                        </div>
+                    ) : null}
                 </Control>
 
             </MapContainer>
