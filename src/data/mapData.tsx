@@ -129,6 +129,7 @@ CentralShroud.markersZone.push(
     {target: OldGridania, latLng: [47.9375 , 18.0625]},
     {target: EastShroud, latLng: [33 , 51.28125]},
     {target: SouthShroud, latLng: [-75.84375 , 17.375]},
+    {target: TheLavenderBeds, latLng: [-35.75, 40.875]},
 );
 SouthShroud.markersZone.push(
     {target: CentralShroud, latLng: [37.25 , -50.75]},

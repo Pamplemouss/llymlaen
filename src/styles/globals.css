@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-
+body {
+    overflow: hidden;
+}
 
 .leaflet-container {
     width: 100%;
@@ -28,7 +30,6 @@
 
 
 .leaflet-control-zoom-in, .leaflet-control-zoom-out, .ffxivBtn {
-    /* @apply bg-gradient-to-b from-[#636562] via-[#505050] via-[#373739] to-[#494748] !important */
     background: linear-gradient(to bottom, #737572, #505050 46%, #373739 54%, #404040 75%, #555354) !important;
 }
 

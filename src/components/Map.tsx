@@ -8,6 +8,7 @@ import {
     useMap,
 } from "react-leaflet";
 import { CRS, LatLng, Icon, Point, LatLngBoundsExpression, LatLngExpression } from "leaflet";
+import * as L from 'leaflet';
 import { useContext, useEffect, useState } from "react";
 import { motion, useAnimationControls } from "framer-motion";
 import Control from 'react-leaflet-custom-control'
@@ -31,14 +32,6 @@ export default function Map({toFind}: FuncProps) {
     const [polyline, setPolyline] = useState<LatLngExpression[] | null>(null);
     const [zonesMenuOpen, setZonesMenuOpen] = useState(false);
     const [regionsMenuOpen, setRegionsMenuOpen] = useState(false);
-    const [score, setScore] = useState<number | null>(null);
-    const scoreSystem = {
-        region: 10,
-        map: 20,
-        dist: 70,
-        total: 100,
-        distMax: 110,
-    }
     const guessIcon = new Icon({
         iconUrl: "flag.png",
         iconAnchor: [5, 30],
@@ -49,21 +42,22 @@ export default function Map({toFind}: FuncProps) {
         iconAnchor: [24, 33],
         iconSize: [35, 35],
     });
+    var map : L.Map | null = null;
 
     function guess() {
         if (guessPos === null) return;
 
         var calculScore = 0;
-        if (region.name === toFind.region) calculScore += scoreSystem.region;
-        if (currentMap.name === toFind.name) calculScore += scoreSystem.map;
+        if (region.name === toFind.region) calculScore += gameContext.scoreSystem.region;
+        if (currentMap.name === toFind.name) calculScore += gameContext.scoreSystem.map;
         if (currentMap.name === toFind.name) {
             var dist = calculateDist(guessPos, toFind.pos);
-            console.log(dist)
-            if (dist < 2) calculScore += scoreSystem.dist;
-            else if (dist < scoreSystem.distMax) calculScore += (invLerp(scoreSystem.distMax,2,dist) * scoreSystem.dist);
+            gameContext.setDistance(dist);
+            if (dist < 2) calculScore += gameContext.scoreSystem.dist;
+            else if (dist < gameContext.scoreSystem.distMax) calculScore += (invLerp(gameContext.scoreSystem.distMax,2,dist) * gameContext.scoreSystem.dist);
         }
         
-        setScore(Math.floor(calculScore));
+        gameContext.setScore(Math.floor(calculScore));
         gameContext.setIsPlaying(false);
         setZonesMenuOpen(false);
         setRegionsMenuOpen(false);
@@ -94,28 +88,29 @@ export default function Map({toFind}: FuncProps) {
             <Marker position={new LatLng(guessPos[0],guessPos[1])} icon={guessIcon}></Marker>
         );
     }
-
+    
     function MapControl() {
-        const map = useMap();
-
-        useEffect(() => {
-            if (!gameContext.isPlaying) {
-                setTimeout(() => {
-                    map.invalidateSize(true);
-                    setTimeout(() => {
-                        map.setZoomAround(toFind.pos, 3)
-                    }, 300)
-                }, 500);
-            } 
-            else {
-                setTimeout(() => {
-                    map.invalidateSize(false);
-                }, 800);
-            }
-        }, [gameContext.isPlaying])
+        map = useMap();
 
         return null;
     }
+
+
+    useEffect(() => {
+        if (map === null) return;
+
+        if (!gameContext.isPlaying) {
+            if (guessPos === null) {
+                map.setZoom(1, {animate: false});
+            }
+            else {
+                var bounds = new L.LatLngBounds(toFind.pos, guessPos);
+                map.fitBounds(bounds);
+            }
+        } 
+    }, [gameContext.isPlaying])
+
+
 
     function LineToAnswer() {
         return (polyline !== null && currentMap.name === toFind.name) ? (
@@ -159,7 +154,7 @@ export default function Map({toFind}: FuncProps) {
     }, [currentMap])
 
     return (
-        <>
+        <div className="relative h-full w-full">
             <MapContainer
                 center={[0, 0]}
                 zoom={1}
@@ -170,6 +165,8 @@ export default function Map({toFind}: FuncProps) {
                 attributionControl={false}
                 scrollWheelZoom={true}
                 doubleClickZoom={false}
+                key={currentMap.name}
+
             >
                 <ImageOverlay
                     bounds={[
@@ -252,23 +249,7 @@ export default function Map({toFind}: FuncProps) {
                 </Control>
                 <Control position="bottomright">
                     { gameContext.isPlaying ? (
-                        <div onClick={() => guess()} className={`${guessPos == null ? "opacity-50" : ""} py-1 px-6 text-slate-200 font-semibold shadow-md shadow-[rgba(0,0,0,0.75)] text-yellow-100 cursor-pointer rounded-full text-center ffxivBtn`}>Guess</div>
-                    ) : null}
-                </Control>
-                <Control position="bottomleft">
-                    { !gameContext.isPlaying ? (
-                        <div className="bg-slate-800 -left-0 absolute w-full -bottom-2 py-8 flex flex-col">
-                            <div className="w-4/12 m-auto h-2 bg-slate-600 rounded-full flex overflow-hidden relative">
-                                <motion.div initial={{ width: 100*(scoreSystem.region/scoreSystem.total)+"%" }} className="z-10 border-r-2 border-slate-800"></motion.div>
-                                <motion.div initial={{ width: 100*(scoreSystem.map/scoreSystem.total)+"%" }} className="z-10 border-r-2 border-slate-800"></motion.div>
-                                <motion.div
-                                    transition={{ delay: 1.5, duration: 0.75 }}
-                                    animate={{ width: 100*(score!/scoreSystem.total)+"%" }}
-                                    className={`absolute h-full bg-green-400`}>
-                                </motion.div>
-                            </div>
-                            <div className="mt-4 text-lg text-slate-400 m-auto">Your score : {score}/100</div>
-                        </div>
+                        <div onClick={() => guess()} className={`${guessPos == null ? "opacity-50" : ""} py-1 px-6 text-slate-200 font-semibold shadow-md shadow-[rgba(0,0,0,0.75)] text-yellow-100 cursor-pointer rounded-full text-center ffxivBtn group`}><span className={`${guessPos == null ? "" : "group-hover:text-shadow group-hover:shadow-amber-300/50"} duration-200`}>Guess</span></div>
                     ) : null}
                 </Control>
 
@@ -277,6 +258,6 @@ export default function Map({toFind}: FuncProps) {
                 animate={controls}
                 className="absolute top-0 left-0 w-full h-full z-20 backdrop-blur opacity-0 hidden"
             ></motion.div>
-        </>
+        </div>
     );
 }
