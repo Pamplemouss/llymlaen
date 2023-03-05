@@ -6,6 +6,154 @@ body {
     overflow: hidden;
 }
 
+@font-face {
+    font-family: 'Neo Sans';
+    src: url('/fonts/Neo Sans Std Bold.otf');
+    font-weight: 400;
+}
+
+.neosans {
+    font-family: 'Neo Sans';
+}
+
+.home-background {
+    background-image: url("/wallpaper.jpg");
+    background-size: cover;
+    background-position: center; 
+}
+
+.shadowbringer-bg,
+.stormblood-bg,
+.heavensward-bg,
+.endwalker-bg,
+.arealmreborn-bg {
+    background-size: cover;
+    background-position: center; 
+}
+
+.arealmreborn-bg {
+    background-image: url("/expansions/arealmreborn.png");
+}
+
+.heavensward-bg {
+    background-image: url("/expansions/heavensward.png");
+}
+
+.stormblood-bg {
+    background-image: url("/expansions/stormblood.png");
+}
+
+.shadowbringer-bg {
+    background-image: url("/expansions/shadowbringer.png");
+}
+
+.endwalker-bg {
+    background-image: url("/expansions/endwalker.png");
+}
+
+
+
+/** EXPANSIONS VIGNETTES **/
+.bgImage {
+    @apply grayscale opacity-50;
+}
+
+
+.vignette.active .bgImage {
+    @apply grayscale-0 saturate-150 opacity-100;
+}
+
+.reflect {
+    @apply opacity-0 left-1/2;
+}
+
+.vignette:hover .reflect,
+.vignette.active .reflect {
+    @apply opacity-100 left-3/4;
+}
+
+.arealmreborn:hover,
+.arealmreborn.active {
+    @apply border-cyan-300/70 shadow-cyan-500;
+}
+
+.arealmreborn:hover .bg,
+.arealmreborn.active .bg {
+    @apply bg-cyan-300/70;
+}
+
+.arealmreborn:hover .left-bar,
+.arealmreborn.active .left-bar {
+    @apply bg-cyan-300/70;
+}
+
+
+.heavensward:hover,
+.heavensward.active {
+    @apply border-cyan-100/90 shadow-cyan-100;
+}
+
+.heavensward:hover .bg,
+.heavensward.active .bg {
+    @apply bg-cyan-500/80;
+}
+
+.heavensward:hover .left-bar,
+.heavensward.active .left-bar {
+    @apply bg-cyan-100/90;
+}
+
+
+.stormblood:hover,
+.stormblood.active {
+    @apply border-yellow-200/90 shadow-yellow-300;
+}
+
+.stormblood:hover .bg,
+.stormblood.active .bg {
+    @apply bg-red-500/90;
+}
+
+.stormblood:hover .left-bar,
+.stormblood.active .left-bar {
+    @apply bg-yellow-200/90;
+}
+
+
+.shadowbringer:hover,
+.shadowbringer.active {
+    @apply border-indigo-300/70 shadow-indigo-500;
+}
+
+.shadowbringer:hover .bg,
+.shadowbringer.active .bg  {
+    @apply bg-indigo-400/80;
+}
+
+.shadowbringer:hover .left-bar,
+.shadowbringer.active .left-bar {
+    @apply bg-indigo-400/80;
+}
+
+
+.endwalker:hover,
+.endwalker.active {
+    @apply border-orange-300/70 shadow-orange-500;
+}
+
+.endwalker:hover .bg,
+.endwalker.active .bg {
+    @apply bg-blue-800/70;
+}
+
+.endwalker:hover .left-bar,
+.endwalker.active .left-bar {
+    @apply bg-orange-300/70;
+}
+
+
+
+
 .leaflet-container {
     width: 100%;
     height: 100%;
@@ -25,9 +173,6 @@ body {
 .leaflet-bottom.leaflet-left .leaflet-control {
     margin: 0px;
 }
-
-
-
 
 .leaflet-control-zoom-in, .leaflet-control-zoom-out, .ffxivBtn {
     background: linear-gradient(to bottom, #737572, #505050 46%, #373739 54%, #404040 75%, #555354) !important;

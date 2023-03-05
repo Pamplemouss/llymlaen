@@ -3,18 +3,20 @@ import { Viewer } from '@photo-sphere-viewer/core';
 import { useEffect, useState } from 'react';
 import { motion, useMotionValue, animate, AnimatePresence } from "framer-motion";
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router'
 import GameContext from '@/components/GameContext';
 const Map = dynamic(() => import("@/components/Map"), { ssr: false });
 
 
-export default function Home() {
+export default function Play() {
     const [isPlaying, setIsPlaying] = useState(false);
     const [toFind, setToFind] = useState<any>(null);
     const [viewer, setViewer] = useState<Viewer | null>(null);
     const [score, setScore] = useState<number | null>(null);
     const [distance, setDistance] = useState<number | null>(null);
-    const x = useMotionValue(0); // score progress bar
     const [scoreHUD, setScoreHUD] = useState<number | null>(null);
+    const router = useRouter();
+    const x = useMotionValue(0); // score progress bar
     var photospheres = [
         {name: "North Shroud", region: "The Black Shrouds", pos: [-34.125, 33.93], url: "limsa.jpeg"},
         {name: "South Shroud", region: "The Black Shrouds", pos: [-30.8, -28.5], url: "test.jpeg"},
@@ -27,7 +29,6 @@ export default function Home() {
         total: 100,
         distMax: 110,
     }
-
 
     useEffect(() => {
         if (viewer == null) {
