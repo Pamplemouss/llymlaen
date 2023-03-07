@@ -48,13 +48,13 @@ export default function Map({toFind}: FuncProps) {
         if (guessPos === null) return;
 
         var calculScore = 0;
-        if (region.name === toFind.region) calculScore += gameContext.scoreSystem.region;
-        if (currentMap.name === toFind.name) calculScore += gameContext.scoreSystem.map;
+        if (region.name === toFind.region) calculScore += gameContext.gameSystem.region;
+        if (currentMap.name === toFind.name) calculScore += gameContext.gameSystem.map;
         if (currentMap.name === toFind.name) {
             var dist = calculateDist(guessPos, toFind.pos);
             gameContext.setDistance(dist);
-            if (dist < 2) calculScore += gameContext.scoreSystem.dist;
-            else if (dist < gameContext.scoreSystem.distMax) calculScore += (invLerp(gameContext.scoreSystem.distMax,2,dist) * gameContext.scoreSystem.dist);
+            if (dist < 2) calculScore += gameContext.gameSystem.dist;
+            else if (dist < gameContext.gameSystem.distMax) calculScore += (invLerp(gameContext.gameSystem.distMax,2,dist) * gameContext.gameSystem.dist);
         }
         
         gameContext.setScore(Math.floor(calculScore));
