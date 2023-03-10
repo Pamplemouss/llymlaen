@@ -33,8 +33,8 @@ export default function Map({toFind}: FuncProps) {
     const [zonesMenuOpen, setZonesMenuOpen] = useState(false);
     const [regionsMenuOpen, setRegionsMenuOpen] = useState(false);
     const guessIcon = new Icon({
-        iconUrl: "flag.png",
-        iconAnchor: [5, 30],
+        iconUrl: "guess.png",
+        iconAnchor: [24, 33],
         iconSize: [35, 35],
     });
     const answerIcon = new Icon({
