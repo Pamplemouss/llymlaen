@@ -90,7 +90,7 @@ export default function Play() {
         }
         else {
             x2.set(0);
-            setScoreHUD(null);
+            setTotalScoreHUD(null);
             setTimeout(() => {
                 animate(x2, totalScore, {
                     duration: 1,
@@ -139,6 +139,7 @@ export default function Play() {
         gameData.current.scores = [];
         gameData.current.locations = [];
         setTotalScore(0);
+        setTotalScoreHUD(null);
     }
 
     function displayResults() {
