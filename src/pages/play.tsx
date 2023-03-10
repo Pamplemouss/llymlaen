@@ -6,6 +6,7 @@ import { CountUp } from 'countup.js';
 import dynamic from 'next/dynamic';
 import GameContext from '@/components/GameContext';
 import TopBar from '@/components/TopBar';
+import ScoreTooltip from '@/components/ScoreTooltip';
 const Map = dynamic(() => import("@/components/Map"), { ssr: false });
 
 
@@ -57,7 +58,6 @@ export default function Play() {
         x.set(0);
         setScoreHUD(null);
         setTimeout(() => {
-            
             animate(x, score, {
                 duration: 1,
                 onUpdate: latest => setScoreHUD(latest)
@@ -76,7 +76,7 @@ export default function Play() {
         setToFind(gameData.current.locations[round-1])
     }, [round]);
 
-    // Setup photosphere and counter when game begin
+    // Setup photosphere and counter
     useEffect(() => {
         if (!ended) {
             setViewer(new Viewer({
@@ -86,9 +86,13 @@ export default function Play() {
             totalScoreCounter.current = new CountUp('totalScore', 0);
         }
         else {
-            totalScoreCounter.current = new CountUp('totalScore', 0, {duration: 2});
+            x.set(0);
+            setScoreHUD(null);
             setTimeout(() => {
-                totalScoreCounter.current?.update(totalScore);
+                animate(x, totalScore, {
+                    duration: 1,
+                    onUpdate: latest => setScoreHUD(latest)
+                });
             }, (gameSystem.maxRounds*0.25 + 0.75)*1000)
         }
     }, [ended]);
@@ -203,45 +207,88 @@ export default function Play() {
                                     <AnimatePresence>
                                     { !isPlaying ? (
                                         <motion.div
-                                            initial={{ x: 700, opacity: 0 }}
-                                            animate={{ x: "-30rem", opacity: 1 }}
-                                            exit={{ x: 700, opacity: 0, transition: {delay: 0, duration: 1} }}
+                                            initial={{ x: "-30rem", opacity: 0, scale: 2 }}
+                                            animate={{ x: "-30rem", opacity: 1, scale: 1 }}
+                                            exit={{ x: "-30rem", opacity: 0, scale: 0, transition: {delay: 0, duration: 0.3} }}
                                             transition={{  duration: 0.3, delay: 0.7 }}
-                                            className="w-[33rem] pt-6 pb-8 m-auto mr-8 bg-gradient-to-b from-slate-800 to-slate-900 flex flex-col rounded-xl border-2 border-yellow-100 shadow-[0px_0px_30px_black,0px_0px_30px_black]">
-                                            <div className="w-9/12 m-auto flex flex-col">
-                                                <div className="text-yellow-200 italic font-bold text-center text-xl m-auto text-shadow shadow-amber-300/50">{Math.round(scoreHUD!)} points</div>
-                                                <div className=" h-2 mt-12 mb-6 bg-slate-600 rounded-full flex relative">
+                                            className="z-50 relative w-[50rem] pt-8 pb-10 m-auto mr-8 flex flex-col rounded-xl border-2 border-yellow-100 shadow-[0px_0px_30px_black,0px_0px_30px_black]">
+                                            
+                                            <ScoreTooltip></ScoreTooltip>
+
+                                            {/* BACKGROUND */}
+                                            <div className="h-full w-full top-0 left-0 absolute overflow-hidden rounded-xl">
+                                                <div className="absolute h-full w-full bg-gradient-to-b from-indigo-900 to-slate-900 z-[-1]">
+                                                    <div className="absolute h-full w-full bg-slate-900 opacity-80"></div>
+                                                </div>
+                                            </div>
+
+                                            <div className="w-10/12 m-auto flex flex-col">
+                                                <div className="text-yellow-200  text-center text-3xl m-auto neosans">{Math.round(scoreHUD!)} points</div>
+
+                                                <div className="flex justify-center gap-5 text-2xl mt-8">
+                                                    <div className="relative">
+                                                        <i className="text-shadow-lg shadow-black/20 text-slate-600 fa fa-star absolute top-1/2 -translate-y-1/2" aria-hidden="true"></i>
+                                                        <i className={`${Math.round(scoreHUD!) < gameSystem.region ? "opacity-0 scale-[3]" : "opacity-1 scale-[1]"} duration-300 text-yellow-200 fa fa-star`} aria-hidden="true"></i>
+                                                    </div>
+                                                    <div className="relative">
+                                                        <i className="text-shadow-lg shadow-black/20 text-slate-600 fa fa-star absolute top-1/2 -translate-y-1/2" aria-hidden="true"></i>
+                                                        <i className={`${Math.round(scoreHUD!) < gameSystem.map ? "opacity-0 scale-[3]" : "opacity-1 scale-[1]"} duration-300 text-yellow-200 fa fa-star`} aria-hidden="true"></i>
+                                                    </div>
+                                                    <div className="relative">
+                                                        <i className="text-shadow-lg shadow-black/20 text-slate-600 fa fa-star absolute top-1/2 -translate-y-1/2" aria-hidden="true"></i>
+                                                        <i className={`${Math.round(scoreHUD!) < gameSystem.total ? "opacity-0 scale-[3]" : "opacity-1 scale-[1]"} duration-300 text-yellow-200 fa fa-star`} aria-hidden="true"></i>
+                                                    </div>
+                                                </div>
+
+                                                {/* PROGRESS BAR */}
+                                                <div className=" h-2 mt-2 mb-4 bg-slate-600 rounded-full flex relative overflow-hidden">
                                                     <motion.div initial={{ width: 100*(gameSystem.region/gameSystem.total)+"%" }} className="z-10 border-r-2 border-slate-800 relative">
-                                                        <div className="text-xs flex absolute -top-1 right-2 translate-x-full -translate-y-full">
-                                                            <i className={`${Math.round(scoreHUD!) < gameSystem.region ? "opacity-0 -rotate-180 -translate-x-5" : "opacity-1 rotate-0 translate-x-0"} duration-700 text-yellow-200 m-auto text-xs fa fa-star`} aria-hidden="true"></i>
-                                                            <span className={`${Math.round(scoreHUD!) < gameSystem.region ? "text-slate-500" : "text-yellow-200"} duration-700 ml-1`}>Region</span>
-                                                        </div>
                                                     </motion.div>
                                                     <motion.div initial={{ width: 100*(gameSystem.map/gameSystem.total)+"%" }} className="z-10 border-r-2 border-slate-800 relative">
-                                                        <div className="text-xs flex absolute -top-1 right-2 translate-x-full -translate-y-full">
-                                                            <i className={`${Math.round(scoreHUD!) < gameSystem.map ? "opacity-0 -rotate-180 -translate-x-5" : "opacity-1 rotate-0 translate-x-0"} duration-700 text-yellow-200 m-auto text-xs fa fa-star`} aria-hidden="true"></i>
-                                                            <span className={`${Math.round(scoreHUD!) < gameSystem.map ? "text-slate-500" : "text-yellow-200"} duration-700 ml-1`}>Map</span>
-                                                        </div>
                                                     </motion.div>
                                                     <motion.div
                                                         style={{width: 100*(scoreHUD!/gameSystem.total)+"%"}}
-                                                        className={`${Math.round(scoreHUD!) < gameSystem.total ? "bg-green-400" : "bg-yellow-300 duration-500"} rounded-xl absolute h-full`}>
+                                                        className={`${Math.round(scoreHUD!) < gameSystem.total ? "bg-green-400" : "bg-yellow-300 duration-500"} absolute h-full`}>
                                                     </motion.div>
-                                                    <div className="absolute translate-x-1/2 -translate-y-full right-0 justify-center items-center flex">
-                                                        <i className={`${Math.round(scoreHUD!) < gameSystem.total ? "opacity-0 scale-0" : "opacity-1 scale-1"} duration-300 text-2xl text-yellow-200 m-auto text-xs fa fa-star`} aria-hidden="true"></i>
-                                                    </div>
                                                 </div>
-                                                {distance == null ? (
-                                                    <div className="text-slate-300 font-medium text-center">Your guess was not in the correct map.</div>)
-                                                : (
-                                                    <div className="text-slate-300 font-medium text-center">Your guess was <span className="mx-1 font-semibold bg-slate-100/10 inline-block -skew-x-12 px-2"><span className="inline-block skew-x-12">{Math.round(distance)} units</span></span> from the correct location.</div>
-                                                )}
+
                                                 <motion.div
-                                                    onClick={round === gameSystem.maxRounds ? displayResults : nextRound}
-                                                    whileTap={{ y: 2 }}
-                                                    className="group m-auto mt-12 ffxivBtn rounded-full inline-block cursor-pointer px-8 py-1 shadow shadow-black text-yellow-100">
-                                                        <span className="duration-200 group-hover:text-shadow group-hover:shadow-amber-300/50">{ round === gameSystem.maxRounds ? "See results" : "Play next round"}</span>
+                                                    initial={{ opacity: 0 }}
+                                                    animate={{ opacity: 1}}
+                                                    transition={{ delay: 2.7 }}
+                                                    className="text-slate-200 text-center neosans font-normal"
+                                                >
+                                                    {distance == null ?
+                                                        <span>Your guess was not in the correct map.</span>
+                                                    : score === gameSystem.total ? 
+                                                        <span>You found the exact location!</span>
+                                                    :
+                                                        <span>Your guess was <span className="mx-1 bg-slate-100/10 inline-block -skew-x-12 px-3 py-0.5 rounded"><span className="inline-block skew-x-12">{Math.round(distance)} units</span></span> from the correct location.</span>
+                                                    }
                                                 </motion.div>
+
+                                                <div className="flex justify-center mt-12">
+                                                    <motion.div
+                                                        onClick={round === gameSystem.maxRounds ? displayResults : nextRound}
+                                                        initial={{ scale: 1, skewX: -12 }}
+                                                        whileHover={{ scale: [1.2, 1] }}
+                                                        transition={{ duration: 0.1 }}
+                                                        className={`inline-block border-4 border-slate-100/70 -skew-x-12 group duration-100 overflow-hidden shadow-lg shadow-black/50 relative uppercase bg-gradient-to-br ${round === gameSystem.maxRounds ? "hover:shadow-yellow-500 hover:from-yellow-700 hover:to-yellow-400" : "hover:shadow-blue-500 hover:from-blue-700 hover:to-blue-400"} from-gray-800/50 to-gray-700/50 cursor-pointer py-2 px-6 rounded-xl`}
+                                                    >
+                                                        <div className="overflow-hidden absolute top-0 left-0 h-full w-full scale-[0.95] rounded-xl">
+                                                            <div className="absolute top-0 left-0 group-hover:bg-white/50 bg-white/50 h-full w-1.5 rounded-xl"></div>
+                                                        </div>
+                                                        <div className="absolute top-0 left-0 h-full w-12 bg-gradient-to-r from-white/40 to-white/0"></div>
+                                                        <div className="duration-200 absolute group-hover:opacity-100 opacity-0 top-0 group-hover:left-3/4 left-1/2 h-full w-4 bg-gradient-to-r from-white/20 to-white/10 "></div>
+                                                        <span className="neosans text-lg text-shadow shadow-black/20 tracking-wide italic inline-block skew-x-12 text-slate-100">{ round === gameSystem.maxRounds ? "Results" : "Next round"}</span>
+                                                        <motion.div
+                                                            initial={{ opacity: 0 }}
+                                                            whileHover={{ opacity: [1,0] }}
+                                                            transition={{ duration: 0.2 }}
+                                                            className="absolute top-0 left-0 bg-white h-full w-full">
+                                                        </motion.div>
+                                                    </motion.div>
+                                                </div>
                                             </div>
                                         </motion.div>
                                     ) : null }
@@ -262,9 +309,10 @@ export default function Play() {
                         </div>
                     </div>
                 ) : (
+                    /* ENDING PAGE */
                     <div className="h-full w-full relative flex flex-col gap-14 justify-center items-center">
                         <div className="absolute h-full w-full bg-gradient-to-b from-indigo-900 to-slate-900 z-[-1]">
-                            <div className="absolute h-full w-full bg-slate-900 opacity-80"></div>
+                            <div className="absolute h-full w-full bg-slate-900 opacity-50"></div>
                         </div>
 
                         <motion.div
@@ -296,9 +344,12 @@ export default function Play() {
  
                         </motion.div>
 
-                        <motion.div className={`${totalScore === gameSystem.total*gameSystem.maxRounds ? "from-yellow-200 to-yellow-500" : "from-emerald-400 to-emerald-900"} bg-gradient-to-b rounded-full py-3 px-7 neosans text-3xl text-slate-100 shadow-lg shadow-black/50`}>
-                            <span className="text-shadow shadow-black/50">Total score: <span className="text-right w-16 inline-block" id="totalScore"></span> / {gameSystem.maxRounds * gameSystem.total}</span>
-                        </motion.div>
+                        <div className="relative overflow-hidden rounded  py-3 px-7 neosans text-3xl text-slate-100 shadow-inner shadow-black/90 w-9/12 text-center">
+                            <div className="absolute top-0 left-0 h-full w-full bg-slate-900 z-[-1]">
+                                <motion.div style={{width: 100*(scoreHUD!/(gameSystem.total * gameSystem.maxRounds))+"%"}} className="absolute h-full bg-gradient-to-br from-emerald-800 to-emerald-500"></motion.div>
+                            </div>
+                            <span className="text-shadow shadow-black/50">Total score: <span className="text-right w-16 inline-block">{Math.round(scoreHUD!)}</span> / {gameSystem.maxRounds * gameSystem.total}</span>
+                        </div>
                         
                         <motion.div
                             onClick={restart}

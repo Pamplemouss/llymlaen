@@ -58,7 +58,7 @@ body {
     @apply grayscale opacity-50;
 }
 
-
+.vignette:hover .bgImage,
 .vignette.active .bgImage {
     @apply grayscale-0 saturate-150 opacity-100;
 }
@@ -72,7 +72,6 @@ body {
     @apply opacity-100 left-3/4;
 }
 
-.arealmreborn:hover,
 .arealmreborn.active {
     @apply border-cyan-300/70 shadow-cyan-500;
 }
@@ -82,13 +81,11 @@ body {
     @apply bg-cyan-300/70;
 }
 
-.arealmreborn:hover .left-bar,
 .arealmreborn.active .left-bar {
     @apply bg-cyan-300/70;
 }
 
 
-.heavensward:hover,
 .heavensward.active {
     @apply border-cyan-100/90 shadow-cyan-100;
 }
@@ -98,13 +95,11 @@ body {
     @apply bg-cyan-500/80;
 }
 
-.heavensward:hover .left-bar,
 .heavensward.active .left-bar {
     @apply bg-cyan-100/90;
 }
 
 
-.stormblood:hover,
 .stormblood.active {
     @apply border-yellow-200/90 shadow-yellow-300;
 }
@@ -114,13 +109,11 @@ body {
     @apply bg-red-500/90;
 }
 
-.stormblood:hover .left-bar,
 .stormblood.active .left-bar {
     @apply bg-yellow-200/90;
 }
 
 
-.shadowbringer:hover,
 .shadowbringer.active {
     @apply border-indigo-300/70 shadow-indigo-500;
 }
@@ -130,13 +123,11 @@ body {
     @apply bg-indigo-400/80;
 }
 
-.shadowbringer:hover .left-bar,
 .shadowbringer.active .left-bar {
     @apply bg-indigo-400/80;
 }
 
 
-.endwalker:hover,
 .endwalker.active {
     @apply border-orange-300/70 shadow-orange-500;
 }
@@ -146,7 +137,6 @@ body {
     @apply bg-blue-800/70;
 }
 
-.endwalker:hover .left-bar,
 .endwalker.active .left-bar {
     @apply bg-orange-300/70;
 }
