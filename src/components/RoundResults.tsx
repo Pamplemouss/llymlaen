@@ -75,12 +75,14 @@ export default function RoundResults() {
                     transition={{ delay: 2.7 }}
                     className="text-slate-300 text-center neosans font-normal text-sm xl:text-base"
                 >
-                    {gameContext.distance == null ?
+                    {gameContext.score <= 10 && gameContext.score !== null ?
                         <span>Your guess was not in the correct map.</span>
                     : gameContext.score === gameContext.gameSystem.total ? 
                         <span>You found the exact location!</span>
-                    :
+                    : gameContext.distance !== null ?
                         <span>Your guess was <span className="mx-1 bg-slate-100/10 inline-block -skew-x-12 px-3 py-0.5 rounded"><span className="inline-block skew-x-12">{Math.round(gameContext.distance)} units</span></span> from the correct location.</span>
+                    :
+                        <span> - </span>
                     }
                 </motion.div>
 

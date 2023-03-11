@@ -72,6 +72,7 @@ export default function Play() {
     }, [ended]);
 
 
+
     function pickLocations() {
         if (gameSystem.maxRounds > photospheres.length) throw "Max rounds number is above photospheres selection";
         for (var i = 0 ; i < gameSystem.maxRounds ; i++) {
@@ -82,7 +83,6 @@ export default function Play() {
             gameData.current.locations.push(newLocation);
         }
     }
-
 
     function startGame() {
         if (isPlaying) return;
@@ -132,10 +132,6 @@ export default function Play() {
         <GameContext.Provider value={{isPlaying, setIsPlaying, round, score, setScore, totalScore, distance, setDistance, gameSystem, gameData, displayResults, restart, nextRound, ended}}>
             <Head>
                 <title>FFXIV Geoguessr</title>
-                <link href="https://fonts.cdnfonts.com/css/myriad-pro" rel="stylesheet" />
-                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core/index.min.css" />
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossOrigin="anonymous" referrerPolicy="no-referrer" />
-                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossOrigin=""/>
                 <link key="favApple" rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"></link>
                 <link key="fav32" rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"></link>
                 <link key="fav16" rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"></link>

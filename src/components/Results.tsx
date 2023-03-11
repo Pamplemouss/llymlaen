@@ -70,7 +70,7 @@ export default function Results() {
 
             </motion.div>
 
-            <div className="relative overflow-hidden rounded py-3 px-7 neosans text-3xl text-slate-100 shadow-inner shadow-black/90 w-9/12 text-center">
+            <div className="relative overflow-hidden rounded py-1 px-7 neosans text-3xl text-slate-100 shadow-inner shadow-black/90 w-9/12 text-center">
                 <div className="absolute top-0 left-0 h-full w-full bg-slate-900 z-[-1]">
                     <div style={{width: 100*(totalScoreHUD!/(gameContext.gameSystem.total * gameContext.gameSystem.maxRounds))+"%"}} className="absolute h-full bg-gradient-to-br from-emerald-800 to-emerald-500"></div>
                 </div>
