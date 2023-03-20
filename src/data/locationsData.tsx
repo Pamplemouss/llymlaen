@@ -60,6 +60,7 @@ var photospheres = [
     {map: "Limsa Lominsa Upper Decks", pos: [-0.21875, 0.09375], url: "53.jpg"},
     {map: "Limsa Lominsa Upper Decks", pos: [-16.03125, 9.9375], url: "58.jpg"},
     {map: "Limsa Lominsa Upper Decks", pos: [42.84375, -0.03125], url: "91.jpg"},
+    {map: "Limsa Lominsa Upper Decks", pos: [-39.40625, -39.53125], url: "92.jpg"},
     {map: "Middle La Noscea", pos: [-7.8125, -6.15625], url: "4.jpg"},
     {map: "Middle La Noscea", pos: [36.375, -15.78125], url: "25.jpg"},
     {map: "Middle La Noscea", pos: [39.09375, -55.5625], url: "83.jpg"},
@@ -97,7 +98,7 @@ var photospheres = [
 ];
 
 export const PhotospheresTest = [
-    {map: "Limsa Lominsa Upper Decks", pos: [-39.40625, -39.53125], url: "51.jpg"},
+    {map: "Limsa Lominsa Lower Decks", pos: [-48.375, -34.375], url: "90.jpg"},
 ];
 
 export default photospheres

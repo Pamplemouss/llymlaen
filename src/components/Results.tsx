@@ -48,7 +48,7 @@ export default function Results() {
                 className="flex-wrap items-center justify-center flex flex-rows-3 gap-16 w-10/12"
             >
                 {gameContext.gameData.current.locations.map((location: any, index: number) => {
-                    var bgURL = "url('/photospheres/" + location.url + "')";
+                    var bgURL = "url('/snapshots/" + location.url + "')";
                     return (
                         <motion.div
                             variants={item}
