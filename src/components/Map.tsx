@@ -74,6 +74,11 @@ export default function Map({toFind}: FuncProps) {
         }        
     }
 
+    function backOneLevel() {
+        if (currentMap.hasOwnProperty("region")) changeLocation((currentMap as Zone).region);
+        else changeLocation(TheSource);
+    }
+
     function GuessMarker() {
         useMapEvents({
             click(e) {
@@ -166,6 +171,7 @@ export default function Map({toFind}: FuncProps) {
                 crs={CRS.Simple}
                 maxBounds={currentMap.name === "The Source" ? Bounds.CONTAINER_TS : Bounds.CONTAINER}
                 attributionControl={false}
+                zoomControl={false}
                 scrollWheelZoom={true}
                 doubleClickZoom={false}
                 key={currentMap.name}
@@ -206,11 +212,11 @@ export default function Map({toFind}: FuncProps) {
                 })}
                 
                 <Control prepend={true} position="topleft">
-                    <div className="z-10 absolute w-10/12 -left-5 -top-2 h-20 flex opacity-70">
-                        <div className="h-full bg-slate-900 grow "></div>
-                        <div className="h-full w-3/12 bg-gradient-to-r from-slate-900 to-transparent"></div>
+                    <div className="z-10 absolute w-9/12 -left-5 -top-2 h-20 flex opacity-50 shadow-[-40px_4px_8px_#000] blur-sm">
+                        <div className="h-full bg-black grow"></div>
+                        <div className="h-full w-2/12 bg-gradient-to-r from-black to-transparent"></div>
                     </div>
-                    <div className="absolute left-12 top-2 text-yellow-50 z-20">
+                    <div className="absolute left-6 top-2 text-yellow-50 z-20">
                         <div className="relative flex">
                             <div onClick={() => { if (gameContext.isPlaying) {setRegionsMenuOpen(!regionsMenuOpen); setZonesMenuOpen(false)}}} className="dropdownMenu cursor-pointer">
                                 <div className="h-5 w-5 select-none text-gray-300 text-base font-bold ffxivBtn rounded-full text-center shadow-[0px_1px_5px_rgba(0,0,0,0.7)] inline-flex justify-center items-center">
@@ -247,7 +253,31 @@ export default function Map({toFind}: FuncProps) {
                             ) : null}
                         </div>
                     </div>
+                    
+                    <div className="absolute top-0 -left-2 z-10">
+                        <div onClick={() => changeLocation(TheSource)} className=" cursor-pointer p-0.5">
+                            <div className="rounded shadow w-5 h-5 shadow-black bg-gradient-to-tr from-[#513b1e] via-[#b49665] to-[#513b1e] hover:from-[#665033] hover:via-[#c9b17a] hover:to-[#665033] flex center-items">
+                                <div className="w-3 h-2.5 shadow-sm shadow-yellow-200 border border-black m-auto"></div>
+                            </div>
+                        </div>
+                        <div onClick={() => backOneLevel()} className=" cursor-pointer p-0.5">
+                            <div className="flex justify-center items-center rounded shadow w-5 h-5 shadow-black bg-gradient-to-tr from-[#513b1e] via-[#b49665] to-[#513b1e] hover:from-[#665033] hover:via-[#c9b17a] hover:to-[#665033] flex center-items">
+                                <i className="text-slate-800 fa-solid fa-up-long text-shadow shadow-yellow-200/40  text-[0.8rem]"></i>
+                            </div>
+                        </div>
+                        <div onClick={() => map?.zoomIn()} className=" cursor-pointer p-0.5">
+                            <div className="flex justify-center items-center rounded shadow w-5 h-5 shadow-black bg-gradient-to-tr from-[#513b1e] via-[#b49665] to-[#513b1e] hover:from-[#665033] hover:via-[#c9b17a] hover:to-[#665033] flex center-items">
+                                <i className="text-slate-800 fa-solid fa-plus text-shadow shadow-yellow-200/40  text-[1rem]"></i>
+                            </div>
+                        </div>
+                        <div onClick={() => map?.zoomOut()} className=" cursor-pointer p-0.5">
+                            <div className="flex justify-center items-center rounded shadow w-5 h-5 shadow-black bg-gradient-to-tr from-[#513b1e] via-[#b49665] to-[#513b1e] hover:from-[#665033] hover:via-[#c9b17a] hover:to-[#665033] flex center-items">
+                                <i className="text-slate-800 fa-solid fa-minus text-shadow shadow-yellow-200/40  text-[1rem]"></i>
+                            </div>
+                        </div>
+                    </div> 
                 </Control>
+
                 <Control position="bottomright">
                     { gameContext.isPlaying && currentMap.hasOwnProperty("region") ? (
                         <div onClick={() => guess()} className={`${guessPos == null ? "opacity-50" : "cursor-pointer"} guessBtn p-2 group`}>

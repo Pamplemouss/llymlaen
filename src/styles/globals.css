@@ -167,20 +167,12 @@ body {
     margin: 0px;
 }
 
-.leaflet-control-zoom-in, .leaflet-control-zoom-out, .ffxivBtn {
+.ffxivBtn {
     background: linear-gradient(to bottom, #737572, #505050 46%, #373739 54%, #404040 75%, #555354) !important;
 }
 
-.leaflet-control-zoom-in:hover:not(.leaflet-disabled), .leaflet-control-zoom-out:hover:not(.leaflet-disabled), .ffxivBtn:hover, .dropdownMenu:hover .ffxivBtn, .guessBtn:hover .ffxivBtn {
+.ffxivBtn:hover, .dropdownMenu:hover .ffxivBtn, .guessBtn:hover .ffxivBtn {
     background: linear-gradient(to bottom, #838582, #606060 46%, #474749 54%, #505050 75%, #656364) !important;
-}
-
-.leaflet-bar a {
-    @apply border-b border-zinc-800 text-yellow-100 !important
-}
-
-.leaflet-bar a.leaflet-disabled {
-    @apply text-zinc-500 !important
 }
 
 

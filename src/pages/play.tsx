@@ -174,7 +174,7 @@ export default function Play() {
                                         variants={mapVariants}
                                         animate={toFind === null || isPlaying ? "idle" : "hover"}
                                         whileHover={"hover"}
-                                        className="absolute bottom-0 right-0 w-[30rem] h-[30rem] origin-bottom-right overflow-hidden w-full h-full shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-yellow-100 rounded-xl">
+                                        className="absolute bottom-0 right-0 w-[30rem] h-[30rem] origin-bottom-right overflow-hidden w-full h-full shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-xl">
                                         {toFind === null ? null :
                                             <Map key={toFind.map.name + toFind.pos} toFind={toFind} ></Map>
                                         }
