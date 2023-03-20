@@ -61,7 +61,8 @@ export default function Play() {
             setViewer(new Viewer({
                 container: document.getElementById("viewer") as HTMLElement,
                 navbar: ['zoom', 'move'],
-                
+                defaultZoomLvl: 0,
+                maxFov: 80,
             }));
         }
     }, [ended]);

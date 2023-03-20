@@ -249,7 +249,9 @@ export default function Map({toFind}: FuncProps) {
                 </Control>
                 <Control position="bottomright">
                     { gameContext.isPlaying && currentMap.hasOwnProperty("region") ? (
-                        <div onClick={() => guess()} className={`${guessPos == null ? "opacity-50" : ""} py-1 px-6 text-slate-200 font-semibold shadow-md shadow-[rgba(0,0,0,0.75)] text-yellow-100 cursor-pointer rounded-full text-center ffxivBtn group`}><span className={`${guessPos == null ? "" : "group-hover:text-shadow group-hover:shadow-amber-300/50"} duration-200`}>Guess</span></div>
+                        <div onClick={() => guess()} className="p-2 cursor-pointer group">
+                            <div className={`${guessPos == null ? "opacity-50" : ""} text-sm py-1 px-8 text-slate-200 font-semibold shadow-md shadow-[rgba(0,0,0,0.75)] text-yellow-100 rounded-full text-center ffxivBtn`}><span className={`${guessPos == null ? "" : "group-hover:text-shadow group-hover:shadow-amber-300/50"} duration-200`}>Guess</span></div>
+                        </div>
                     ) : null}
                 </Control>
 

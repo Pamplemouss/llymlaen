@@ -97,7 +97,7 @@ var photospheres = [
 ];
 
 export const PhotospheresTest = [
-    {map: "Limsa Lominsa Upper Decks", pos: [-39.40625, -39.53125], url: "90.jpg"},
+    {map: "Limsa Lominsa Upper Decks", pos: [-39.40625, -39.53125], url: "51.jpg"},
 ];
 
 export default photospheres

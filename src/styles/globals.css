@@ -163,6 +163,10 @@ body {
     margin: 0px;
 }
 
+.leaflet-bottom.leaflet-right .leaflet-control {
+    margin: 0px;
+}
+
 .leaflet-control-zoom-in, .leaflet-control-zoom-out, .ffxivBtn {
     background: linear-gradient(to bottom, #737572, #505050 46%, #373739 54%, #404040 75%, #555354) !important;
 }
