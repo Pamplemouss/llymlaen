@@ -8,6 +8,8 @@ import TopBar from '@/components/TopBar';
 import Results from '@/components/Results';
 import RoundResults from '@/components/RoundResults';
 import RoundStrip from '@/components/RoundStrip';
+import MapData from '../data/mapData'
+import Photospheres from '../data/locationsData'
 const Map = dynamic(() => import("@/components/Map"), { ssr: false });
 
 
@@ -21,13 +23,6 @@ export default function Play() {
     const [round, setRound] = useState<number>(0);
     const [ended, setEnded] = useState<boolean>(false);
     const gameData = useRef<any>({locations: [], scores: []});
-    var photospheres = [
-        {name: "North Shroud", region: "The Black Shrouds", pos: [-34.125, 33.93], url: "limsa.jpeg"},
-        {name: "South Shroud", region: "The Black Shrouds", pos: [-30.8, -28.5], url: "test.jpeg"},
-        {name: "Central Shroud", region: "The Black Shrouds", pos: [-7.25, -51.25], url: "thevault.jpeg"},
-        {name: "Old Gridania", region: "The Black Shrouds", pos: [-30.8, -28.5], url: "north_shroud_1.jpg"},
-        {name: "New Gridania", region: "The Black Shrouds", pos: [-7.25, -51.25], url: "central_shroud_1.jpg"},
-    ];
     const gameSystem = {
         region: 10,
         map: 20,
@@ -36,7 +31,7 @@ export default function Play() {
         distMax: 110,
         maxRounds: 5,
     }
-
+    
     // Start up setup
     useEffect(() => {
         startGame();
@@ -44,7 +39,7 @@ export default function Play() {
 
     // Set photosphere picture
     useEffect(() => {
-        if (toFind !== null) {viewer!.setPanorama('photospheres/' + toFind.url)}
+        if (toFind !== null) {viewer!.setPanorama('Photospheres/' + toFind.url)}
     }, [toFind])
 
     // add score to board
@@ -72,14 +67,26 @@ export default function Play() {
     }, [ended]);
 
 
+    function getMap(name: string) {
+        var map;
+        MapData.forEach(region => {
+            region.markersZone.forEach(zone => {
+                if (zone.target.name === name) map = zone.target;
+            })
+        })
+        
+        if (map === undefined) throw "Map name not found in MapData";
+        return map;
+    }
 
     function pickLocations() {
-        if (gameSystem.maxRounds > photospheres.length) throw "Max rounds number is above photospheres selection";
+        if (gameSystem.maxRounds > Photospheres.length) throw "Max rounds number is above Photospheres selection";
         for (var i = 0 ; i < gameSystem.maxRounds ; i++) {
             var newLocation;
             do {
-                newLocation = photospheres[Math.floor(Math.random() * photospheres.length)]
+                newLocation = Photospheres[Math.floor(Math.random() * Photospheres.length)]
             } while (gameData.current.locations.includes(newLocation))
+            if (typeof newLocation.map == "string") newLocation.map = getMap(newLocation.map);
             gameData.current.locations.push(newLocation);
         }
     }
@@ -114,6 +121,7 @@ export default function Play() {
 
     function displayResults() {
         setTotalScore(totalScore + score!);
+        viewer?.destroy();
         setEnded(true);
     }
 
@@ -166,7 +174,7 @@ export default function Play() {
                                         whileHover={"hover"}
                                         className="absolute bottom-0 right-0 w-[30rem] h-[30rem] origin-bottom-right overflow-hidden w-full h-full shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-yellow-100 rounded-xl">
                                         {toFind === null ? null :
-                                            <Map key={toFind.name + toFind.pos} toFind={toFind} ></Map>
+                                            <Map key={toFind.map.name + toFind.pos} toFind={toFind} ></Map>
                                         }
                                     </motion.div>
                                 </div>

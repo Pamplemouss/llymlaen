@@ -26,7 +26,7 @@ export default function Map({toFind}: FuncProps) {
     const gameContext = useContext(GameContext);
     const controls = useAnimationControls();
     const bounds : LatLngBoundsExpression = ([[-110,-110], [110,110]]);
-    const [currentMap, setCurrentMap] = useState<Zone | Region>(MapData.regions[0]);
+    const [currentMap, setCurrentMap] = useState<Zone | Region>(MapData[0]);
     const [region, setRegion] = useState((currentMap as Region));
     const [guessPos, setGuessPos] = useState<[number, number] | null>(null);
     const [polyline, setPolyline] = useState<LatLngExpression[] | null>(null);
@@ -48,9 +48,10 @@ export default function Map({toFind}: FuncProps) {
         if (guessPos === null) return;
 
         var calculScore = 0;
-        if (region.name === toFind.region) calculScore += gameContext.gameSystem.region;
-        if (currentMap.name === toFind.name) calculScore += gameContext.gameSystem.map;
-        if (currentMap.name === toFind.name) {
+
+        if (region.name === toFind.map.region.name) calculScore += gameContext.gameSystem.region;
+        if (currentMap.name === toFind.map.name) calculScore += gameContext.gameSystem.map;
+        if (currentMap.name === toFind.map.name) {
             var dist = calculateDist(guessPos, toFind.pos);
             gameContext.setDistance(dist);
             if (dist < 2) calculScore += gameContext.gameSystem.dist;
@@ -61,19 +62,18 @@ export default function Map({toFind}: FuncProps) {
         gameContext.setIsPlaying(false);
         setZonesMenuOpen(false);
         setRegionsMenuOpen(false);
-        if (currentMap.name === toFind.name) {
+        if (currentMap.name === toFind.map.name) {
             setPolyline([[guessPos[0], guessPos[1]], [toFind.pos[0], toFind.pos[1]]]);
         }
         else {
-            var answerZone: Zone | undefined = MapData.zones.find(zone => zone.name == toFind.name)
-            changeLocation(answerZone!);
+            changeLocation(toFind.map);
         }        
     }
 
     function GuessMarker() {
         useMapEvents({
             click(e) {
-                //console.log(e.latlng.lat + ", " + e.latlng.lng)
+                console.log(e.latlng.lat + ", " + e.latlng.lng)
                 if (!gameContext.isPlaying) return;
                 if (!currentMap.hasOwnProperty("region")) return; // Don't place marker if in region mode
                 if ((e.originalEvent.target as Element)!.classList.contains("leaflet-container")) {
@@ -113,13 +113,13 @@ export default function Map({toFind}: FuncProps) {
 
 
     function LineToAnswer() {
-        return (polyline !== null && currentMap.name === toFind.name) ? (
+        return (polyline !== null && currentMap.name === toFind.map.name) ? (
             <Polyline pathOptions={{color: "black", dashArray: "1 8"}} positions={polyline} />
         ) : null;
     }
 
     function AnswerMarker() {
-        return (!gameContext.isPlaying && currentMap.name === toFind.name) ? (
+        return (!gameContext.isPlaying && currentMap.name === toFind.map.name) ? (
             <Marker position={toFind.pos} icon={answerIcon}></Marker>
         ) : null;
     }
@@ -173,7 +173,7 @@ export default function Map({toFind}: FuncProps) {
                         [-110, -110],
                         [110, 110],
                     ]}
-                    url={"maps/" + getUrl(currentMap.name)}
+                    url={"maps/" + (currentMap.hasOwnProperty("region") ? (currentMap as Zone).region.name + "/" : "") + getUrl(currentMap.name)}
                 />
                 <MapControl />
                 <GuessMarker />
@@ -220,7 +220,7 @@ export default function Map({toFind}: FuncProps) {
                                     animate={{ scale: 1 }}
                                     className="absolute z-20 px-1 py-2 top-5 left-6 bg-[#4a4a4a] rounded flex flex-col gap-1 border border-x-2 border-y-neutral-500 border-x-neutral-600"
                                 >
-                                    {MapData.regions.map((region) => {
+                                    {MapData.map((region) => {
                                         return (
                                             <div onClick={() => {changeLocation(region) }} className="hover:bg-gradient-to-r hover:from-orange-300/30 hover:to-transparent px-2 rounded-full cursor-pointer whitespace-nowrap text-amber-100 text-shadow-[0px_1px_1px_rgba(0,0,0,0.85)] text-sm" key={region.name}>{region.name}</div>
                                         )
@@ -248,7 +248,7 @@ export default function Map({toFind}: FuncProps) {
                     </div>
                 </Control>
                 <Control position="bottomright">
-                    { gameContext.isPlaying ? (
+                    { gameContext.isPlaying && currentMap.hasOwnProperty("region") ? (
                         <div onClick={() => guess()} className={`${guessPos == null ? "opacity-50" : ""} py-1 px-6 text-slate-200 font-semibold shadow-md shadow-[rgba(0,0,0,0.75)] text-yellow-100 cursor-pointer rounded-full text-center ffxivBtn group`}><span className={`${guessPos == null ? "" : "group-hover:text-shadow group-hover:shadow-amber-300/50"} duration-200`}>Guess</span></div>
                     ) : null}
                 </Control>

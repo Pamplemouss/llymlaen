@@ -52,11 +52,11 @@ export default function Results() {
                     return (
                         <motion.div
                             variants={item}
-                            key={location.name}
+                            key={location.map.name + location.pos}
                             className="w-3/12 relative h-40 xl:h-52 group flex flex-col rounded-lg overflow-hidden shadow-lg shadow-black/70"
                         >
                             <div className="absolute h-full w-full bg-cover bg-center z-[-1] grayscale-[50%] group-hover:grayscale-0 duration-200" style={{backgroundImage: bgURL}}></div>
-                            <div className={`${gameContext.gameData.current.scores[index] === 100 ? "bg-yellow-300/80 text-shadow shadow-black/50": "bg-slate-800/80 shadow-black/80"} text-xs xl:text-base text-center neosans text-slate-200 py-1 shadow`}>{location.name} - {location.region}</div>
+                            <div className={`${gameContext.gameData.current.scores[index] === 100 ? "bg-yellow-300/80 text-shadow shadow-black/50": "bg-slate-800/80 shadow-black/80"} text-xs xl:text-base text-center neosans text-slate-200 py-1 shadow`}>{location.map.name} - {location.map.region.name}</div>
                             <div className={`neosans text-6xl grow items-center justify-center flex ${gameContext.gameData.current.scores[index] === 100 ? "text-yellow-300" : "text-slate-100"} text-shadow-lg shadow-slate-900`}>{gameContext.gameData.current.scores[index]}</div>
                             <div className="h-2 w-full bg-slate-800/90">
                                 <motion.div
