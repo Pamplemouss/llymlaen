@@ -12,10 +12,10 @@ import * as L from 'leaflet';
 import { useContext, useEffect, useState } from "react";
 import { motion, useAnimationControls } from "framer-motion";
 import Control from 'react-leaflet-custom-control'
-import MapData from '../data/mapData'
-import { Region, Zone } from '../data/mapData'
+import TheSource from '../data/mapData'
+import { Map as FFMap, Zone } from '../data/mapData'
 import GameContext from '@/components/GameContext';
-import { invLerp, calculateDist, getUrl } from '@/Utilities';
+import { invLerp, calculateDist, getUrl, isRegion, getRegion } from '@/Utilities';
 
 
 interface FuncProps {
@@ -25,9 +25,13 @@ interface FuncProps {
 export default function Map({toFind}: FuncProps) {
     const gameContext = useContext(GameContext);
     const controls = useAnimationControls();
-    const bounds : LatLngBoundsExpression = ([[-110,-110], [110,110]]);
-    const [currentMap, setCurrentMap] = useState<Zone | Region>(MapData[0]);
-    const [region, setRegion] = useState((currentMap as Region));
+    const Bounds = {
+        CONTAINER: [[-180,-180], [180,180]] as LatLngBoundsExpression,
+        CONTAINER_TS: [[-200,-350], [200,350]] as LatLngBoundsExpression,
+        OVERLAY: [[-110,-110], [110,110]] as LatLngBoundsExpression,
+        THESOURCE: [[-110,-258], [110,258]] as LatLngBoundsExpression,
+    }
+    const [currentMap, setCurrentMap] = useState<FFMap>(TheSource);
     const [guessPos, setGuessPos] = useState<[number, number] | null>(null);
     const [polyline, setPolyline] = useState<LatLngExpression[] | null>(null);
     const [zonesMenuOpen, setZonesMenuOpen] = useState(false);
@@ -49,7 +53,7 @@ export default function Map({toFind}: FuncProps) {
 
         var calculScore = 0;
 
-        if (region.name === toFind.map.region.name) calculScore += gameContext.gameSystem.region;
+        if ((currentMap as Zone).region.name === toFind.map.region.name) calculScore += gameContext.gameSystem.region;
         if (currentMap.name === toFind.map.name) calculScore += gameContext.gameSystem.map;
         if (currentMap.name === toFind.map.name) {
             var dist = calculateDist(guessPos, toFind.pos);
@@ -124,7 +128,7 @@ export default function Map({toFind}: FuncProps) {
         ) : null;
     }
 
-    async function changeLocation(target: Zone | Region) {
+    async function changeLocation(target: FFMap) {
         if (!gameContext.isPlaying) return;
         setZonesMenuOpen(false);
         setRegionsMenuOpen(false);
@@ -148,20 +152,19 @@ export default function Map({toFind}: FuncProps) {
         });
     }
 
-    useEffect(() => {
-        if (currentMap.hasOwnProperty("region")) setRegion((currentMap as Zone).region)
-        else setRegion(currentMap as Region)
-    }, [currentMap])
+    // Calcultate the offset needed to start with the world map snapped to the left corners
+    //const theSourceCenter : LatLngExpression = [(Bounds.THESOURCE as Array<Array<number>>)[0][0] - (Bounds.OVERLAY as Array<Array<number>>)[0][0], (Bounds.THESOURCE as Array<Array<number>>)[0][1] - (Bounds.OVERLAY as Array<Array<number>>)[0][1]];
 
     return (
         <div className="relative h-full w-full">
             <MapContainer
-                center={[0, 0]}
-                zoom={1}
-                minZoom={1}
+                center={currentMap.name === "The Source" ? [0,0] : [0,0]}
+                zoomSnap={0.1}
+                zoom={currentMap.name === "The Source" ? 0.1 : 1.1}
+                minZoom={currentMap.name === "The Source" ? 0.1 : 0.5}
                 maxZoom={5}
                 crs={CRS.Simple}
-                maxBounds={bounds}
+                maxBounds={currentMap.name === "The Source" ? Bounds.CONTAINER_TS : Bounds.CONTAINER}
                 attributionControl={false}
                 scrollWheelZoom={true}
                 doubleClickZoom={false}
@@ -169,10 +172,7 @@ export default function Map({toFind}: FuncProps) {
 
             >
                 <ImageOverlay
-                    bounds={[
-                        [-110, -110],
-                        [110, 110],
-                    ]}
+                    bounds={currentMap.name === "The Source" ? Bounds.THESOURCE : Bounds.OVERLAY}
                     url={"maps/" + (currentMap.hasOwnProperty("region") ? (currentMap as Zone).region.name + "/" : "") + getUrl(currentMap.name)}
                 />
                 <MapControl />
@@ -180,7 +180,7 @@ export default function Map({toFind}: FuncProps) {
                 <LineToAnswer />
                 <AnswerMarker />
 
-                {currentMap.markersZone.map((marker, index) => {
+                {currentMap.markers.map((marker, index) => {
                     return (
                         <Marker
                             key={"key" + marker.target.name + index}
@@ -212,45 +212,46 @@ export default function Map({toFind}: FuncProps) {
                     </div>
                     <div className="absolute left-12 top-2 text-yellow-50 z-20">
                         <div className="relative flex">
-                            <div onClick={() => { if (gameContext.isPlaying) {setRegionsMenuOpen(!regionsMenuOpen); setZonesMenuOpen(false)}}} className="cursor-pointer h-5 w-5 select-none text-gray-300 text-base font-bold ffxivBtn rounded-full text-center shadow-[0px_1px_5px_rgba(0,0,0,0.7)] inline-flex justify-center items-center"><span className={`duration-200 ${regionsMenuOpen ? "rotate-90" : ""}`}>&#62;</span></div>
-                            <div onClick={() => { if (gameContext.isPlaying) {setRegionsMenuOpen(!regionsMenuOpen); setZonesMenuOpen(false)}}} className="cursor-pointer ml-2 text-sm text-shadow shadow-amber-300/50 inline-flex justify-center items-center"><span>{region.name}</span></div>
+                            <div onClick={() => { if (gameContext.isPlaying) {setRegionsMenuOpen(!regionsMenuOpen); setZonesMenuOpen(false)}}} className="dropdownMenu cursor-pointer">
+                                <div className="h-5 w-5 select-none text-gray-300 text-base font-bold ffxivBtn rounded-full text-center shadow-[0px_1px_5px_rgba(0,0,0,0.7)] inline-flex justify-center items-center">
+                                    <span className={`${regionsMenuOpen ? "rotate-90" : ""}`}>&#62;</span>
+                                </div>
+                                <div className="ml-2 text-sm text-shadow shadow-amber-300/50 inline-flex justify-center items-center"><span>{getRegion(currentMap)?.name}</span></div>
+                            </div>
                             {regionsMenuOpen && (
-                                <motion.div
-                                    initial={{ scale: 0 }}
-                                    animate={{ scale: 1 }}
-                                    className="absolute z-20 px-1 py-2 top-5 left-6 bg-[#4a4a4a] rounded flex flex-col gap-1 border border-x-2 border-y-neutral-500 border-x-neutral-600"
-                                >
-                                    {MapData.map((region) => {
+                                <div className="absolute z-20 px-1 py-2 top-5 left-6 bg-[#4a4a4a] rounded flex flex-col gap-1 border border-x-2 border-y-neutral-500 border-x-neutral-600">
+                                    {TheSource.markers.map((marker) => {
                                         return (
-                                            <div onClick={() => {changeLocation(region) }} className="hover:bg-gradient-to-r hover:from-orange-300/30 hover:to-transparent px-2 rounded-full cursor-pointer whitespace-nowrap text-amber-100 text-shadow-[0px_1px_1px_rgba(0,0,0,0.85)] text-sm" key={region.name}>{region.name}</div>
+                                            <div onClick={() => {changeLocation(marker.target) }} className="hover:bg-gradient-to-r hover:from-orange-300/30 hover:to-transparent px-2 rounded-full cursor-pointer whitespace-nowrap text-amber-100 text-shadow-[0px_1px_1px_rgba(0,0,0,0.85)] text-sm" key={marker.target.name}>{marker.target.name}</div>
                                         )
                                     })}
-                                </motion.div>
+                                </div>
                             )}
                         </div>
                         <div className="relative flex mt-3">
-                            <div onClick={() => { if (gameContext.isPlaying) {setZonesMenuOpen(!zonesMenuOpen); setRegionsMenuOpen(false)}}} className="cursor-pointer h-5 w-5 select-none text-gray-300 text-base font-bold ffxivBtn rounded-full text-center shadow-[0px_1px_5px_rgba(0,0,0,0.7)] inline-flex justify-center items-center"><span className={`duration-200 ${zonesMenuOpen ? "rotate-90" : ""}`}>&#62;</span></div>
-                            <div onClick={() => { if (gameContext.isPlaying) {setZonesMenuOpen(!zonesMenuOpen); setRegionsMenuOpen(false)}}} className="cursor-pointer ml-2 text-sm text-shadow shadow-amber-300/50 inline-flex justify-center items-center"><span>{currentMap.hasOwnProperty("region") ? currentMap.name : "--"}</span></div>
-                            {zonesMenuOpen ? (
-                                <motion.div
-                                    initial={{ scale: 0 }}
-                                    animate={{ scale: 1 }}
-                                    className="absolute z-20 px-1 py-2 top-5 left-6 bg-[#4a4a4a] rounded flex flex-col gap-1 border border-x-2 border-y-neutral-500 border-x-neutral-600"
-                                >
-                                    {region.markersZone.map((zone) => {
+                            <div onClick={() => { if (gameContext.isPlaying) {setZonesMenuOpen(!zonesMenuOpen); setRegionsMenuOpen(false)}}} className={`${currentMap.name !== "The Source" ? "cursor-pointer" : null} dropdownMenu`}>
+                                <div className="overflow-hidden relative h-5 w-5 select-none text-gray-300 text-base font-bold ffxivBtn rounded-full text-center shadow-[0px_1px_5px_rgba(0,0,0,0.7)] inline-flex justify-center items-center">
+                                    <span className={`${zonesMenuOpen && currentMap.name !== "The Source" ? "rotate-90" : ""}`}>&#62;</span>
+                                    <div className={`${currentMap.name !== "The Source" ? "hidden" : null} h-full w-full z-10 absolute top-0 left-0 bg-slate-900/80`}></div>
+                                </div>
+                                <div className={`ml-2 text-sm text-shadow shadow-amber-300/50 inline-flex justify-center items-center`}><span>{isRegion(currentMap) ? "--" : (currentMap.name === "The Source" ? "" : currentMap.name)}</span></div>
+                            </div>
+                            {zonesMenuOpen && getRegion(currentMap) !== undefined ? (
+                                <div className="absolute z-20 px-1 py-2 top-5 left-6 bg-[#4a4a4a] rounded flex flex-col gap-1 border border-x-2 border-y-neutral-500 border-x-neutral-600">
+                                    {getRegion(currentMap).markers.map((zone) => {
                                         return (
                                             <div onClick={() => {changeLocation(zone.target) }} className="hover:bg-gradient-to-r hover:from-orange-300/30 hover:to-transparent px-2 rounded-full cursor-pointer whitespace-nowrap text-amber-100 text-shadow-[0px_1px_1px_rgba(0,0,0,0.85)] text-sm" key={zone.target.name}>{zone.target.name}</div>
                                         )
                                     })}
-                                </motion.div>
+                                </div>
                             ) : null}
                         </div>
                     </div>
                 </Control>
                 <Control position="bottomright">
                     { gameContext.isPlaying && currentMap.hasOwnProperty("region") ? (
-                        <div onClick={() => guess()} className="p-2 cursor-pointer group">
-                            <div className={`${guessPos == null ? "opacity-50" : ""} text-sm py-1 px-8 text-slate-200 font-semibold shadow-md shadow-[rgba(0,0,0,0.75)] text-yellow-100 rounded-full text-center ffxivBtn`}><span className={`${guessPos == null ? "" : "group-hover:text-shadow group-hover:shadow-amber-300/50"} duration-200`}>Guess</span></div>
+                        <div onClick={() => guess()} className={`${guessPos == null ? "opacity-50" : "cursor-pointer"} guessBtn p-2 group`}>
+                            <div className="text-sm py-1 px-8 text-slate-200 font-semibold shadow-md shadow-[rgba(0,0,0,0.75)] text-yellow-100 rounded-full text-center ffxivBtn">Guess</div>
                         </div>
                     ) : null}
                 </Control>

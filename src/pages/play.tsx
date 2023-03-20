@@ -8,7 +8,7 @@ import TopBar from '@/components/TopBar';
 import Results from '@/components/Results';
 import RoundResults from '@/components/RoundResults';
 import RoundStrip from '@/components/RoundStrip';
-import MapData from '../data/mapData'
+import TheSource from '../data/mapData'
 import Photospheres from '../data/locationsData'
 const Map = dynamic(() => import("@/components/Map"), { ssr: false });
 
@@ -70,8 +70,9 @@ export default function Play() {
 
     function getMap(name: string) {
         var map;
-        MapData.forEach(region => {
-            region.markersZone.forEach(zone => {
+
+        TheSource.markers.forEach(marker => {
+            marker.target.markers.forEach(zone => {
                 if (zone.target.name === name) map = zone.target;
             })
         })
