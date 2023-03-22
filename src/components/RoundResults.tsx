@@ -72,7 +72,7 @@ export default function RoundResults() {
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1}}
-                    transition={{ delay: 2.7 }}
+                    transition={{ delay: gameContext.score === 0 ? 1.7 : 2.7 }}
                     className="text-slate-300 text-center neosans font-normal text-sm xl:text-base"
                 >
                     {gameContext.score <= 10 && gameContext.score !== null ?
