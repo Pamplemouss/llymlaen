@@ -62,6 +62,10 @@ export default function Home() {
                     <div className="absolute top-0 left-0 h-full w-full home-background grayscale"></div>
                     <div className="absolute top-0 left-0 h-full w-full bg-slate-800/90"></div>
 
+                    <div className="border-2 border-x-[#c0a270] border-y-[#e0c290] w-10/12 bg-gradient-to-br from-slate-800 to-slate-700 relative p-6 text-slate-300 font-myriad tracking-wider text-xl shadow-lg shadow-black/50 rounded-lg mb-16">
+                        Welcome Warrior of Light! How much time did you spend in Eorzea? You will be dropped at random places in the <span className="text-emerald-400">critically acclaimed FFXIV MMORPG</span>, and will have to guess where you are. Select the expansions you want to play with, click "Play" and have fun! 
+                    </div>
+
                     <div className="flex-wrap justify-center flex flex-flow-col flex-rows-3 gap-10 w-10/12">
                         <Expansion expansion="arealmreborn"></Expansion>
                         <Expansion expansion="heavensward"></Expansion>

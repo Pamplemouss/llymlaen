@@ -151,7 +151,8 @@ body {
     z-index: 10;
 }
 
-.leaflet-top.leaflet-left, .leaflet-bottom.leaflet-left, .leaflet-control:not(.leaflet-control-zoom) {
+.leaflet-top.leaflet-left, .leaflet-bottom.leaflet-left, .leaflet-control:not(.leaflet-control-zoom),
+.leaflet-bottom.leaflet-right {
     width: 100%;
 }
 
@@ -171,10 +172,9 @@ body {
     background: linear-gradient(to bottom, #737572, #505050 46%, #373739 54%, #404040 75%, #555354) !important;
 }
 
-.ffxivBtn:hover, .dropdownMenu:hover .ffxivBtn, .guessBtn:hover .ffxivBtn {
+.ffxivBtn:not(.disabled):hover, .dropdownMenu:hover .ffxivBtn, .guessBtn:hover .ffxivBtn:not(.disabled) {
     background: linear-gradient(to bottom, #838582, #606060 46%, #474749 54%, #505050 75%, #656364) !important;
 }
-
 
 .psv-container {
     background: radial-gradient(circle, rgba(30 41 59) 0%, rgba(15 23 42) 100%);

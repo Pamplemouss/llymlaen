@@ -134,7 +134,7 @@ export default function Play() {
     }
 
     const mapVariants = {
-        idle: { scale: 0.5, opacity: 0.5, transition: { duration: 0.2, delay: 0.5, type: "linear" } },
+        idle: { /* scale: 0.5, opacity: 0.5, */ transition: { duration: 0.2, delay: 0.5, type: "linear" } },
         hover: { scale: 1, opacity: 1, transition: { duration: 0.2, delay:0, type: "linear" } }
     }
 

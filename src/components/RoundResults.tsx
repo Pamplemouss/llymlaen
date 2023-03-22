@@ -28,7 +28,7 @@ export default function RoundResults() {
             animate={{ x: "-30rem", opacity: 1, scale: 1 }}
             exit={{ x: "-30rem", opacity: 0, scale: 0, transition: {delay: 0, duration: 0.3} }}
             transition={{  duration: 0.3, delay: 0.7 }}
-            className="z-50 relative w-[20rem] lg:w-[30rem] xl:w-[45rem] py-4 lg:py-8 m-auto mr-8 flex flex-col rounded-xl border-2 border-yellow-100 shadow-[0px_0px_30px_black,0px_0px_30px_black]">
+            className="z-50 relative w-[20rem] lg:w-[30rem] xl:w-[45rem] py-4 lg:py-8 m-auto mr-8 flex flex-col rounded-xl border-2 border-x-[#c0a270] border-y-[#e0c290] shadow-[0px_0px_30px_black,0px_0px_30px_black]">
             
             <ScoreTooltip></ScoreTooltip>
 

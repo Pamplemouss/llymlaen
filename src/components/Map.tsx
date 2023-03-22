@@ -79,6 +79,13 @@ export default function Map({toFind}: FuncProps) {
         else changeLocation(TheSource);
     }
 
+    function guessTooltip() {
+        if (currentMap === TheSource) return "Pick a region";
+        if (!currentMap.hasOwnProperty("region")) return "Pick a zone";
+        if (guessPos === null) return "Place your pin on the map";
+        return "Guess"
+    }
+
     function GuessMarker() {
         useMapEvents({
             click(e) {
@@ -262,28 +269,33 @@ export default function Map({toFind}: FuncProps) {
                         </div>
                         <div onClick={() => backOneLevel()} className=" cursor-pointer p-0.5">
                             <div className="flex justify-center items-center rounded shadow w-5 h-5 shadow-black bg-gradient-to-tr from-[#513b1e] via-[#b49665] to-[#513b1e] hover:from-[#665033] hover:via-[#c9b17a] hover:to-[#665033] flex center-items">
-                                <i className="text-slate-800 fa-solid fa-up-long text-shadow shadow-yellow-200/40  text-[0.8rem]"></i>
+                                <i className="text-slate-900 fa-solid fa-up-long text-shadow shadow-yellow-200/40  text-[0.8rem]"></i>
                             </div>
                         </div>
                         <div onClick={() => map?.zoomIn()} className=" cursor-pointer p-0.5">
                             <div className="flex justify-center items-center rounded shadow w-5 h-5 shadow-black bg-gradient-to-tr from-[#513b1e] via-[#b49665] to-[#513b1e] hover:from-[#665033] hover:via-[#c9b17a] hover:to-[#665033] flex center-items">
-                                <i className="text-slate-800 fa-solid fa-plus text-shadow shadow-yellow-200/40  text-[1rem]"></i>
+                                <i className="text-slate-900 fa-solid fa-plus text-shadow shadow-yellow-200/40  text-[1rem]"></i>
                             </div>
                         </div>
                         <div onClick={() => map?.zoomOut()} className=" cursor-pointer p-0.5">
                             <div className="flex justify-center items-center rounded shadow w-5 h-5 shadow-black bg-gradient-to-tr from-[#513b1e] via-[#b49665] to-[#513b1e] hover:from-[#665033] hover:via-[#c9b17a] hover:to-[#665033] flex center-items">
-                                <i className="text-slate-800 fa-solid fa-minus text-shadow shadow-yellow-200/40  text-[1rem]"></i>
+                                <i className="text-slate-900 fa-solid fa-minus text-shadow shadow-yellow-200/40  text-[1rem]"></i>
                             </div>
                         </div>
                     </div> 
                 </Control>
 
-                <Control position="bottomright">
-                    { gameContext.isPlaying && currentMap.hasOwnProperty("region") ? (
-                        <div onClick={() => guess()} className={`${guessPos == null ? "opacity-50" : "cursor-pointer"} guessBtn p-2 group`}>
-                            <div className="text-sm py-1 px-8 text-slate-200 font-semibold shadow-md shadow-[rgba(0,0,0,0.75)] text-yellow-100 rounded-full text-center ffxivBtn">Guess</div>
+                <Control prepend={true} position="bottomright">
+                    { gameContext.isPlaying ? (
+                        <div className="group absolute bottom-0 right-0 z-10 flex w-full flex justify-center">
+                            <div onClick={() => guess()} className={`${guessPos == null ? "opacity-70" : "cursor-pointer"} guessBtn p-1.5 w-full`}>
+                                <div className={`border ${guessPos === null ? "disabled border-x-zinc-600 border-y-zinc-500 text-zinc-300" : "border-x-[#c0a270] border-y-[#e0c290] text-yellow-100"} text-sm py-1.5 tracking-wide px-8 font-semibold shadow-md shadow-[rgba(0,0,0,0.75)] rounded-full text-center ffxivBtn`}>{guessTooltip()}</div>
+                            </div>
+                            {/* <div className={`${guessPos === null ? "group-hover:scale-100" : null} origin-bottom duration-100 scale-0 absolute -translate-y-full shadow shadow-black/80 top-1 right-1 bg-gradient-to-b neosans font-normal from-blue-800 to-blue-900 text-slate-200 rounded py-1 px-3 whitespace-nowrap border-2 border-x-[#c0a270] border-y-[#e0c290]`}>
+                                {guessTooltip()}
+                            </div> */}
                         </div>
-                    ) : null}
+                        ) : null}
                 </Control>
 
             </MapContainer>
