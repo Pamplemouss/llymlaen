@@ -9,8 +9,12 @@ export function invLerp(from: number, to: number, value: number) {
     return (value - from) / (to - from);
 }
 
-export function getUrl(name: string) {
+export function toSnakeCase(name: string) {
     return (name.toLowerCase().replaceAll(" ", "_") + ".png");
+}
+
+export function getMapUrl(map: Map) {
+    return "maps/" + (map.hasOwnProperty("region") ? (map as Zone).region.name + "/" : "") + toSnakeCase(map.name)
 }
 
 export function isRegion(map: Map) {

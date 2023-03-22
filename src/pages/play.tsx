@@ -31,15 +31,21 @@ export default function Play() {
         distMax: 110,
         maxRounds: 5,
     }
+    var preloadPhotosphere : HTMLImageElement;
     
     // Start up setup
     useEffect(() => {
         startGame();
     }, [])
 
-    // Set photosphere picture
+    // Set photosphere picture and preload next one
     useEffect(() => {
-        if (toFind !== null) {viewer!.setPanorama('Photospheres/' + toFind.url)}
+        if (toFind=== null) return;
+        viewer!.setPanorama('Photospheres/' + toFind.url)
+        
+        const img = new Image();
+        img.src = 'Photospheres/' + gameData.current.locations[round].url;
+        preloadPhotosphere = img;
     }, [toFind])
 
     // add score to board

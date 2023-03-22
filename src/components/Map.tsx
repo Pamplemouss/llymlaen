@@ -15,7 +15,7 @@ import Control from 'react-leaflet-custom-control'
 import TheSource from '../data/mapData'
 import { Map as FFMap, Zone } from '../data/mapData'
 import GameContext from '@/components/GameContext';
-import { invLerp, calculateDist, getUrl, isRegion, getRegion } from '@/Utilities';
+import { invLerp, calculateDist, getMapUrl, isRegion, getRegion } from '@/Utilities';
 
 
 interface FuncProps {
@@ -48,6 +48,7 @@ export default function Map({toFind}: FuncProps) {
         iconSize: [35, 35],
     });
     var map : L.Map | null = null;
+    var preloadMaps : Array<HTMLImageElement>= [];
 
     function guess() {
         if (guessPos === null) return;
@@ -148,6 +149,15 @@ export default function Map({toFind}: FuncProps) {
         } 
     }, [gameContext.isPlaying])
 
+    useEffect(() => {
+        preloadMaps = [];
+        currentMap.markers.forEach((marker) => {
+            const img = new Image();
+            img.src = getMapUrl(marker.target);
+            preloadMaps.push(img);
+        })
+    }, [currentMap])
+
 
 
     function LineToAnswer() {
@@ -208,7 +218,7 @@ export default function Map({toFind}: FuncProps) {
             >
                 <ImageOverlay
                     bounds={currentMap.name === "The Source" ? Bounds.THESOURCE : Bounds.OVERLAY}
-                    url={"maps/" + (currentMap.hasOwnProperty("region") ? (currentMap as Zone).region.name + "/" : "") + getUrl(currentMap.name)}
+                    url={getMapUrl(currentMap)}
                 />
                 <MapControl />
                 <GuessMarker />
