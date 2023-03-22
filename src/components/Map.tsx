@@ -10,7 +10,7 @@ import {
 import { CRS, LatLng, Icon, Point, LatLngBoundsExpression, LatLngExpression } from "leaflet";
 import * as L from 'leaflet';
 import { useContext, useEffect, useState } from "react";
-import { motion, useAnimationControls } from "framer-motion";
+import { motion, useAnimation, useAnimationControls } from "framer-motion";
 import Control from 'react-leaflet-custom-control'
 import TheSource from '../data/mapData'
 import { Map as FFMap, Zone } from '../data/mapData'
@@ -24,7 +24,8 @@ interface FuncProps {
 
 export default function Map({toFind}: FuncProps) {
     const gameContext = useContext(GameContext);
-    const controls = useAnimationControls();
+    const blurControls = useAnimation();
+    const guessControls = useAnimation();
     const Bounds = {
         CONTAINER: [[-180,-180], [180,180]] as LatLngBoundsExpression,
         CONTAINER_TS: [[-200,-350], [200,350]] as LatLngBoundsExpression,
@@ -104,6 +105,27 @@ export default function Map({toFind}: FuncProps) {
             <Marker position={new LatLng(guessPos[0],guessPos[1])} icon={guessIcon}></Marker>
         );
     }
+
+    
+    function GuessButton() {
+        useMapEvents({
+            click(e) {
+                if (currentMap.hasOwnProperty("region")) return;
+                if (!(e.originalEvent.target as HTMLElement).classList.contains("leaflet-container")) return;
+                guessControls.set({ opacity: 0.3 })
+                guessControls.start({ opacity: 0 })
+            },
+        });
+
+        return gameContext.isPlaying ? (
+            <div onClick={() => guess()} className={`${guessPos == null ? "opacity-70" : "cursor-pointer"} guessBtn p-1.5 w-full group absolute bottom-0 right-0 z-10`}>
+                <div className={`border relative overflow-hidden ${guessPos === null ? "disabled border-x-zinc-600 border-y-zinc-500 text-zinc-300" : "border-x-[#c0a270] border-y-[#e0c290] text-yellow-100"} text-sm py-1.5 tracking-wide px-8 font-semibold shadow-md shadow-[rgba(0,0,0,0.75)] rounded-full text-center ffxivBtn`}>
+                    <span>{guessTooltip()}</span>
+                    <motion.div animate={guessControls} className="absolute top-0 left-0 w-full h-full bg-white opacity-0"></motion.div>
+                </div>
+            </div>
+        ) : null
+    }
     
     function MapControl() {
         map = useMap();
@@ -146,18 +168,18 @@ export default function Map({toFind}: FuncProps) {
         setRegionsMenuOpen(false);
         setGuessPos(null)
 
-        await controls.start({
+        await blurControls.start({
             display: "block",
             opacity: 1,
             transition: { duration: 0.1 },
         }).then(async () => {
             setCurrentMap(target);
-            await controls.start({
+            await blurControls.start({
                 display: "block",
                 opacity: 0,
                 transition: { duration: 0.3 },
             }).then(() => {
-                controls.start({
+                blurControls.start({
                     display: "none",
                 })
             })
@@ -286,21 +308,12 @@ export default function Map({toFind}: FuncProps) {
                 </Control>
 
                 <Control prepend={true} position="bottomright">
-                    { gameContext.isPlaying ? (
-                        <div className="group absolute bottom-0 right-0 z-10 flex w-full flex justify-center">
-                            <div onClick={() => guess()} className={`${guessPos == null ? "opacity-70" : "cursor-pointer"} guessBtn p-1.5 w-full`}>
-                                <div className={`border ${guessPos === null ? "disabled border-x-zinc-600 border-y-zinc-500 text-zinc-300" : "border-x-[#c0a270] border-y-[#e0c290] text-yellow-100"} text-sm py-1.5 tracking-wide px-8 font-semibold shadow-md shadow-[rgba(0,0,0,0.75)] rounded-full text-center ffxivBtn`}>{guessTooltip()}</div>
-                            </div>
-                            {/* <div className={`${guessPos === null ? "group-hover:scale-100" : null} origin-bottom duration-100 scale-0 absolute -translate-y-full shadow shadow-black/80 top-1 right-1 bg-gradient-to-b neosans font-normal from-blue-800 to-blue-900 text-slate-200 rounded py-1 px-3 whitespace-nowrap border-2 border-x-[#c0a270] border-y-[#e0c290]`}>
-                                {guessTooltip()}
-                            </div> */}
-                        </div>
-                        ) : null}
+                    <GuessButton></GuessButton>
                 </Control>
 
             </MapContainer>
             <motion.div
-                animate={controls}
+                animate={blurControls}
                 className="absolute top-0 left-0 w-full h-full z-20 backdrop-blur opacity-0 hidden"
             ></motion.div>
         </div>
