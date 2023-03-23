@@ -10,13 +10,15 @@ import {
 import { CRS, LatLng, Icon, Point, LatLngBoundsExpression, LatLngExpression } from "leaflet";
 import * as L from 'leaflet';
 import { useContext, useEffect, useState } from "react";
-import Image from 'next/image'
 import { motion, useAnimation } from "framer-motion";
 import Control from 'react-leaflet-custom-control'
 import TheSource from '../data/mapData'
 import { Map as FFMap, Zone } from '../data/mapData'
 import GameContext from '@/components/GameContext';
 import { invLerp, calculateDist, getMapUrl, isRegion, getRegion } from '@/Utilities';
+
+/* import '@geoman-io/leaflet-geoman-free';  
+import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css';   */
 
 
 interface FuncProps {
@@ -49,6 +51,7 @@ export default function Map({toFind}: FuncProps) {
         iconSize: [35, 35],
     });
     var map : L.Map | null = null;
+    var geojson : L.GeoJSON;
 
     function guess() {
         if (guessPos === null) return;
@@ -95,6 +98,7 @@ export default function Map({toFind}: FuncProps) {
                 if (!gameContext.isPlaying) return;
                 if (!currentMap.hasOwnProperty("region")) return; // Don't place marker if in region mode
                 if ((e.originalEvent.target as Element)!.classList.contains("leaflet-container")) {
+                    
                     setZonesMenuOpen(false);
                     setRegionsMenuOpen(false);
                     setGuessPos([e.latlng.lat, e.latlng.lng]);
@@ -127,11 +131,92 @@ export default function Map({toFind}: FuncProps) {
             </div>
         ) : null
     }
-    
+
     function MapControl() {
         map = useMap();
 
+        // GEOJSON CREATOR
+        /* (map as any).pm.addControls({  
+            position: 'topleft',  
+            drawCircle: false,  
+          }); 
+
+        map.on('pm:create', function(e) {
+            var latlngs = e.layer.getLatLngs();
+            var polygon : any[] = [];
+            latlngs[0].map((latlng: any) => {
+                polygon.push([latlng.lng, latlng.lat]);
+            })
+            console.log(JSON.stringify(polygon))
+        }); */
+        // GEOJSON CREATOR
+
+        var polygonsData = {"type":"FeatureCollection","features":
+            currentMap.markers.filter(marker => marker.hasOwnProperty("geojson")).map((marker, index) => {
+                var type = (marker.geojson?.polygons.length === 1 ? "Polygon" : "MultiPolygon");
+                var coordinates = (type === "Polygon" ? marker.geojson!.polygons[0] : marker.geojson?.polygons);
+                return {
+                    "type":"Feature","id": index,"properties":{"name":marker.target.name},"geometry":{"type": type,"coordinates":[coordinates]}
+                }
+            })
+        };
+
+        var hitboxData = {"type":"FeatureCollection","features":
+            currentMap.markers.filter(marker => marker.hasOwnProperty("geojson")).map((marker, index) => {
+                var type = (marker.geojson?.hitbox?.length === 1 ? "Polygon" : "MultiPolygon");
+                var coordinates = (type === "Polygon" ? marker.geojson!.hitbox![0] : marker.geojson?.hitbox!);
+                return {
+                    "type":"Feature","id": index,"properties":{"target":marker.target.name},"geometry":{"type": type,"coordinates":[coordinates]}
+                }
+            })
+        };
+
+        geojson = L.geoJson(polygonsData as any, {style: {fillOpacity: 0, fillColor: 'white', color: undefined}}).addTo(map);
+        L.geoJson(hitboxData as any, {style: {fillOpacity: 0, color: undefined}, onEachFeature: onEachFeature}).addTo(map);
+
         return null;
+    }
+
+    function highlightFeature(e : any) {
+        var thisLayer = e.target;
+        for (var key of Object.keys((map as any)._layers)) {
+            var layer = (map as any)._layers[key];
+            if (layer.hasOwnProperty("feature") && layer.feature.properties.name === thisLayer.feature.properties.target) layer.setStyle({fillOpacity: 0.15});
+        }
+/* 
+        var layer = e.target;
+    
+        layer.setStyle({
+            fillOpacity: 0.15
+        }); */
+
+        Array.from(document.getElementsByClassName("leaflet-tooltip")).forEach(tooltip => {
+            if (tooltip.innerHTML === thisLayer.feature.properties.target) (tooltip as HTMLElement).classList.add("tooltipHighlight");
+        })
+    }
+
+    function resetHighlight(e : any) {
+        var thisLayer = e.target;
+        for (var key of Object.keys((map as any)._layers)) {
+            var layer = (map as any)._layers[key];
+            if (layer.hasOwnProperty("feature") && layer.feature.properties.name === thisLayer.feature.properties.target) geojson.resetStyle(layer);
+        }
+
+        Array.from(document.getElementsByClassName("leaflet-tooltip")).forEach(tooltip => {
+            if (tooltip.innerHTML === e.target.feature.properties.target) (tooltip as HTMLElement).classList.remove("tooltipHighlight");
+        })
+    }
+
+    function onEachFeature(feature : any, layer : any) {
+        layer.on({
+            mouseover: highlightFeature,
+            mouseout: resetHighlight,
+            click: () => {
+                Array.from(document.getElementsByClassName("leaflet-tooltip")).forEach(tooltip => {
+                    if (tooltip.innerHTML === feature.properties.target) (tooltip as HTMLElement).click();
+                })
+            }
+        });
     }
 
 
@@ -237,12 +322,24 @@ export default function Map({toFind}: FuncProps) {
                                     click: () => {
                                         changeLocation(marker.target);
                                     },
+                                    mouseover: (e) => {
+                                        for (var key of Object.keys((map as any)._layers)) {
+                                            var layer = (map as any)._layers[key];
+                                            if (layer.hasOwnProperty("feature") && layer.feature.properties.name === marker.target.name) layer.setStyle({fillOpacity: 0.15});
+                                        }
+                                    },
+                                    mouseout: (e) => {
+                                        for (var key of Object.keys((map as any)._layers)) {
+                                            var layer = (map as any)._layers[key];
+                                            if (layer.hasOwnProperty("feature") && layer.feature.properties.name === marker.target.name) geojson.resetStyle(layer);
+                                        }
+                                    }
                                 }}
                                 permanent
                                 direction="top"
                                 offset={new Point(-16, 38)}
                                 interactive={true}
-                                className="p-[2px] hover:text-cyan-100 tracking-wide text-cyan-200 text-shadow-sm shadow-black text-base font-myriad-cond bg-transparent shadow-none border-none before:border-none"
+                                className="p-[2px] tracking-wide text-cyan-200 text-shadow-sm shadow-black text-base font-myriad-cond bg-transparent shadow-none border-none before:border-none"
                             >
                                 {marker.target.name}
                             </Tooltip>

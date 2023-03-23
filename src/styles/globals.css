@@ -162,7 +162,7 @@ body {
     z-index: 10;
 }
 
-.leaflet-top.leaflet-left, .leaflet-bottom.leaflet-left, .leaflet-control:not(.leaflet-control-zoom),
+.leaflet-top.leaflet-left, .leaflet-bottom.leaflet-left, .leaflet-control:not(.leaflet-control-zoom):not(.leaflet-pm-toolbar),
 .leaflet-bottom.leaflet-right {
     width: 100%;
 }
@@ -185,6 +185,15 @@ body {
 
 .ffxivBtn:not(.disabled):hover, .dropdownMenu:hover .ffxivBtn, .guessBtn:hover .ffxivBtn:not(.disabled) {
     background: linear-gradient(to bottom, #838582, #606060 46%, #474749 54%, #505050 75%, #656364) !important;
+}
+
+.tooltipHighlight, .leaflet-tooltip:hover {
+    @apply text-blue-300;
+    @apply shadow-violet-900/60;
+}
+
+.leaflet-marker-icon {
+    pointer-events: none !important;
 }
 
 .psv-container {
