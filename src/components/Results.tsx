@@ -48,7 +48,7 @@ export default function Results() {
                 className="flex-wrap items-center justify-center flex flex-rows-3 gap-16 w-10/12"
             >
                 {gameContext.gameData.current.locations.map((location: any, index: number) => {
-                    var bgURL = "url('/snapshots/" + location.url + "')";
+                    var bgURL = "url('/snapshots/" + location.id + ".avif')";
                     return (
                         <motion.div
                             variants={item}
@@ -56,8 +56,8 @@ export default function Results() {
                             className="w-3/12 relative h-40 xl:h-52 group flex flex-col rounded-lg overflow-hidden shadow-lg shadow-black/70"
                         >
                             <div className="absolute h-full w-full bg-cover bg-center z-[-1] grayscale-[50%] group-hover:grayscale-0 duration-200" style={{backgroundImage: bgURL}}></div>
-                            <div className={`${gameContext.gameData.current.scores[index] === 100 ? "bg-yellow-300/80 text-shadow shadow-black/50": "bg-slate-800/80 shadow-black/80"} text-xs xl:text-base text-center neosans text-slate-200 py-1 shadow`}>{location.map.name} - {location.map.region.name}</div>
-                            <div className={`neosans text-6xl grow items-center justify-center flex ${gameContext.gameData.current.scores[index] === 100 ? "text-yellow-300" : "text-slate-100"} text-shadow-lg shadow-slate-900`}>{gameContext.gameData.current.scores[index]}</div>
+                            <div className={`${gameContext.gameData.current.scores[index] === 100 ? "bg-yellow-300/80 text-shadow shadow-black/50": "bg-slate-800/80 shadow-black/80"} text-xs xl:text-base text-center font-neosans text-slate-200 py-1 shadow`}>{location.map.name} - {location.map.region.name}</div>
+                            <div className={`font-neosans text-6xl grow items-center justify-center flex ${gameContext.gameData.current.scores[index] === 100 ? "text-yellow-300" : "text-slate-100"} text-shadow-lg shadow-slate-900`}>{gameContext.gameData.current.scores[index]}</div>
                             <div className="h-2 w-full bg-slate-800/90">
                                 <motion.div
                                     animate={{ width: gameContext.gameData.current.scores[index] + "%" }}
@@ -70,7 +70,7 @@ export default function Results() {
 
             </motion.div>
 
-            <div className="relative overflow-hidden rounded py-1 px-7 neosans text-3xl text-slate-100 shadow-inner shadow-black/90 w-9/12 text-center">
+            <div className="relative overflow-hidden rounded py-1 px-7 font-neosans text-3xl text-slate-100 shadow-inner shadow-black/90 w-9/12 text-center">
                 <div className="absolute top-0 left-0 h-full w-full bg-slate-900 z-[-1]">
                     <div style={{width: 100*(totalScoreHUD!/(gameContext.gameSystem.total * gameContext.gameSystem.maxRounds))+"%"}} className="absolute h-full bg-gradient-to-br from-emerald-800 to-emerald-500"></div>
                 </div>
@@ -90,7 +90,7 @@ export default function Results() {
                 </div>
                 <div className="absolute top-0 left-0 h-full w-12 bg-gradient-to-r from-white/40 to-white/0"></div>
                 <div className="duration-200 absolute group-hover:opacity-100 opacity-0 top-0 group-hover:left-3/4 left-1/2 h-full w-4 bg-gradient-to-r from-white/20 to-white/10 "></div>
-                <span className="neosans text-2xl xl:text-4xl text-shadow shadow-black/20 tracking-wide italic inline-block skew-x-12 text-slate-200">Restart</span>
+                <span className="font-neosans text-2xl xl:text-4xl text-shadow shadow-black/20 tracking-wide italic inline-block skew-x-12 text-slate-200">Restart</span>
                 <motion.div
                     initial={{ opacity: 0 }}
                     whileHover={{ opacity: [1,0] }}

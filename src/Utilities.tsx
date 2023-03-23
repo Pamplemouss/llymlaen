@@ -10,11 +10,11 @@ export function invLerp(from: number, to: number, value: number) {
 }
 
 export function toSnakeCase(name: string) {
-    return (name.toLowerCase().replaceAll(" ", "_") + ".png");
+    return name.toLowerCase().replaceAll(" ", "_");
 }
 
 export function getMapUrl(map: Map) {
-    return "maps/" + (map.hasOwnProperty("region") ? (map as Zone).region.name + "/" : "") + toSnakeCase(map.name)
+    return "maps/" + (map.hasOwnProperty("region") ? (map as Zone).region.name + "/" : "") + toSnakeCase(map.name) + ".avif"
 }
 
 export function isRegion(map: Map) {

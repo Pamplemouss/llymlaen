@@ -33,7 +33,7 @@ export default function Home() {
                 </div>
                 <div className="absolute top-0 left-0 h-full w-12 bg-gradient-to-r from-white/40 to-white/0"></div>
                 <div className="reflect duration-200 absolute group-hover:opacity-100 opacity-0 top-0 group-hover:left-3/4 left-1/2 h-full w-4 bg-gradient-to-r from-white/20 to-white/10 "></div>
-                <span className="neosans text-4xl text-shadow shadow-black/20 tracking-wide italic inline-block skew-x-12 text-slate-200"></span>
+                <span className="font-neosans text-4xl text-shadow shadow-black/20 tracking-wide italic inline-block skew-x-12 text-slate-200"></span>
                 <motion.div
                     initial={{ opacity: 0 }}
                     whileTap={{ opacity: [1, 0] }}
@@ -62,8 +62,8 @@ export default function Home() {
                     <div className="absolute top-0 left-0 h-full w-full home-background grayscale"></div>
                     <div className="absolute top-0 left-0 h-full w-full bg-slate-800/90"></div>
 
-                    <div className="border-2 border-x-[#c0a270] border-y-[#e0c290] w-10/12 bg-gradient-to-br from-slate-800 to-slate-700 relative p-6 text-slate-300 font-myriad tracking-wider text-xl shadow-lg shadow-black/50 rounded-lg mb-16">
-                        Welcome Warrior of Light! How much time did you spend in Eorzea? You will be dropped at random places in the <span className="text-emerald-400">critically acclaimed Final Fantasy XIV Online MMORPG</span>, and will have to guess where you are. Select the expansions you want to play with, click "Play" and have fun! 
+                    <div className="border-2 border-x-[#c0a270] border-y-[#e0c290] w-10/12 bg-gradient-to-br from-slate-800 to-slate-700 relative p-6 text-slate-300 myriad text-lg shadow-lg shadow-black/50 rounded-lg mb-16">
+                        Welcome Warrior of Light! How much time did you spend in Eorzea? You will be dropped at random places in the <span className="text-emerald-400">critically acclaimed Final Fantasy XIV Online MMORPG</span>, and will have to guess where you are. Select the expansions you want to play with, click &quot;Play&quot; and have fun! 
                     </div>
 
                     <div className="flex-wrap justify-center flex flex-flow-col flex-rows-3 gap-10 w-10/12">
@@ -86,7 +86,7 @@ export default function Home() {
                             </div>
                             <div className="absolute top-0 left-0 h-full w-12 bg-gradient-to-r from-white/40 to-white/0"></div>
                             <div className="duration-200 absolute group-hover:opacity-100 opacity-0 top-0 group-hover:left-3/4 left-1/2 h-full w-4 bg-gradient-to-r from-white/20 to-white/10 "></div>
-                            <span className="neosans text-4xl text-shadow shadow-black/20 tracking-wide italic inline-block skew-x-12 text-slate-200">Play</span>
+                            <span className="font-neosans text-4xl text-shadow shadow-black/20 tracking-wide italic inline-block skew-x-12 text-slate-200">Play</span>
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 whileHover={{ opacity: [1,0] }}

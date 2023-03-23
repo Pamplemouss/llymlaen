@@ -17,6 +17,7 @@ export default function Play() {
     const [isPlaying, setIsPlaying] = useState(false);
     const [toFind, setToFind] = useState<any>(null);
     const [viewer, setViewer] = useState<Viewer | null>(null);
+    const [preloadImg, setPreloadImg] = useState<any>(null);
     const [score, setScore] = useState<number | null>(null);
     const [totalScore, setTotalScore] = useState<number>(0);
     const [distance, setDistance] = useState<number | null>(null);
@@ -31,7 +32,6 @@ export default function Play() {
         distMax: 110,
         maxRounds: 5,
     }
-    var preloadPhotosphere : HTMLImageElement;
     
     // Start up setup
     useEffect(() => {
@@ -41,11 +41,10 @@ export default function Play() {
     // Set photosphere picture and preload next one
     useEffect(() => {
         if (toFind=== null) return;
-        viewer!.setPanorama('Photospheres/' + toFind.url)
-        
-        const img = new Image();
-        img.src = 'Photospheres/' + gameData.current.locations[round].url;
-        preloadPhotosphere = img;
+
+        viewer!.setPanorama('photospheres/' + toFind.id + '.avif').then(()=> {
+            if (gameData.current.locations[round] !== undefined) setPreloadImg(<img className="hidden" src={'photospheres/' + gameData.current.locations[round].id + '.avif'} alt="Preload img"></img>);
+        })
     }, [toFind])
 
     // add score to board
@@ -156,6 +155,7 @@ export default function Play() {
             </Head>
             
             <div className="absolute h-full w-full flex flex-col">
+                {preloadImg}
                 <TopBar></TopBar>
 
                 {!ended ? (
@@ -177,6 +177,7 @@ export default function Play() {
                                     
                                     {/* MAP */}
                                     <motion.div
+                                        initial={{ scale: 0.5, opacity: 0.5 }}
                                         variants={mapVariants}
                                         animate={toFind === null || isPlaying ? "idle" : "hover"}
                                         whileHover={"hover"}

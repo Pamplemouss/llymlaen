@@ -40,7 +40,7 @@ export default function RoundResults() {
             </div>
 
             <div className="w-10/12 m-auto flex flex-col">
-                <div className="text-yellow-200 text-center text-xl lg:text-2xl xl:text-3xl m-auto neosans">{Math.round(scoreHUD!)} points</div>
+                <div className="text-yellow-200 text-center text-xl lg:text-2xl xl:text-3xl m-auto font-neosans">{Math.round(scoreHUD!)} points</div>
 
                 <div className="flex justify-center gap-5 text-xl lg:text-2xl mt-8">
                     <div className="relative">
@@ -73,7 +73,7 @@ export default function RoundResults() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1}}
                     transition={{ delay: gameContext.score === 0 ? 1.7 : 2.7 }}
-                    className="text-slate-300 text-center neosans font-normal text-sm xl:text-base"
+                    className="text-slate-300 text-center font-neosans font-normal text-sm xl:text-base"
                 >
                     {gameContext.score <= 10 && gameContext.score !== null ?
                         <span>Your guess was not in the correct map.</span>
@@ -99,7 +99,7 @@ export default function RoundResults() {
                         </div>
                         <div className="absolute top-0 left-0 h-full w-12 bg-gradient-to-r from-white/40 to-white/0"></div>
                         <div className="duration-200 absolute group-hover:opacity-100 opacity-0 top-0 group-hover:left-3/4 left-1/2 h-full w-4 bg-gradient-to-r from-white/20 to-white/10 "></div>
-                        <span className="neosans text-base lg:text-lg text-shadow shadow-black/20 tracking-wide italic inline-block skew-x-12 text-slate-100">{ gameContext.round === gameContext.gameSystem.maxRounds ? "Results" : "Next round"}</span>
+                        <span className="font-neosans text-base lg:text-lg text-shadow shadow-black/20 tracking-wide italic inline-block skew-x-12 text-slate-100">{ gameContext.round === gameContext.gameSystem.maxRounds ? "Results" : "Next round"}</span>
                         <motion.div
                             initial={{ opacity: 0 }}
                             whileHover={{ opacity: [1,0] }}

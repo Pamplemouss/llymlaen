@@ -10,7 +10,8 @@ import {
 import { CRS, LatLng, Icon, Point, LatLngBoundsExpression, LatLngExpression } from "leaflet";
 import * as L from 'leaflet';
 import { useContext, useEffect, useState } from "react";
-import { motion, useAnimation, useAnimationControls } from "framer-motion";
+import Image from 'next/image'
+import { motion, useAnimation } from "framer-motion";
 import Control from 'react-leaflet-custom-control'
 import TheSource from '../data/mapData'
 import { Map as FFMap, Zone } from '../data/mapData'
@@ -48,7 +49,6 @@ export default function Map({toFind}: FuncProps) {
         iconSize: [35, 35],
     });
     var map : L.Map | null = null;
-    var preloadMaps : Array<HTMLImageElement>= [];
 
     function guess() {
         if (guessPos === null) return;
@@ -149,16 +149,16 @@ export default function Map({toFind}: FuncProps) {
         } 
     }, [gameContext.isPlaying])
 
-    useEffect(() => {
-        preloadMaps = [];
-        currentMap.markers.forEach((marker) => {
-            const img = new Image();
-            img.src = getMapUrl(marker.target);
-            preloadMaps.push(img);
-        })
-    }, [currentMap])
 
-
+    function PreloadMaps() {
+        return (
+            <div className="hidden relative">
+                {currentMap.markers.map((marker, index) => {
+                    return <img key={marker.target.name + "_preload"+index} src={"/"+ getMapUrl(marker.target)} alt="Preload img"></img>
+                })}
+            </div>
+        )
+    }
 
     function LineToAnswer() {
         return (polyline !== null && currentMap.name === toFind.map.name) ? (
@@ -242,7 +242,7 @@ export default function Map({toFind}: FuncProps) {
                                 direction="top"
                                 offset={new Point(-16, 38)}
                                 interactive={true}
-                                className="p-[2px] hover:text-cyan-100 tracking-wide text-cyan-200 text-shadow-sm shadow-black text-base font-myriad bg-transparent shadow-none border-none before:border-none"
+                                className="p-[2px] hover:text-cyan-100 tracking-wide text-cyan-200 text-shadow-sm shadow-black text-base font-myriad-cond bg-transparent shadow-none border-none before:border-none"
                             >
                                 {marker.target.name}
                             </Tooltip>
@@ -326,6 +326,7 @@ export default function Map({toFind}: FuncProps) {
                 animate={blurControls}
                 className="absolute top-0 left-0 w-full h-full z-20 backdrop-blur opacity-0 hidden"
             ></motion.div>
+            <PreloadMaps></PreloadMaps>
         </div>
     );
 }

@@ -8,19 +8,19 @@ export default function ScoreToolTip() {
                     <i className="text-shadow-lg shadow-black/20 text-yellow-200 fa fa-star" aria-hidden="true"></i>
                     <i className="text-shadow-lg shadow-black/20 text-slate-500 fa fa-star" aria-hidden="true"></i>
                     <i className="text-shadow-lg shadow-black/20 text-slate-500 fa fa-star" aria-hidden="true"></i>
-                    <span className="text-slate-200 ml-3 neosans">Region</span>
+                    <span className="text-slate-200 ml-3 font-neosans">Region</span>
                 </div>
                 <div className="flex gap-1 whitespace-nowrap items-center">
                     <i className="text-shadow-lg shadow-black/20 text-yellow-200 fa fa-star" aria-hidden="true"></i>
                     <i className="text-shadow-lg shadow-black/20 text-yellow-200 fa fa-star" aria-hidden="true"></i>
                     <i className="text-shadow-lg shadow-black/20 text-slate-500 fa fa-star" aria-hidden="true"></i>
-                    <span className="text-slate-200 ml-3 neosans">Map</span>
+                    <span className="text-slate-200 ml-3 font-neosans">Map</span>
                 </div>
                 <div className="flex gap-1 whitespace-nowrap items-center">
                     <i className="text-shadow-lg shadow-black/20 text-yellow-200 fa fa-star" aria-hidden="true"></i>
                     <i className="text-shadow-lg shadow-black/20 text-yellow-200 fa fa-star" aria-hidden="true"></i>
                     <i className="text-shadow-lg shadow-black/20 text-yellow-200 fa fa-star" aria-hidden="true"></i>
-                    <span className="text-slate-200 ml-3 neosans"> Exact location</span>
+                    <span className="text-slate-200 ml-3 font-neosans"> Exact location</span>
                 </div>
             </div>
         </div>

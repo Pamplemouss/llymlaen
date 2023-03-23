@@ -11,10 +11,21 @@ body {
     font-family: 'Neo Sans';
     src: url('/fonts/Neo Sans Std Bold.otf');
     font-weight: 400;
+    font-display: swap;
 }
 
-.neosans {
-    font-family: 'Neo Sans';
+@font-face {
+    font-family: 'Myriad Pro';
+    src: url('/fonts/Myriad Pro Regular.woff');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Myriad Pro Condensed';
+    src: url('/fonts/Myriad Pro Condensed.woff');
+    font-weight: 400;
+    font-display: swap;
 }
 
 .home-background {

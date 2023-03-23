@@ -8,7 +8,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
+        'neosans': ["ui-sans-serif", "'Neo Sans'"],
         'myriad': ["ui-sans-serif", "'Myriad Pro'"],
+        'myriad-cond': ["ui-sans-serif", "'Myriad Pro Condensed'"],
       },
       textShadow: {
         sm: '1px 0px 1px var(--tw-shadow-color), -1px 0px 1px var(--tw-shadow-color), 0px 1px 1px var(--tw-shadow-color), 0px -1px 1px var(--tw-shadow-color)',

@@ -19,7 +19,7 @@ export default function RoundStrip() {
     }, [gameContext.totalScore]);
     
     return (
-        <div className="rounded neosans absolute translate-x-3 right-0 top-20 z-30 bg-gradient-to-b from-emerald-300 to-emerald-800 shadow-lg shadow-black/50 skew-x-12">
+        <div className="rounded font-neosans absolute translate-x-3 right-0 top-20 z-30 bg-gradient-to-b from-emerald-300 to-emerald-800 shadow-lg shadow-black/50 skew-x-12">
             <div className="flex gap-9 pl-8 pr-10 py-3 -skew-x-12 uppercase italic text-center">
                 <div className="flex flex-col">
                     <div className="text-xs text-emerald-200 text-shadow shadow-emerald-800/40">Round</div>
