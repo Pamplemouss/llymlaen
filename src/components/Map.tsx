@@ -95,7 +95,7 @@ export default function Map({toFind}: FuncProps) {
     function GuessMarker() {
         useMapEvents({
             click(e) {
-                console.log(e.latlng.lat + ", " + e.latlng.lng)
+                console.log((Math.round(e.latlng.lat * 1000)/1000) + ", " + (Math.round(e.latlng.lng * 1000)/1000))
                 if (!gameContext.isPlaying) return;
                 if (!currentMap.hasOwnProperty("region")) return; // Don't place marker if in region mode
                 if ((e.originalEvent.target as Element)!.classList.contains("leaflet-container")) {
@@ -318,6 +318,8 @@ export default function Map({toFind}: FuncProps) {
                 <AnswerMarker />
 
                 {currentMap.markers.map((marker, index) => {
+                    var isExit = (currentMap === TheSource ? false : (getRegion(currentMap) !== getRegion(marker.target)))
+
                     return (
                         <Marker
                             key={"key" + marker.target.name + index}
@@ -346,7 +348,7 @@ export default function Map({toFind}: FuncProps) {
                                 direction="top"
                                 offset={new Point(-16, 38)}
                                 interactive={true}
-                                className="p-[2px] tracking-wide text-cyan-200 text-shadow-sm shadow-black text-base font-myriad-cond bg-transparent shadow-none border-none before:border-none"
+                                className={`p-[2px] ${isExit ? " tooltipRegion text-[rgb(245,215,120)] shadow-yellow-900/80" : "text-cyan-200 shadow-black"} tracking-wide text-shadow-sm text-base font-myriad-cond bg-transparent shadow-none border-none before:border-none`}
                             >
                                 {marker.target.name}
                             </Tooltip>
@@ -355,7 +357,7 @@ export default function Map({toFind}: FuncProps) {
                 })}
                 
                 <Control prepend={true} position="topleft">
-                    <div className="z-10 absolute w-9/12 -left-5 -top-2 h-20 flex opacity-50 shadow-[-40px_4px_8px_#000] blur-sm">
+                    <div className="z-10 pointer-events-none absolute w-9/12 -left-5 -top-2 h-20 flex opacity-50 shadow-[-40px_4px_8px_#000] blur-sm">
                         <div className="h-full bg-black grow"></div>
                         <div className="h-full w-2/12 bg-gradient-to-r from-black to-transparent"></div>
                     </div>

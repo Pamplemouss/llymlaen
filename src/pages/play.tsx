@@ -9,7 +9,7 @@ import Results from '@/components/Results';
 import RoundResults from '@/components/RoundResults';
 import RoundStrip from '@/components/RoundStrip';
 import TheSource from '../data/mapData'
-import Photospheres from '../data/locationsData'
+import Photospheres from '../data/photospheresData'
 const Map = dynamic(() => import("@/components/Map"), { ssr: false });
 
 

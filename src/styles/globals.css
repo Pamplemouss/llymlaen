@@ -188,8 +188,11 @@ body {
 }
 
 .tooltipHighlight, .leaflet-tooltip:hover {
-    @apply text-blue-300;
-    @apply shadow-violet-900/60;
+    @apply shadow-violet-900;
+}
+
+.tooltipRegion.tooltipHighlight, .tooltipRegion.leaflet-tooltip:hover {
+    @apply shadow-red-400/50;
 }
 
 .leaflet-marker-icon {
