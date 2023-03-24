@@ -9,7 +9,7 @@ import {
 } from "react-leaflet";
 import { CRS, LatLng, Icon, Point, LatLngBoundsExpression, LatLngExpression } from "leaflet";
 import * as L from 'leaflet';
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import Control from 'react-leaflet-custom-control'
 import TheSource from '../data/mapData'
@@ -40,6 +40,8 @@ export default function Map({toFind}: FuncProps) {
     const [polyline, setPolyline] = useState<LatLngExpression[] | null>(null);
     const [zonesMenuOpen, setZonesMenuOpen] = useState(false);
     const [regionsMenuOpen, setRegionsMenuOpen] = useState(false);
+    const map = useRef<L.Map | null>(null)
+    const geojson = useRef<L.GeoJSON| null>(null)
     const guessIcon = new Icon({
         iconUrl: "guess.png",
         iconAnchor: [24, 33],
@@ -50,8 +52,7 @@ export default function Map({toFind}: FuncProps) {
         iconAnchor: [24, 33],
         iconSize: [35, 35],
     });
-    var map : L.Map | null = null;
-    var geojson : L.GeoJSON;
+
 
     function guess() {
         if (guessPos === null) return;
@@ -133,7 +134,7 @@ export default function Map({toFind}: FuncProps) {
     }
 
     function MapControl() {
-        map = useMap();
+        map.current = useMap();
 
         // GEOJSON CREATOR
         /* (map as any).pm.addControls({  
@@ -150,37 +151,43 @@ export default function Map({toFind}: FuncProps) {
             console.log(JSON.stringify(polygon))
         }); */
         // GEOJSON CREATOR
+        
 
-        var polygonsData = {"type":"FeatureCollection","features":
-            currentMap.markers.filter(marker => marker.hasOwnProperty("geojson")).map((marker, index) => {
-                var type = (marker.geojson?.polygons.length === 1 ? "Polygon" : "MultiPolygon");
-                var coordinates = (type === "Polygon" ? marker.geojson!.polygons[0] : marker.geojson?.polygons);
-                return {
-                    "type":"Feature","id": index,"properties":{"name":marker.target.name},"geometry":{"type": type,"coordinates":[coordinates]}
-                }
-            })
-        };
+        if (!(map.current as any).areaPolygonsLoaded) {
+            var polygonsData = {"type":"FeatureCollection","features":
+                currentMap.markers.filter(marker => marker.hasOwnProperty("geojson")).map((marker, index) => {
+                    var type = (marker.geojson?.polygons.length === 1 ? "Polygon" : "MultiPolygon");
+                    var coordinates = (type === "Polygon" ? marker.geojson!.polygons[0] : marker.geojson?.polygons);
+                    return {
+                        "type":"Feature","id": index,"properties":{"name":marker.target.name},"geometry":{"type": type,"coordinates":[coordinates]}
+                    }
+                })
+            };
 
-        var hitboxData = {"type":"FeatureCollection","features":
-            currentMap.markers.filter(marker => marker.hasOwnProperty("geojson")).map((marker, index) => {
-                var type = (marker.geojson?.hitbox?.length === 1 ? "Polygon" : "MultiPolygon");
-                var coordinates = (type === "Polygon" ? marker.geojson!.hitbox![0] : marker.geojson?.hitbox!);
-                return {
-                    "type":"Feature","id": index,"properties":{"target":marker.target.name},"geometry":{"type": type,"coordinates":[coordinates]}
-                }
-            })
-        };
+            var hitboxData = {"type":"FeatureCollection","features":
+                currentMap.markers.filter(marker => marker.hasOwnProperty("geojson")).map((marker, index) => {
+                    var type = (marker.geojson?.hitbox?.length === 1 ? "Polygon" : "MultiPolygon");
+                    var coordinates = (type === "Polygon" ? marker.geojson!.hitbox![0] : marker.geojson?.hitbox!);
+                    return {
+                        "type":"Feature","id": index,"properties":{"target":marker.target.name},"geometry":{"type": type,"coordinates":[coordinates]}
+                    }
+                })
+            };
 
-        geojson = L.geoJson(polygonsData as any, {style: {fillOpacity: 0, fillColor: 'white', color: undefined}}).addTo(map);
-        L.geoJson(hitboxData as any, {style: {fillOpacity: 0, color: undefined}, onEachFeature: onEachFeature}).addTo(map);
+            geojson.current = L.geoJson(polygonsData as any, {style: {fillOpacity: 0, fillColor: 'white', color: undefined}}).addTo(map.current);
+            L.geoJson(hitboxData as any, {style: {fillOpacity: 0, color: undefined}, onEachFeature: onEachFeature}).addTo(map.current);
+
+            (map.current as any).areaPolygonsLoaded = true;
+        }
+        
 
         return null;
     }
 
     function highlightFeature(e : any) {
         var thisLayer = e.target;
-        for (var key of Object.keys((map as any)._layers)) {
-            var layer = (map as any)._layers[key];
+        for (var key of Object.keys((map.current as any)._layers)) {
+            var layer = (map.current as any)._layers[key];
             if (layer.hasOwnProperty("feature") && layer.feature.properties.name === thisLayer.feature.properties.target) layer.setStyle({fillOpacity: 0.15});
         }
 /* 
@@ -197,9 +204,9 @@ export default function Map({toFind}: FuncProps) {
 
     function resetHighlight(e : any) {
         var thisLayer = e.target;
-        for (var key of Object.keys((map as any)._layers)) {
-            var layer = (map as any)._layers[key];
-            if (layer.hasOwnProperty("feature") && layer.feature.properties.name === thisLayer.feature.properties.target) geojson.resetStyle(layer);
+        for (var key of Object.keys((map.current as any)._layers)) {
+            var layer = (map.current as any)._layers[key];
+            if (layer.hasOwnProperty("feature") && layer.feature.properties.name === thisLayer.feature.properties.target) geojson.current!.resetStyle(layer);
         }
 
         Array.from(document.getElementsByClassName("leaflet-tooltip")).forEach(tooltip => {
@@ -221,15 +228,15 @@ export default function Map({toFind}: FuncProps) {
 
 
     useEffect(() => {
-        if (map === null) return;
+        if (map.current === null) return;
 
         if (!gameContext.isPlaying) {
             if (guessPos === null) {
-                map.setZoom(1, {animate: false});
+                map.current.setZoom(1, {animate: false});
             }
             else {
                 var bounds = new L.LatLngBounds(toFind.pos, guessPos);
-                map.fitBounds(bounds);
+                map.current.fitBounds(bounds);
             }
         } 
     }, [gameContext.isPlaying])
@@ -298,7 +305,7 @@ export default function Map({toFind}: FuncProps) {
                 zoomControl={false}
                 scrollWheelZoom={true}
                 doubleClickZoom={false}
-                key={currentMap.name}
+                key={currentMap.name + (currentMap.hasOwnProperty("region") ? "Z" : null)}
 
             >
                 <ImageOverlay
@@ -323,15 +330,15 @@ export default function Map({toFind}: FuncProps) {
                                         changeLocation(marker.target);
                                     },
                                     mouseover: (e) => {
-                                        for (var key of Object.keys((map as any)._layers)) {
-                                            var layer = (map as any)._layers[key];
+                                        for (var key of Object.keys((map.current as any)._layers)) {
+                                            var layer = (map.current as any)._layers[key];
                                             if (layer.hasOwnProperty("feature") && layer.feature.properties.name === marker.target.name) layer.setStyle({fillOpacity: 0.15});
                                         }
                                     },
                                     mouseout: (e) => {
-                                        for (var key of Object.keys((map as any)._layers)) {
-                                            var layer = (map as any)._layers[key];
-                                            if (layer.hasOwnProperty("feature") && layer.feature.properties.name === marker.target.name) geojson.resetStyle(layer);
+                                        for (var key of Object.keys((map.current as any)._layers)) {
+                                            var layer = (map.current as any)._layers[key];
+                                            if (layer.hasOwnProperty("feature") && layer.feature.properties.name === marker.target.name) geojson.current!.resetStyle(layer);
                                         }
                                     }
                                 }}
@@ -401,12 +408,12 @@ export default function Map({toFind}: FuncProps) {
                                 <i className="text-slate-900 fa-solid fa-up-long text-shadow shadow-yellow-200/40  text-[0.8rem]"></i>
                             </div>
                         </div>
-                        <div onClick={() => map?.zoomIn()} className=" cursor-pointer p-0.5">
+                        <div onClick={() => map.current?.zoomIn()} className=" cursor-pointer p-0.5">
                             <div className="flex justify-center items-center rounded shadow w-5 h-5 shadow-black bg-gradient-to-tr from-[#513b1e] via-[#b49665] to-[#513b1e] hover:from-[#665033] hover:via-[#c9b17a] hover:to-[#665033] flex center-items">
                                 <i className="text-slate-900 fa-solid fa-plus text-shadow shadow-yellow-200/40  text-[1rem]"></i>
                             </div>
                         </div>
-                        <div onClick={() => map?.zoomOut()} className=" cursor-pointer p-0.5">
+                        <div onClick={() => map.current?.zoomOut()} className=" cursor-pointer p-0.5">
                             <div className="flex justify-center items-center rounded shadow w-5 h-5 shadow-black bg-gradient-to-tr from-[#513b1e] via-[#b49665] to-[#513b1e] hover:from-[#665033] hover:via-[#c9b17a] hover:to-[#665033] flex center-items">
                                 <i className="text-slate-900 fa-solid fa-minus text-shadow shadow-yellow-200/40  text-[1rem]"></i>
                             </div>
