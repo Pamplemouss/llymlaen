@@ -70,7 +70,7 @@ body {
     @apply grayscale opacity-50;
 }
 
-.vignette:hover .bgImage,
+/* .vignette:hover .bgImage, */
 .vignette.active .bgImage {
     @apply grayscale-0 saturate-150 opacity-100;
 }

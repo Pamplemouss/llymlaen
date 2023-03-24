@@ -19,10 +19,10 @@ export default function Home() {
 
         return (
             <motion.div
-                onClick={()=> expClick(expansion)}
+                /* onClick={()=> expClick(expansion)} */
                 initial={{ scale: 1, skewX: -12 }}
                 whileHover={{ scale: [1.1, 1] }}
-                whileTap={{ scale: [1.2, 1] }}
+                /* whileTap={{ scale: [1.2, 1] }} */
                 transition={{ duration: 0.1 }}
                 className={`vignette ${expansion} ${expansions?.includes(expansion) ? "active" : null} border-4 w-3/12 h-44 border-slate-100/70 -skew-x-12 group duration-100 overflow-hidden shadow-lg shadow-black/50 relative cursor-pointer py-4 px-16 rounded-xl`}
             >
@@ -36,7 +36,7 @@ export default function Home() {
                 <span className="font-neosans text-4xl text-shadow shadow-black/20 tracking-wide italic inline-block skew-x-12 text-slate-200"></span>
                 <motion.div
                     initial={{ opacity: 0 }}
-                    whileTap={{ opacity: [1, 0] }}
+                    /* whileTap={{ opacity: [1, 0] }} */
                     transition={{ duration: 0.2 }}
                     className="absolute top-0 left-0 bg-white/40 h-full w-full z-10">
                 </motion.div>
@@ -62,8 +62,10 @@ export default function Home() {
                     <div className="absolute top-0 left-0 h-full w-full home-background grayscale"></div>
                     <div className="absolute top-0 left-0 h-full w-full bg-slate-800/90"></div>
 
-                    <div className="border-2 border-x-[#c0a270] border-y-[#e0c290] w-10/12 bg-gradient-to-br from-slate-800 to-slate-700 relative p-6 text-slate-300 myriad text-lg shadow-lg shadow-black/50 rounded-lg mb-16">
+                    <div className="-skew-x-12 border-2 border-x-[#c0a270] border-y-[#e0c290] w-10/12 bg-gradient-to-br from-slate-800 to-slate-700 relative p-6 text-slate-300 myriad text-lg shadow-lg shadow-black/50 rounded-lg mb-16">
                         Welcome Warrior of Light! How much time did you spend in Eorzea? You will be dropped at random places in the <span className="text-emerald-400">critically acclaimed Final Fantasy XIV Online MMORPG</span>, and will have to guess where you are. Select the expansions you want to play with, click &quot;Play&quot; and have fun! 
+                        <br></br>
+                        <span className="text-red-400">For now, only A Realm Reborn is available. Heavensward will be unlocked really soon.</span>
                     </div>
 
                     <div className="flex-wrap justify-center flex flex-flow-col flex-rows-3 gap-10 w-10/12">
