@@ -62,10 +62,10 @@ export default function Home() {
                     <div className="absolute top-0 left-0 h-full w-full home-background grayscale"></div>
                     <div className="absolute top-0 left-0 h-full w-full bg-slate-800/90"></div>
 
-                    <div className="-skew-x-12 border-2 border-x-[#c0a270] border-y-[#e0c290] w-10/12 bg-gradient-to-br from-slate-800 to-slate-700 relative p-6 text-slate-300 myriad text-lg shadow-lg shadow-black/50 rounded-lg mb-16">
+                    <div className="border-2 border-x-[#c0a270] border-y-[#e0c290] w-10/12 bg-gradient-to-br from-slate-800 to-slate-700 relative px-6 py-4 text-slate-300 font-myriad text-lg shadow-lg shadow-black/50 rounded-lg mb-16">
                         Welcome Warrior of Light! How much time did you spend in Eorzea? You will be dropped at random places in the <span className="text-emerald-400">critically acclaimed Final Fantasy XIV Online MMORPG</span>, and will have to guess where you are. Select the expansions you want to play with, click &quot;Play&quot; and have fun! 
                         <br></br>
-                        <span className="text-red-400">For now, only A Realm Reborn is available. Heavensward will be unlocked really soon.</span>
+                        <div className="text-red-400 mt-4">For now, only A Realm Reborn is available. Heavensward will be unlocked really soon.</div>
                     </div>
 
                     <div className="flex-wrap justify-center flex flex-flow-col flex-rows-3 gap-10 w-10/12">
@@ -98,6 +98,17 @@ export default function Home() {
                         </motion.div>
                     </Link>
                     
+                    <motion.div
+                        initial={{ y: "100%"}}
+                        animate={{ y: "100%", transition: {delay: 1} }}
+                        whileHover={{ y: "20%", transition: {delay: 0} }}
+                        className="fixed w-24 bottom-10 right-0 p-3"
+                        
+                    >
+                        <Link href="/info">
+                            <img src="/moogle.avif"></img>
+                        </Link>
+                    </motion.div>
                 </div>
             </div>
         </>

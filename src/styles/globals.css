@@ -29,7 +29,7 @@ body {
 }
 
 .home-background {
-    background-image: url("/wallpaper.jpg");
+    background-image: url("/wallpaper.avif");
     background-size: cover;
     background-position: center; 
 }
