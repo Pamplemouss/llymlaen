@@ -4,21 +4,21 @@ import TopBar from '@/components/TopBar';
 export default function Home() {
     var infoContent = (
         <span className="text-slate-300 text-lg font-myriad">
-            Hi, I'm <span className="text-emerald-400">Pamplemouss</span> and I'm a french developer. I like to make music and video games. As a fan of Final Fantasy XIV, it was a matter of time until I created something around it. So here it is, Eorguessr!
+            Hi, I&apos;m <span className="text-emerald-400">Pamplemouss</span> and I&apos;m a french developer. I like to make music and video games. As a fan of Final Fantasy XIV, it was a matter of time until I created something around it. So here it is, Eorguessr!
             
             <div className="flex items-center gap-3 text-base text-yellow-200 bg-slate-700 p-2 shadow shadow-black/50 rounded mt-5">
                 <img className="inline-block" src="/info/gil.png"></img>
-                <span>Here is my <a className="duration-200 px-1 text-yellow-400 text-shadow shadow-yellow-900 hover:shadow-yellow-600 hover:underline" href="https://ko-fi.com/pamplemouss" target="_blank">Kofi</a> if you have any extra gils to spend! I would be really appreciated.</span>
+                <span>Here is my <a className="duration-200 px-1 text-yellow-400 text-shadow shadow-yellow-900 hover:shadow-yellow-600 hover:underline" rel="noreferrer" href="https://ko-fi.com/pamplemouss" target="_blank">Kofi</a> if you have any extra gils to spend! I would be really appreciated.</span>
             </div>
             <div className="items-center xl:items-stretch flex-col xl:flex-row flex gap-6 my-5 justify-evenly">
-                <a href="https://na.finalfantasyxiv.com/lodestone/character/18356659/" target="_blank" className="hover:bg-slate-600 duration-200 shadow shadow-black/50 py-1 px-3 rounded text-sm gap-2 bg-slate-700 flex items-center">
+                <a href="https://na.finalfantasyxiv.com/lodestone/character/18356659/" target="_blank" rel="noreferrer" className="hover:bg-slate-600 duration-200 shadow shadow-black/50 py-1 px-3 rounded text-sm gap-2 bg-slate-700 flex items-center">
                     <img src="/info/arrLogo.png" className="bg-clip-text w-6 h-6"></img>
                     <div className="flex flex-col">
                         <span>Decumana Grandis</span>
                         <span className="text-xs text-slate-400">Chaos - Omega</span>
                     </div>
                 </a>
-                <a href="https://discordapp.com/users/123133020034170889" target="_blank" className="hover:bg-slate-600 duration-200 cursor-pointer shadow shadow-black/50 py-1 px-3 rounded text-sm gap-2 bg-slate-700 flex items-center">
+                <a href="https://discordapp.com/users/123133020034170889" target="_blank" rel="noreferrer" className="hover:bg-slate-600 duration-200 cursor-pointer shadow shadow-black/50 py-1 px-3 rounded text-sm gap-2 bg-slate-700 flex items-center">
                     <i className="fa-brands fa-discord mr-2"></i>
                     <span>Pamplemouss#7301</span>
                 </a>

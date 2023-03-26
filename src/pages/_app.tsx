@@ -3,6 +3,8 @@ import React from 'react'
 import App from 'next/app'
 import {UserAgentProvider} from '@quentin-sommer/react-useragent'
 
+
+/* eslint-disable react/display-name */
 const PageWrapper = (Comp : any) =>
   class extends React.Component {
     /*
