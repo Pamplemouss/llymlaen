@@ -10,7 +10,7 @@ export default function Home() {
                 <img className="inline-block" src="/info/gil.png"></img>
                 <span>Here is my <a className="duration-200 px-1 text-yellow-400 text-shadow shadow-yellow-900 hover:shadow-yellow-600 hover:underline" href="https://ko-fi.com/pamplemouss" target="_blank">Kofi</a> if you have any extra gils to spend! I would be really appreciated.</span>
             </div>
-            <div className="flex gap-6 my-5 justify-evenly">
+            <div className="items-center xl:items-stretch flex-col xl:flex-row flex gap-6 my-5 justify-evenly">
                 <a href="https://na.finalfantasyxiv.com/lodestone/character/18356659/" target="_blank" className="hover:bg-slate-600 duration-200 shadow shadow-black/50 py-1 px-3 rounded text-sm gap-2 bg-slate-700 flex items-center">
                     <img src="/info/arrLogo.png" className="bg-clip-text w-6 h-6"></img>
                     <div className="flex flex-col">
@@ -42,7 +42,7 @@ export default function Home() {
                 <link key="favSafari" rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5"></link>
             </Head>
 
-            <div className="absolute h-full w-full flex flex-col bg-slate-800">
+            <div className="xl:absolute h-full w-full flex flex-col bg-slate-800">
                 <TopBar></TopBar>
                 { 0 ? (
                     <div className="relative h-full w-full flex flex-col justify-center items-center overflow-hidden align-middle">
@@ -58,19 +58,18 @@ export default function Home() {
                 )
 
                 : (
-                    <div className="relative h-full w-full flex flex-col justify-center items-center overflow-hidden">
-                        <div className="absolute top-0 left-0 h-full w-full grayscale-[0.25]">
+                    <div className="relative h-full w-full flex flex-col xl:justify-center items-center xl:overflow-hidden">
+                        <div className="hidden xl:block absolute top-0 left-0 h-full w-full grayscale-[0.25]">
                             <video src="/info/sharlayan.webm" autoPlay muted loop></video>
                         </div>
-                        <div className="absolute top-0 left-0 h-full w-full bg-slate-800/40"></div>
+                        <div className="fixed top-0 left-0 h-full w-full bg-slate-800 xl:bg-slate-800/40"></div>
                         
                         
-                        <div className="-translate-y-10 gap-2 flex rounded-xl overflow-hidden relative border-2 border-x-[#c0a270] border-y-[#e0c290] bg-gradient-to-br from-slate-800 to-slate-700 shadow-md shadow-black/90">
-                            <div className="w-[25rem] shadow shadow-black">
-                        {/*  <div className="w-[15rem] shadow shadow-black rounded-lg overflow-hidden mx-10 my-20"> */}
+                        <div className="pt-8 xl:pt-0 mt-32 w-11/12 xl:w-auto h-full xl:h-auto -translate-y-10 gap-2 flex-col items-center xl:flex-row flex rounded-xl xl:overflow-hidden relative border-2 border-x-[#c0a270] border-y-[#e0c290] bg-gradient-to-br from-slate-800 to-slate-700 shadow-md shadow-black/90">
+                            <div className="aspect-square w-8/12 rounded xl:rounded-none overflow-hidden xl:w-[25rem] shadow shadow-black">
                                 <video src="/info/aboutme1-1-1080b.webm" autoPlay muted loop></video>
                             </div>
-                            <div className="max-w-2xl p-6">
+                            <div className="xl:max-w-2xl p-6">
                                 <div className="">
                                     {infoContent}
                                 </div>

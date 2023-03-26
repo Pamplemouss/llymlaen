@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { UserAgent } from '@quentin-sommer/react-useragent'
 import { Viewer } from '@photo-sphere-viewer/core';
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
@@ -18,6 +19,7 @@ export default function Play() {
     const [toFind, setToFind] = useState<any>(null);
     const [viewer, setViewer] = useState<Viewer | null>(null);
     const [preloadImg, setPreloadImg] = useState<any>(null);
+    const [displayMap, setDisplayMap] = useState<boolean>(false);
     const [score, setScore] = useState<number | null>(null);
     const [totalScore, setTotalScore] = useState<number>(0);
     const [distance, setDistance] = useState<number | null>(null);
@@ -65,7 +67,7 @@ export default function Play() {
         if (!ended) {
             setViewer(new Viewer({
                 container: document.getElementById("viewer") as HTMLElement,
-                navbar: ['zoom', 'move'],
+                navbar: [],
                 defaultZoomLvl: 0,
                 maxFov: 80,
             }));
@@ -117,6 +119,7 @@ export default function Play() {
     function initRound() {
         setDistance(null);
         setScore(null);
+        setDisplayMap(false);
     }
 
     function initGame() {
@@ -154,7 +157,7 @@ export default function Play() {
                 <link key="favSafari" rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5"></link>
             </Head>
             
-            <div className="absolute h-full w-full flex flex-col">
+            <div className="absolute h-full w-full flex flex-col overflow-hidden">
                 {preloadImg}
                 <TopBar></TopBar>
 
@@ -163,11 +166,12 @@ export default function Play() {
                         <RoundStrip></RoundStrip>
 
                         <div className="grow flex relative">
-                            <div className={`m-auto flex w-full h-full relative z-20 ${toFind === null ? "hidden" : null}`}>
+                            <div className={`m-auto flex w-full h-full relative ${toFind === null ? "hidden" : null}`}>
                                 {/* PHOTOSPHERE */}
                                 <div id="viewer" className="w-full h-full"></div>
 
-                                <div className="h-[30rem] absolute bottom-16 right-8 flex">
+                                <div className="pointer-events-none md:pointer-events-auto w-full justify-center md:w-auto md:h-[30rem] absolute bottom-6 md:bottom-16 md:right-8 flex">
+
                                     {/* RESULTS */}
                                     <AnimatePresence>
                                     { !isPlaying ? (
@@ -176,16 +180,33 @@ export default function Play() {
                                     </AnimatePresence>
                                     
                                     {/* MAP */}
-                                    <motion.div
-                                        initial={{ scale: 0.5, opacity: 0.5 }}
-                                        variants={mapVariants}
-                                        animate={toFind === null || isPlaying ? "idle" : "hover"}
-                                        whileHover={"hover"}
-                                        className="absolute bottom-0 right-0 w-[30rem] h-[30rem] origin-bottom-right overflow-hidden w-full h-full shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-xl">
-                                        {toFind === null ? null :
-                                            <Map key={toFind.map.name + toFind.pos} toFind={toFind} ></Map>
-                                        }
-                                    </motion.div>
+                                    <UserAgent computer>
+                                        <motion.div
+                                            initial={{ scale: 0.5, opacity: 0.5 }}
+                                            variants={mapVariants}
+                                            animate={toFind === null || isPlaying ? "idle" : "hover"}
+                                            whileHover={"hover"}
+                                            className="absolute bottom-0 right-0 w-[30rem] h-[30rem] origin-bottom-right overflow-hidden shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-xl">
+                                            {toFind === null ? null :
+                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={false}></Map>
+                                            }
+                                        </motion.div>
+                                    </UserAgent>
+                                    <UserAgent mobile>
+                                        <div onClick={() => setDisplayMap(!displayMap)} className="pointer-events-auto cursor-pointer shadow-lg shadow-black/70 absolute bottom-0 right-4 p-4 bg-emerald-500 rounded-full text-4xl text-slate-200">
+                                            <i className="fa-regular fa-map"></i>
+                                        </div>
+                                        <motion.div
+                                            animate={displayMap ? { y: 0 } : { y: "110%"}}
+                                            className="w-11/12 pointer-events-auto aspect-square origin-bottom-right overflow-hidden shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-xl">
+                                            {toFind === null ? null :
+                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={true} ></Map>
+                                            }
+                                            <div onClick={() => setDisplayMap(!displayMap)} className="z-10 cursor-pointer w-10 h-10 absolute top-2 right-2 p-2 text-slate-200 bg-slate-800 rounded-full text-2xl flex justify-center items-center shadow shadow-black/70">
+                                                <i className="fa-solid fa-xmark"></i>
+                                            </div>
+                                        </motion.div>
+                                    </UserAgent>
                                 </div>
                             </div>
                         </div>

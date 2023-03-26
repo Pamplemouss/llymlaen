@@ -3,9 +3,6 @@
 @tailwind utilities;
 
 
-body {
-    overflow: hidden;
-}
 
 @font-face {
     font-family: 'Neo Sans';
@@ -199,6 +196,14 @@ body {
     pointer-events: none !important;
 }
 
+.mobile .leaflet-container {
+    @apply bg-slate-900;
+}
+
 .psv-container {
     background: radial-gradient(circle, rgba(30 41 59) 0%, rgba(15 23 42) 100%);
+}
+
+.psv-navbar {
+    display: none;
 }

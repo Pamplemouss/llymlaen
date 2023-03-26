@@ -12,6 +12,7 @@
     "@geoman-io/leaflet-geoman-free": "^2.14.2",
     "@next/font": "13.1.5",
     "@photo-sphere-viewer/core": "^5.1.0",
+    "@quentin-sommer/react-useragent": "^3.2.0",
     "@types/node": "18.11.18",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",

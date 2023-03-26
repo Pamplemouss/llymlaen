@@ -36,7 +36,7 @@ export default function Results() {
     }, [gameContext.ended]);
 
     return (
-        <div className="h-full w-full relative flex flex-col gap-14 justify-center items-center">
+        <div className="h-full w-full relative flex flex-col gap-4 md:gap-14 justify-center items-center">
             <div className="absolute h-full w-full bg-gradient-to-b from-indigo-900 to-slate-900 z-[-1]">
                 <div className="absolute h-full w-full bg-slate-900 opacity-50"></div>
             </div>
@@ -45,7 +45,7 @@ export default function Results() {
                 variants={container}
                 initial="hidden"
                 animate="visible"
-                className="flex-wrap items-center justify-center flex flex-rows-3 gap-16 w-10/12"
+                className="items-center justify-center grid grid-cols-2 md:flex md:flex-wrap md:flex-rows-3 gap-3 md:gap-16 w-11/12 md:w-10/12"
             >
                 {gameContext.gameData.current.locations.map((location: any, index: number) => {
                     var bgURL = "url('/snapshots/" + location.id + ".avif')";
@@ -53,11 +53,11 @@ export default function Results() {
                         <motion.div
                             variants={item}
                             key={location.map.name + location.pos}
-                            className="w-3/12 relative h-40 xl:h-52 group flex flex-col rounded-lg overflow-hidden shadow-lg shadow-black/70"
+                            className="md:w-3/12 w-full relative h-32 md:h-40 xl:h-52 group flex flex-col rounded-lg overflow-hidden shadow-lg shadow-black/70"
                         >
                             <div className="absolute h-full w-full bg-cover bg-center z-[-1] grayscale-[50%] group-hover:grayscale-0 duration-200" style={{backgroundImage: bgURL}}></div>
                             <div className={`${gameContext.gameData.current.scores[index] === 100 ? "bg-yellow-300/80 text-shadow shadow-black/50": "bg-slate-800/80 shadow-black/80"} text-xs xl:text-base text-center font-neosans text-slate-200 py-1 shadow`}>{location.map.name} - {location.map.region.name}</div>
-                            <div className={`font-neosans text-6xl grow items-center justify-center flex ${gameContext.gameData.current.scores[index] === 100 ? "text-yellow-300" : "text-slate-100"} text-shadow-lg shadow-slate-900`}>{gameContext.gameData.current.scores[index]}</div>
+                            <div className={`font-neosans text-4xl md:text-6xl grow items-center justify-center flex ${gameContext.gameData.current.scores[index] === 100 ? "text-yellow-300" : "text-slate-100"} text-shadow-lg shadow-slate-900`}>{gameContext.gameData.current.scores[index]}</div>
                             <div className="h-2 w-full bg-slate-800/90">
                                 <motion.div
                                     animate={{ width: gameContext.gameData.current.scores[index] + "%" }}
@@ -70,7 +70,7 @@ export default function Results() {
 
             </motion.div>
 
-            <div className="relative overflow-hidden rounded py-1 px-7 font-neosans text-3xl text-slate-100 shadow-inner shadow-black/90 w-9/12 text-center">
+            <div className="relative overflow-hidden rounded py-1 px-7 font-neosans md:text-3xl text-slate-100 shadow-inner shadow-black/90 w-11/12 md:w-9/12 text-center">
                 <div className="absolute top-0 left-0 h-full w-full bg-slate-900 z-[-1]">
                     <div style={{width: 100*(totalScoreHUD!/(gameContext.gameSystem.total * gameContext.gameSystem.maxRounds))+"%"}} className="absolute h-full bg-gradient-to-br from-emerald-800 to-emerald-500"></div>
                 </div>

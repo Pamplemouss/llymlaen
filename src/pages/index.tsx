@@ -24,7 +24,7 @@ export default function Home() {
                 whileHover={{ scale: [1.1, 1] }}
                 /* whileTap={{ scale: [1.2, 1] }} */
                 transition={{ duration: 0.1 }}
-                className={`vignette ${expansion} ${expansions?.includes(expansion) ? "active" : null} border-4 w-3/12 h-44 border-slate-100/70 -skew-x-12 group duration-100 overflow-hidden shadow-lg shadow-black/50 relative cursor-pointer py-4 px-16 rounded-xl`}
+                className={`vignette ${expansion} ${expansions?.includes(expansion) ? "active" : null} border-4 w-9/12 h-32 md:w-3/12 md:h-44 border-slate-100/70 -skew-x-12 group duration-100 overflow-hidden shadow-lg shadow-black/50 relative cursor-pointer py-4 px-16 rounded-xl`}
             >
                 <div className={`bg mix-blend-color-dodge absolute top-0 left-0 h-full w-full opacity-20 z-10`}></div>
                 <div className={`duration-100 bgImage ${expansion}-bg skew-x-12 absolute top-0 -left-4 h-full w-[110%]`}></div>
@@ -58,17 +58,17 @@ export default function Home() {
             <div className="absolute h-full w-full flex flex-col">
                 <TopBar></TopBar>
 
-                <div className="relative h-full w-full flex flex-col justify-center items-center">
-                    <div className="absolute top-0 left-0 h-full w-full home-background grayscale"></div>
-                    <div className="absolute top-0 left-0 h-full w-full bg-slate-800/90"></div>
+                <div className="relative h-full w-full flex flex-col md:justify-center items-center pt-24 xl:pt-8">
+                    <div className="fixed top-0 left-0 h-full w-full home-background grayscale"></div>
+                    <div className="fixed top-0 left-0 h-full w-full bg-slate-800/90"></div>
 
-                    <div className="border-2 border-x-[#c0a270] border-y-[#e0c290] w-10/12 bg-gradient-to-br from-slate-800 to-slate-700 relative px-6 py-4 text-slate-300 font-myriad text-lg shadow-lg shadow-black/50 rounded-lg mb-16">
+                    <div className="border-2 border-x-[#c0a270] border-y-[#e0c290] w-11/12 md:w-10/12 bg-gradient-to-br from-slate-800 to-slate-700 relative px-6 py-4 text-slate-300 font-myriad text-lg shadow-lg shadow-black/50 rounded-lg mb-16">
                         Welcome Warrior of Light! How much time did you spend in Eorzea? You will be dropped at random places in the <span className="text-emerald-400">critically acclaimed Final Fantasy XIV Online MMORPG</span>, and will have to guess where you are. Select the expansions you want to play with, click &quot;Play&quot; and have fun! 
                         <br></br>
                         <div className="text-red-400 mt-4">For now, only A Realm Reborn is available. Heavensward will be unlocked really soon.</div>
                     </div>
 
-                    <div className="flex-wrap justify-center flex flex-flow-col flex-rows-3 gap-10 w-10/12">
+                    <div className="flex-wrap justify-center w-full flex md:flex-flow-col md:flex-rows-3 gap-10 md:w-10/12">
                         <Expansion expansion="arealmreborn"></Expansion>
                         <Expansion expansion="heavensward"></Expansion>
                         <Expansion expansion="stormblood"></Expansion>
@@ -81,7 +81,7 @@ export default function Home() {
                             initial={{ scale: 1, skewX: -12 }}
                             whileHover={{ scale: [1.2, 1] }}
                             transition={{ duration: 0.1 }}
-                            className="block border-4 border-slate-100/70 mt-20 -skew-x-12 group duration-100 overflow-hidden shadow-lg shadow-black/50 relative uppercase bg-gradient-to-br hover:shadow-yellow-500 hover:from-yellow-700 hover:to-yellow-400 from-gray-800/50 to-gray-700/50 cursor-pointer py-4 px-16 rounded-xl"
+                            className="mb-10 md:mb-0 block border-4 border-slate-100/70 mt-20 -skew-x-12 group duration-100 overflow-hidden shadow-lg shadow-black/50 relative uppercase bg-gradient-to-br hover:shadow-yellow-500 hover:from-yellow-700 hover:to-yellow-400 from-gray-800/50 to-gray-700/50 cursor-pointer py-4 px-16 rounded-xl"
                         >
                             <div className="overflow-hidden absolute top-0 left-0 h-full w-full scale-[0.95] rounded-xl">
                                 <div className="absolute top-0 left-0 group-hover:bg-white/50 bg-white/50 h-full w-1.5 rounded-xl"></div>

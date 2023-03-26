@@ -22,10 +22,11 @@ import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css';   */
 
 
 interface FuncProps {
-    toFind: any;
+    toFind: any,
+    isMobile: boolean,
 }
 
-export default function Map({toFind}: FuncProps) {
+export default function Map({toFind, isMobile}: FuncProps) {
     const gameContext = useContext(GameContext);
     const blurControls = useAnimation();
     const guessControls = useAnimation();
@@ -292,7 +293,7 @@ export default function Map({toFind}: FuncProps) {
     //const theSourceCenter : LatLngExpression = [(Bounds.THESOURCE as Array<Array<number>>)[0][0] - (Bounds.OVERLAY as Array<Array<number>>)[0][0], (Bounds.THESOURCE as Array<Array<number>>)[0][1] - (Bounds.OVERLAY as Array<Array<number>>)[0][1]];
 
     return (
-        <div className="relative h-full w-full">
+        <div className={`relative h-full w-full ${isMobile ? "mobile" : ""}`}>
             <MapContainer
                 center={currentMap.name === "The Source" ? [0,0] : [0,0]}
                 zoomSnap={0.1}
