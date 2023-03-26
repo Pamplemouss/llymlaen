@@ -2,7 +2,6 @@ import '@/styles/globals.css'
 import React from 'react'
 import App from 'next/app'
 import {UserAgentProvider} from '@quentin-sommer/react-useragent'
-import { GoogleAnalytics } from "nextjs-google-analytics";
 
 
 /* eslint-disable react/display-name */
@@ -35,10 +34,7 @@ class MyApp extends App {
   render() {
     const {Component, pageProps} = this.props
     return (
-      <>
-        <GoogleAnalytics trackPageViews />
-        <Component {...pageProps} />
-      </>
+      <Component {...pageProps} />
     )
   }
 }
