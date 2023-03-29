@@ -6,7 +6,7 @@ import {
 } from "react-leaflet";
 import { CRS, Icon, LatLngBoundsExpression, LatLngExpression } from "leaflet";
 import * as L from 'leaflet';
-import { useContext, useEffect, useRef, useState } from "react";
+import { MutableRefObject, useContext, useEffect, useRef, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import Control from 'react-leaflet-custom-control'
 import TheSource from '../data/mapData'
@@ -24,9 +24,10 @@ import GuessMarker from "./map/GuessMarker";
 interface FuncProps {
     toFind: any,
     isMobile: boolean,
+    isEdge: MutableRefObject<boolean>,
 }
 
-export default function Map({toFind, isMobile}: FuncProps) {
+export default function Map({toFind, isMobile, isEdge}: FuncProps) {
     const gameContext = useContext(GameContext);
     const blurControls = useAnimation();
     const Bounds = {
@@ -94,7 +95,7 @@ export default function Map({toFind, isMobile}: FuncProps) {
         return (
             <div className="hidden relative">
                 {currentMap.markers.map((marker, index) => {
-                    return <img key={marker.target.name + "_preload"+index} src={"/"+ getMapUrl(marker.target)} alt="Preload img"></img>
+                    return <img key={marker.target.name + "_preload"+index} src={"/"+ getMapUrl(marker.target, isEdge.current)} alt="Preload img"></img>
                 })}
             </div>
         )
@@ -158,7 +159,7 @@ export default function Map({toFind, isMobile}: FuncProps) {
             >
                 <ImageOverlay
                     bounds={currentMap.name === "The Source" ? Bounds.THESOURCE : Bounds.OVERLAY}
-                    url={getMapUrl(currentMap)}
+                    url={getMapUrl(currentMap, isEdge.current)}
                 />
                 <MapSetup map={map} currentMap={currentMap} geojson={geojson}></MapSetup>
                 <GuessMarker currentMap={currentMap} setRegionsMenuOpen={setRegionsMenuOpen} setZonesMenuOpen={setZonesMenuOpen} guessPos={guessPos} setGuessPos={setGuessPos}></GuessMarker>

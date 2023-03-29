@@ -106,7 +106,7 @@ export default function Home() {
                         
                     >
                         <Link href="/info">
-                            <img src="/moogle.avif"></img>
+                            <img src="/moogle.webp"></img>
                         </Link>
                     </motion.div>
                 </div>

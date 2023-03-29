@@ -26,13 +26,14 @@ export default function Play() {
     const [round, setRound] = useState<number>(0);
     const [ended, setEnded] = useState<boolean>(false);
     const gameData = useRef<any>({locations: [], scores: []});
+    const isEdge = useRef<boolean>(false);
     const gameSystem = {
         region: 10,
         map: 20,
         dist: 70,
         total: 100,
         distMax: 110,
-        maxRounds: 5,
+        maxRounds: 2,
     }
     
     // Start up setup
@@ -44,8 +45,11 @@ export default function Play() {
     useEffect(() => {
         if (toFind=== null) return;
 
-        viewer!.setPanorama('photospheres/' + toFind.id + '.avif').then(()=> {
-            if (gameData.current.locations[round] !== undefined) setPreloadImg(<img className="hidden" src={'photospheres/' + gameData.current.locations[round].id + '.avif'} alt="Preload img"></img>);
+        var format : string;
+        isEdge.current ? format = ".webp" : format = ".avif"
+
+        viewer!.setPanorama('photospheres/' + toFind.id + format).then(()=> {
+            if (gameData.current.locations[round] !== undefined) setPreloadImg(<img className="hidden" src={'photospheres/' + gameData.current.locations[round].id + format} alt="Preload img"></img>);
         })
     }, [toFind])
 
@@ -141,6 +145,16 @@ export default function Play() {
         startGame();
     }
 
+    function CheckEdge () {
+        return (
+            <UserAgent returnFullParser>
+                {(parser : any) => {
+                    isEdge.current = parser.getBrowser().name === "Edge"
+                }}
+            </UserAgent>
+        )
+    }
+
     const mapVariants = {
         idle: { scale: 0.5, opacity: 0.5, transition: { duration: 0.2, delay: 0.5, type: "linear" } },
         hover: { scale: 1, opacity: 1, transition: { duration: 0.2, delay:0, type: "linear" } }
@@ -156,6 +170,8 @@ export default function Play() {
                 <link key="manifest" rel="manifest" href="/favicon/site.webmanifest"></link>
                 <link key="favSafari" rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5"></link>
             </Head>
+
+            <CheckEdge/>
             
             <div className="absolute h-full w-full flex flex-col overflow-hidden">
                 {preloadImg}
@@ -188,7 +204,7 @@ export default function Play() {
                                             whileHover={"hover"}
                                             className="absolute bottom-0 right-0 w-[30rem] h-[30rem] origin-bottom-right overflow-hidden shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-xl">
                                             {toFind === null ? null :
-                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={false}></Map>
+                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={false} isEdge={isEdge}></Map>
                                             }
                                         </motion.div>
                                     </UserAgent>
@@ -200,7 +216,7 @@ export default function Play() {
                                             animate={displayMap ? { y: 0 } : { y: "110%"}}
                                             className="w-11/12 pointer-events-auto aspect-square origin-bottom-right overflow-hidden shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-xl">
                                             {toFind === null ? null :
-                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={true} ></Map>
+                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={true} isEdge={isEdge}></Map>
                                             }
                                             <div onClick={() => setDisplayMap(!displayMap)} className="z-10 cursor-pointer w-10 h-10 absolute top-2 right-2 p-2 text-slate-200 bg-slate-800 rounded-full text-2xl flex justify-center items-center shadow shadow-black/70">
                                                 <i className="fa-solid fa-xmark"></i>
@@ -212,7 +228,7 @@ export default function Play() {
                         </div>
                     </div>
                 ) : (
-                    <Results></Results>
+                    <Results isEdge={isEdge}></Results>
                 )}
                 
             </div>

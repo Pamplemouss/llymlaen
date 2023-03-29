@@ -13,8 +13,10 @@ export function toSnakeCase(name: string) {
     return name.toLowerCase().replaceAll(" ", "_");
 }
 
-export function getMapUrl(map: Map) {
-    return "maps/" + (map.hasOwnProperty("region") ? (map as Zone).region.name + "/" : "") + toSnakeCase(map.name) + ".avif"
+export function getMapUrl(map: Map, isEdge: boolean) {
+    var format : string;
+    isEdge ? format = ".webp" : format = ".avif"
+    return "maps/" + (map.hasOwnProperty("region") ? (map as Zone).region.name + "/" : "") + toSnakeCase(map.name) + format
 }
 
 export function isRegion(map: Map) {

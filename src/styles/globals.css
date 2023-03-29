@@ -26,7 +26,7 @@
 }
 
 .home-background {
-    background-image: url("/wallpaper.avif");
+    background-image: url("/wallpaper.webp");
     background-size: cover;
     background-position: center; 
 }
@@ -41,23 +41,23 @@
 }
 
 .arealmreborn-bg {
-    background-image: url("/expansions/arealmreborn.png");
+    background-image: url("/expansions/arealmreborn.webp");
 }
 
 .heavensward-bg {
-    background-image: url("/expansions/heavensward.png");
+    background-image: url("/expansions/heavensward.webp");
 }
 
 .stormblood-bg {
-    background-image: url("/expansions/stormblood.png");
+    background-image: url("/expansions/stormblood.webp");
 }
 
 .shadowbringer-bg {
-    background-image: url("/expansions/shadowbringer.png");
+    background-image: url("/expansions/shadowbringer.webp");
 }
 
 .endwalker-bg {
-    background-image: url("/expansions/endwalker.png");
+    background-image: url("/expansions/endwalker.webp");
 }
 
 
