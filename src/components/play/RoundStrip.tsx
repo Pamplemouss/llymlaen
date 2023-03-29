@@ -26,15 +26,15 @@ export default function RoundStrip() {
         
             return (
                 <div className={`${isMobile ? "top-24": "top-40"} rounded font-neosans absolute translate-x-3 right-0 z-30 bg-gradient-to-b from-emerald-300 to-emerald-800 shadow-lg shadow-black/50 skew-x-12`}>
-                    <div className="flex gap-9 pl-8 pr-10 py-3 -skew-x-12 uppercase italic text-center">
+                    <div className="flex gap-9 pl-8 pr-10 py-3 4k:pl-14 4k:pr-16 4k:py-5 -skew-x-12 uppercase italic text-center">
                         <div className="flex flex-col">
-                            <div className="text-xs text-emerald-200 text-shadow shadow-emerald-800/40">Round</div>
-                            <div className="text-slate-100 text-xl text-shadow shadow-emerald-800/50">{gameContext.round} / {gameContext.gameSystem.maxRounds}</div>
+                            <div className="text-xs 4k:text-xl text-emerald-200 text-shadow shadow-emerald-800/40">Round</div>
+                            <div className="text-slate-100 text-xl 4k:text-3xl text-shadow shadow-emerald-800/50">{gameContext.round} / {gameContext.gameSystem.maxRounds}</div>
                         </div>
                         { !isMobile ? (
                             <div className="flex flex-col w-10">
-                                <div className="text-xs text-emerald-200 text-shadow shadow-emerald-800/40">Score</div>
-                                <div className="text-slate-100 text-xl text-shadow shadow-emerald-800/50" id="totalScore"></div>
+                                <div className="text-xs 4k:text-xl text-emerald-200 text-shadow shadow-emerald-800/40">Score</div>
+                                <div className="text-slate-100 text-xl 4k:text-3xl text-shadow shadow-emerald-800/50" id="totalScore"></div>
                             </div>
                         ) : null}
                         

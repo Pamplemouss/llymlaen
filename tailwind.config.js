@@ -17,6 +17,9 @@ module.exports = {
         DEFAULT: '1px 0px 2px var(--tw-shadow-color), -1px 0px 2px var(--tw-shadow-color), 0px 1px 2px var(--tw-shadow-color), 0px -1px 2px var(--tw-shadow-color)',
         lg: '1px 0px 4px var(--tw-shadow-color), -1px 0px 4px var(--tw-shadow-color), 0px 1px 4px var(--tw-shadow-color), 0px -1px 4px var(--tw-shadow-color)',
       },
+      screens: {
+        '4k': '2000px',
+      },
     },
   },
   plugins: [

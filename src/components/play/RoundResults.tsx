@@ -1,11 +1,13 @@
 import { animate, motion, useMotionValue } from "framer-motion";
 import { UserAgent } from '@quentin-sommer/react-useragent'
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, MutableRefObject } from "react";
 import GameContext from "../GameContext";
 import ScoreTooltip from "./ScoreTooltip";
 
-
-export default function RoundResults() {
+interface Props {
+    is4k: MutableRefObject<boolean>
+}
+export default function RoundResults({is4k} : Props) {
     const gameContext = useContext(GameContext);
     const [scoreHUD, setScoreHUD] = useState<number | null>(null);
     const x = useMotionValue(0);
@@ -23,18 +25,23 @@ export default function RoundResults() {
         }, 1300)
     }, [gameContext.score]);
 
+
     return (
         <UserAgent returnFullParser>
         {(parser : any) => {
             var isMobile = parser.getDevice().type == "mobile";
+            var x;
+            if (isMobile) x = "10xp"
+            else if (is4k.current) x = "-60rem" 
+            else x = "-30rem"
         
             return (
                 <motion.div
-                    initial={{ x: isMobile ? "10px" : "-30rem", y: isMobile ? "-100%" : 0, opacity: 0, scale: isMobile ? 1.2 : 2 }}
-                    animate={{ x: isMobile ? "10px" : "-30rem", y: isMobile ? "-100%" : 0, opacity: 1, scale: 1 }}
-                    exit={{ x: isMobile ? "10px" : "-30rem", y: isMobile ? "-100%" : 0, opacity: 0, scale: 0, transition: {delay: 0, duration: 0.3} }}
+                    initial={{ x: x, y: isMobile ? "-100%" : 0, opacity: 0, scale: isMobile ? 1.2 : 2 }}
+                    animate={{ x: x, y: isMobile ? "-100%" : 0, opacity: 1, scale: 1 }}
+                    exit={{ x: x, y: isMobile ? "-100%" : 0, opacity: 0, scale: 0, transition: {delay: 0, duration: 0.3} }}
                     transition={{  duration: 0.3, delay: 0.7 }}
-                    className={`${isMobile ? "absolute -top-4 left-0 w-[calc(100vw-20px)]" : "relative mr-8 w-[20rem] lg:w-[30rem] xl:w-[45rem]"} z-40 pointer-events-auto py-4 lg:py-8 m-auto flex flex-col rounded-xl border-2 border-x-[#c0a270] border-y-[#e0c290] shadow-[0px_0px_30px_black,0px_0px_30px_black]`}>
+                    className={`${isMobile ? "absolute -top-4 left-0 w-[calc(100vw-20px)]" : "relative mr-8 4k:mr-12 w-[20rem] lg:w-[30rem] xl:w-[45rem] 4k:w-[60rem]"} z-40 pointer-events-auto py-4 lg:py-8 m-auto flex flex-col rounded-xl border-2 border-x-[#c0a270] border-y-[#e0c290] shadow-[0px_0px_30px_black,0px_0px_30px_black]`}>
                     
                     <ScoreTooltip isMobile={isMobile}></ScoreTooltip>
 
@@ -46,9 +53,9 @@ export default function RoundResults() {
                     </div>
 
                     <div className="w-10/12 m-auto flex flex-col">
-                        <div className="text-yellow-200 text-center text-xl lg:text-2xl xl:text-3xl m-auto font-neosans">{Math.round(scoreHUD!)} points</div>
+                        <div className="text-yellow-200 text-center text-xl lg:text-2xl xl:text-3xl 4k:text-5xl m-auto font-neosans">{Math.round(scoreHUD!)} points</div>
 
-                        <div className={`flex justify-center gap-5 text-xl lg:text-2xl ${isMobile ? "mt-2" : "mt-8"}`}>
+                        <div className={`flex justify-center gap-5 text-xl lg:text-2xl 4k:text-4xl ${isMobile ? "mt-2" : "mt-8"}`}>
                             <div className="relative">
                                 <i className="text-shadow-lg shadow-black/20 text-slate-600 fa fa-star absolute top-1/2 -translate-y-1/2" aria-hidden="true"></i>
                                 <i className={`${Math.round(scoreHUD!) < gameContext.gameSystem.region ? "opacity-0 scale-[3]" : "opacity-1 scale-[1]"} duration-300 text-yellow-200 fa fa-star`} aria-hidden="true"></i>
@@ -64,7 +71,7 @@ export default function RoundResults() {
                         </div>
 
                         {/* PROGRESS BAR */}
-                        <div className="h-2 mt-2 mb-4 bg-slate-600 rounded-full flex relative overflow-hidden">
+                        <div className="h-2 4k:h-4 mt-2 mb-4 4k:mt-5 4k:mb-8 bg-slate-600 rounded-full flex relative overflow-hidden">
                             <motion.div initial={{ width: 100*(gameContext.gameSystem.region/gameContext.gameSystem.total)+"%" }} className="z-10 border-r-2 border-slate-800 relative">
                             </motion.div>
                             <motion.div initial={{ width: 100*(gameContext.gameSystem.map/gameContext.gameSystem.total)+"%" }} className="z-10 border-r-2 border-slate-800 relative">
@@ -79,7 +86,7 @@ export default function RoundResults() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1}}
                             transition={{ delay: gameContext.score === 0 ? 1.7 : 2.7 }}
-                            className="text-slate-300 text-center font-neosans font-normal text-sm xl:text-base"
+                            className="text-slate-300 text-center font-neosans font-normal text-sm xl:text-base 4k:text-2xl"
                         >
                             {gameContext.score <= 10 && gameContext.score !== null ?
                                 <span>Your guess was not in the correct map.</span>
@@ -105,7 +112,7 @@ export default function RoundResults() {
                                 </div>
                                 <div className="absolute top-0 left-0 h-full w-12 bg-gradient-to-r from-white/40 to-white/0"></div>
                                 <div className="duration-200 absolute group-hover:opacity-100 opacity-0 top-0 group-hover:left-3/4 left-1/2 h-full w-4 bg-gradient-to-r from-white/20 to-white/10 "></div>
-                                <span className="font-neosans text-base lg:text-lg text-shadow shadow-black/20 tracking-wide italic inline-block skew-x-12 text-slate-100">{ gameContext.round === gameContext.gameSystem.maxRounds ? "Results" : "Next round"}</span>
+                                <span className="font-neosans text-base lg:text-lg 4k:text-3xl text-shadow shadow-black/20 tracking-wide italic inline-block skew-x-12 text-slate-100">{ gameContext.round === gameContext.gameSystem.maxRounds ? "Results" : "Next round"}</span>
                                 <motion.div
                                     initial={{ opacity: 0 }}
                                     whileHover={{ opacity: [1,0] }}

@@ -38,7 +38,7 @@ export default function LocationMarker({isExit, map, marker, geojson, changeLoca
                 direction="top"
                 offset={new Point(-16, 38)}
                 interactive={true}
-                className={`p-[2px] ${isExit ? " tooltipRegion text-[rgb(245,215,120)] shadow-yellow-900/80" : "text-cyan-200 shadow-black"} tracking-wide text-shadow-sm text-base font-myriad-cond bg-transparent shadow-none border-none before:border-none`}
+                className={`p-[2px] ${isExit ? "tooltipRegion text-[rgb(245,215,120)] shadow-yellow-900/80" : "text-cyan-200 shadow-black"} tracking-wide text-shadow-sm text-base 4k:text-3xl font-myriad-cond bg-transparent shadow-none border-none before:border-none`}
             >
                 {marker.target.name}
             </Tooltip>

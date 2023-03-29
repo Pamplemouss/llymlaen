@@ -27,6 +27,7 @@ export default function Play() {
     const [ended, setEnded] = useState<boolean>(false);
     const gameData = useRef<any>({locations: [], scores: []});
     const isEdge = useRef<boolean>(false);
+    const is4k = useRef(false);
     const gameSystem = {
         region: 10,
         map: 20,
@@ -38,6 +39,7 @@ export default function Play() {
     
     // Start up setup
     useEffect(() => {
+        is4k.current = window.innerWidth >= 2000
         startGame();
     }, [])
 
@@ -186,12 +188,12 @@ export default function Play() {
                                 {/* PHOTOSPHERE */}
                                 <div id="viewer" className="w-full h-full"></div>
 
-                                <div className="pointer-events-none md:pointer-events-auto w-full justify-center md:w-auto md:h-[30rem] absolute bottom-6 md:bottom-16 md:right-8 flex">
+                                <div className="pointer-events-none md:pointer-events-auto w-full justify-center md:w-auto md:h-[30rem] 4k:h-[60rem] absolute bottom-6 md:bottom-6 md:right-8 flex">
 
                                     {/* RESULTS */}
                                     <AnimatePresence>
                                     { !isPlaying ? (
-                                        <RoundResults></RoundResults>
+                                        <RoundResults is4k={is4k}></RoundResults>
                                     ) : null }
                                     </AnimatePresence>
                                     
@@ -202,9 +204,9 @@ export default function Play() {
                                             variants={mapVariants}
                                             animate={toFind === null || isPlaying ? "idle" : "hover"}
                                             whileHover={"hover"}
-                                            className="absolute bottom-0 right-0 w-[30rem] h-[30rem] origin-bottom-right overflow-hidden shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-xl">
+                                            className="absolute bottom-0 right-0 w-[30rem] h-[30rem] 4k:w-[60rem] 4k:h-[60rem] origin-bottom-right overflow-hidden shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-xl">
                                             {toFind === null ? null :
-                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={false} isEdge={isEdge}></Map>
+                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={false} isEdge={isEdge} is4k={is4k}></Map>
                                             }
                                         </motion.div>
                                     </UserAgent>
@@ -216,7 +218,7 @@ export default function Play() {
                                             animate={displayMap ? { y: 0 } : { y: "110%"}}
                                             className="w-11/12 pointer-events-auto aspect-square origin-bottom-right overflow-hidden shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-xl">
                                             {toFind === null ? null :
-                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={true} isEdge={isEdge}></Map>
+                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={true} isEdge={isEdge} is4k={is4k}></Map>
                                             }
                                             <div onClick={() => setDisplayMap(!displayMap)} className="z-10 cursor-pointer w-10 h-10 absolute top-2 right-2 p-2 text-slate-200 bg-slate-800 rounded-full text-2xl flex justify-center items-center shadow shadow-black/70">
                                                 <i className="fa-solid fa-xmark"></i>

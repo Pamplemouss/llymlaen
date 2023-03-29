@@ -25,9 +25,10 @@ interface FuncProps {
     toFind: any,
     isMobile: boolean,
     isEdge: MutableRefObject<boolean>,
+    is4k: MutableRefObject<boolean>,
 }
 
-export default function Map({toFind, isMobile, isEdge}: FuncProps) {
+export default function Map({toFind, isMobile, isEdge, is4k}: FuncProps) {
     const gameContext = useContext(GameContext);
     const blurControls = useAnimation();
     const Bounds = {
@@ -113,6 +114,16 @@ export default function Map({toFind, isMobile, isEdge}: FuncProps) {
         ) : null;
     }
 
+    function getZoom() {
+        var zoom;
+         if (currentMap.name === "The Source" && is4k.current) zoom = 1          // world map + 4k
+         else if (currentMap.name === "The Source") zoom = 0.1                   // world map
+         else if (currentMap.name !== "The Source" && is4k.current) zoom = 2.2   // map + 4k
+         else zoom = 1.1                                                         // map
+
+         return zoom
+    }
+
     async function changeLocation(target: FFMap) {
         if (!gameContext.isPlaying) return;
         setZonesMenuOpen(false);
@@ -138,14 +149,14 @@ export default function Map({toFind, isMobile, isEdge}: FuncProps) {
     }
 
     // Calcultate the offset needed to start with the world map snapped to the left corners
-    //const theSourceCenter : LatLngExpression = [(Bounds.THESOURCE as Array<Array<number>>)[0][0] - (Bounds.OVERLAY as Array<Array<number>>)[0][0], (Bounds.THESOURCE as Array<Array<number>>)[0][1] - (Bounds.OVERLAY as Array<Array<number>>)[0][1]];
+    //const theSourceCenter : LatLngExpression = [(Bounds.THESOURCE as Array<Array<number>>)[0][0] - (Bounds.OVERLAY as Array<Array<number>>)[0][0], (Bounds.THESOURCE as Array<Array<number>>)[0][1] - (Bounds.OVERLAY as Array<Array<number>>)[0][1]];    
 
     return (
         <div className={`relative h-full w-full ${isMobile ? "mobile" : ""}`}>
             <MapContainer
                 center={currentMap.name === "The Source" ? [0,0] : [0,0]}
                 zoomSnap={0.1}
-                zoom={currentMap.name === "The Source" ? 0.1 : 1.1}
+                zoom={getZoom()}
                 minZoom={currentMap.name === "The Source" ? 0.1 : 0.5}
                 maxZoom={5}
                 crs={CRS.Simple}
@@ -162,7 +173,7 @@ export default function Map({toFind, isMobile, isEdge}: FuncProps) {
                     url={getMapUrl(currentMap, isEdge.current)}
                 />
                 <MapSetup map={map} currentMap={currentMap} geojson={geojson}></MapSetup>
-                <GuessMarker currentMap={currentMap} setRegionsMenuOpen={setRegionsMenuOpen} setZonesMenuOpen={setZonesMenuOpen} guessPos={guessPos} setGuessPos={setGuessPos}></GuessMarker>
+                <GuessMarker currentMap={currentMap} setRegionsMenuOpen={setRegionsMenuOpen} setZonesMenuOpen={setZonesMenuOpen} guessPos={guessPos} setGuessPos={setGuessPos} is4k={is4k}></GuessMarker>
                 <LineToAnswer />
                 <AnswerMarker />
 
