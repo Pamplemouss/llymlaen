@@ -175,7 +175,7 @@ export default function Play() {
 
             <CheckEdge/>
             
-            <div className="absolute h-full w-full flex flex-col overflow-hidden">
+            <div className="absolute h-full w-full flex flex-col overflow-hidden select-none">
                 {preloadImg}
                 <TopBar></TopBar>
 
@@ -213,6 +213,9 @@ export default function Play() {
                                     <UserAgent mobile>
                                         <div onClick={() => setDisplayMap(!displayMap)} className="pointer-events-auto cursor-pointer shadow-lg shadow-black/70 absolute bottom-0 right-4 p-4 bg-emerald-500 rounded-full text-4xl text-slate-200">
                                             <i className="fa-regular fa-map"></i>
+                                        </div>
+                                        <div className="absolute bottom-0 left-4 p-4 text-3xl text-slate-300 opacity-50">
+                                            <i className="text-shadow shadow-black fa-solid fa-arrows-up-down-left-right"></i>
                                         </div>
                                         <motion.div
                                             animate={displayMap ? { y: 0 } : { y: "110%"}}

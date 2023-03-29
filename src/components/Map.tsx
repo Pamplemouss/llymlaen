@@ -74,9 +74,9 @@ export default function Map({toFind, isMobile, isEdge, is4k}: FuncProps) {
         if ((currentMap as Zone).region.name === toFind.map.region.name) calculScore += gameContext.gameSystem.region;
         if (currentMap.name === toFind.map.name) calculScore += gameContext.gameSystem.map;
         if (currentMap.name === toFind.map.name) {
-            var dist = calculateDist(guessPos, toFind.pos);
+            var dist = Math.round(calculateDist(guessPos, toFind.pos));
             gameContext.setDistance(dist);
-            if (dist < 2) calculScore += gameContext.gameSystem.dist;
+            if (dist <= 2) calculScore += gameContext.gameSystem.dist;
             else if (dist < gameContext.gameSystem.distMax) calculScore += (invLerp(gameContext.gameSystem.distMax,2,dist) * gameContext.gameSystem.dist);
         }
         

@@ -76,7 +76,7 @@
     @apply opacity-0 left-1/2;
 }
 
-.vignette:hover .reflect,
+.vignette:not(.disabled):hover .reflect,
 .vignette.active .reflect {
     @apply opacity-100 left-3/4;
 }
@@ -85,7 +85,7 @@
     @apply border-cyan-300/70 shadow-cyan-500;
 }
 
-.arealmreborn:hover .bg,
+.arealmreborn:not(.disabled):hover .bg,
 .arealmreborn.active .bg {
     @apply bg-cyan-300/70;
 }
@@ -99,7 +99,7 @@
     @apply border-cyan-100/90 shadow-cyan-100;
 }
 
-.heavensward:hover .bg,
+.heavensward:not(.disabled):hover .bg,
 .heavensward.active .bg {
     @apply bg-cyan-500/80;
 }
@@ -113,7 +113,7 @@
     @apply border-yellow-200/90 shadow-yellow-300;
 }
 
-.stormblood:hover .bg,
+.stormblood:not(.disabled):hover .bg,
 .stormblood.active .bg {
     @apply bg-red-500/90;
 }
@@ -127,7 +127,7 @@
     @apply border-indigo-300/70 shadow-indigo-500;
 }
 
-.shadowbringer:hover .bg,
+.shadowbringer:not(.disabled):hover .bg,
 .shadowbringer.active .bg  {
     @apply bg-indigo-400/80;
 }
@@ -141,7 +141,7 @@
     @apply border-orange-300/70 shadow-orange-500;
 }
 
-.endwalker:hover .bg,
+.endwalker:not(.disabled):hover .bg,
 .endwalker.active .bg {
     @apply bg-blue-800/70;
 }
