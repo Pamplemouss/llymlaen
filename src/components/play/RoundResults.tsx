@@ -1,7 +1,7 @@
 import { animate, motion, useMotionValue } from "framer-motion";
 import { UserAgent } from '@quentin-sommer/react-useragent'
 import { useContext, useEffect, useState } from "react";
-import GameContext from "./GameContext";
+import GameContext from "../GameContext";
 import ScoreTooltip from "./ScoreTooltip";
 
 

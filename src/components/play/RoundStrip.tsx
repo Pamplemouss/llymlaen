@@ -1,7 +1,7 @@
 import { CountUp } from "countup.js";
 import { UserAgent } from '@quentin-sommer/react-useragent'
 import { useContext, useEffect, useRef } from "react";
-import GameContext from "./GameContext";
+import GameContext from "../GameContext";
 
 
 export default function RoundStrip() {

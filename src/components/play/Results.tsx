@@ -1,6 +1,6 @@
 import { animate, motion, useMotionValue } from "framer-motion";
 import { useContext, useEffect, useState } from "react";
-import GameContext from "./GameContext";
+import GameContext from "../GameContext";
 
 
 export default function Results() {

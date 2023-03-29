@@ -6,9 +6,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import dynamic from 'next/dynamic';
 import GameContext from '@/components/GameContext';
 import TopBar from '@/components/TopBar';
-import Results from '@/components/Results';
-import RoundResults from '@/components/RoundResults';
-import RoundStrip from '@/components/RoundStrip';
+import Results from '@/components/play/Results';
+import RoundResults from '@/components/play/RoundResults';
+import RoundStrip from '@/components/play/RoundStrip';
 import TheSource from '../data/mapData'
 import Photospheres from '../data/photospheresData'
 const Map = dynamic(() => import("@/components/Map"), { ssr: false });

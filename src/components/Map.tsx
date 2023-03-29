@@ -2,12 +2,9 @@ import {
     MapContainer,
     ImageOverlay,
     Marker,
-    useMapEvents,
-    Tooltip,
     Polyline,
-    useMap,
 } from "react-leaflet";
-import { CRS, LatLng, Icon, Point, LatLngBoundsExpression, LatLngExpression } from "leaflet";
+import { CRS, Icon, LatLngBoundsExpression, LatLngExpression } from "leaflet";
 import * as L from 'leaflet';
 import { useContext, useEffect, useRef, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
@@ -15,10 +12,13 @@ import Control from 'react-leaflet-custom-control'
 import TheSource from '../data/mapData'
 import { Map as FFMap, Zone } from '../data/mapData'
 import GameContext from '@/components/GameContext';
-import { invLerp, calculateDist, getMapUrl, isRegion, getRegion } from '@/Utilities';
-
-/* import '@geoman-io/leaflet-geoman-free';  
-import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css';   */
+import { invLerp, calculateDist, getMapUrl, getRegion } from '@/Utilities';
+import LocationMarker from "./map/LocationMarker";
+import MapSetup from "./map/MapSetup";
+import GuessButton from "./map/GuessButton";
+import MapControl from "./map/MapControl";
+import MapMenu from "./map/MapMenu";
+import GuessMarker from "./map/GuessMarker";
 
 
 interface FuncProps {
@@ -29,7 +29,6 @@ interface FuncProps {
 export default function Map({toFind, isMobile}: FuncProps) {
     const gameContext = useContext(GameContext);
     const blurControls = useAnimation();
-    const guessControls = useAnimation();
     const Bounds = {
         CONTAINER: [[-180,-180], [180,180]] as LatLngBoundsExpression,
         CONTAINER_TS: [[-200,-350], [200,350]] as LatLngBoundsExpression,
@@ -42,18 +41,28 @@ export default function Map({toFind, isMobile}: FuncProps) {
     const [zonesMenuOpen, setZonesMenuOpen] = useState(false);
     const [regionsMenuOpen, setRegionsMenuOpen] = useState(false);
     const map = useRef<L.Map | null>(null)
-    const geojson = useRef<L.GeoJSON| null>(null)
-    const guessIcon = new Icon({
-        iconUrl: "guess.png",
-        iconAnchor: [24, 33],
-        iconSize: [35, 35],
-    });
+    const geojson = useRef<L.GeoJSON | null>(null)
     const answerIcon = new Icon({
         iconUrl: "FFXIV_Quest_Icon.webp",
         iconAnchor: [24, 33],
         iconSize: [35, 35],
     });
 
+
+    useEffect(() => {
+        if (map.current === null) return;
+
+        if (!gameContext.isPlaying) {
+            if (guessPos === null) {
+                map.current.setZoom(1, {animate: false});
+            }
+            else {
+                var bounds = new L.LatLngBounds(toFind.pos, guessPos);
+                map.current.fitBounds(bounds);
+            }
+        } 
+    }, [gameContext.isPlaying])
+    
 
     function guess() {
         if (guessPos === null) return;
@@ -80,168 +89,6 @@ export default function Map({toFind, isMobile}: FuncProps) {
             changeLocation(toFind.map);
         }        
     }
-
-    function backOneLevel() {
-        if (currentMap.hasOwnProperty("region")) changeLocation((currentMap as Zone).region);
-        else changeLocation(TheSource);
-    }
-
-    function guessTooltip() {
-        if (currentMap === TheSource) return "Pick a region";
-        if (!currentMap.hasOwnProperty("region")) return "Pick a zone";
-        if (guessPos === null) return "Place your pin on the map";
-        return "Guess"
-    }
-
-    function GuessMarker() {
-        useMapEvents({
-            click(e) {
-                console.log((Math.round(e.latlng.lat * 1000)/1000) + ", " + (Math.round(e.latlng.lng * 1000)/1000))
-                if (!gameContext.isPlaying) return;
-                if (!currentMap.hasOwnProperty("region")) return; // Don't place marker if in region mode
-                if ((e.originalEvent.target as Element)!.classList.contains("leaflet-container")) {
-                    
-                    setZonesMenuOpen(false);
-                    setRegionsMenuOpen(false);
-                    setGuessPos([e.latlng.lat, e.latlng.lng]);
-                }
-            },
-        });
-
-        return guessPos === null ? null : (
-            <Marker position={new LatLng(guessPos[0],guessPos[1])} icon={guessIcon}></Marker>
-        );
-    }
-
-    
-    function GuessButton() {
-        useMapEvents({
-            click(e) {
-                if (currentMap.hasOwnProperty("region")) return;
-                if (!(e.originalEvent.target as HTMLElement).classList.contains("leaflet-container")) return;
-                guessControls.set({ opacity: 0.3 })
-                guessControls.start({ opacity: 0 })
-            },
-        });
-
-        return gameContext.isPlaying ? (
-            <div onClick={() => guess()} className={`${guessPos == null ? "opacity-70" : "cursor-pointer"} guessBtn p-1.5 w-full group absolute bottom-0 right-0 z-10`}>
-                <div className={`border relative overflow-hidden ${guessPos === null ? "disabled border-x-zinc-600 border-y-zinc-500 text-zinc-300" : "border-x-[#c0a270] border-y-[#e0c290] text-yellow-100"} text-sm py-1.5 tracking-wide px-8 font-semibold shadow-md shadow-[rgba(0,0,0,0.75)] rounded-full text-center ffxivBtn`}>
-                    <span>{guessTooltip()}</span>
-                    <motion.div animate={guessControls} className="absolute top-0 left-0 w-full h-full bg-white opacity-0"></motion.div>
-                </div>
-            </div>
-        ) : null
-    }
-
-    function MapControl() {
-        map.current = useMap();
-
-        // GEOJSON CREATOR
-        /* (map as any).pm.addControls({  
-            position: 'topleft',  
-            drawCircle: false,  
-          }); 
-
-        map.on('pm:create', function(e) {
-            var latlngs = e.layer.getLatLngs();
-            var polygon : any[] = [];
-            latlngs[0].map((latlng: any) => {
-                polygon.push([latlng.lng, latlng.lat]);
-            })
-            console.log(JSON.stringify(polygon))
-        }); */
-        // GEOJSON CREATOR
-        
-
-        if (!(map.current as any).areaPolygonsLoaded) {
-            var polygonsData = {"type":"FeatureCollection","features":
-                currentMap.markers.filter(marker => marker.hasOwnProperty("geojson")).map((marker, index) => {
-                    var type = (marker.geojson?.polygons.length === 1 ? "Polygon" : "MultiPolygon");
-                    var coordinates = (type === "Polygon" ? marker.geojson!.polygons[0] : marker.geojson?.polygons);
-                    return {
-                        "type":"Feature","id": index,"properties":{"name":marker.target.name},"geometry":{"type": type,"coordinates":[coordinates]}
-                    }
-                })
-            };
-
-            var hitboxData = {"type":"FeatureCollection","features":
-                currentMap.markers.filter(marker => marker.hasOwnProperty("geojson")).map((marker, index) => {
-                    var type = (marker.geojson?.hitbox?.length === 1 ? "Polygon" : "MultiPolygon");
-                    var coordinates = (type === "Polygon" ? marker.geojson!.hitbox![0] : marker.geojson?.hitbox!);
-                    return {
-                        "type":"Feature","id": index,"properties":{"target":marker.target.name},"geometry":{"type": type,"coordinates":[coordinates]}
-                    }
-                })
-            };
-
-            geojson.current = L.geoJson(polygonsData as any, {style: {fillOpacity: 0, fillColor: 'white', color: undefined}}).addTo(map.current);
-            L.geoJson(hitboxData as any, {style: {fillOpacity: 0, color: undefined}, onEachFeature: onEachFeature}).addTo(map.current);
-
-            (map.current as any).areaPolygonsLoaded = true;
-        }
-        
-
-        return null;
-    }
-
-    function highlightFeature(e : any) {
-        var thisLayer = e.target;
-        for (var key of Object.keys((map.current as any)._layers)) {
-            var layer = (map.current as any)._layers[key];
-            if (layer.hasOwnProperty("feature") && layer.feature.properties.name === thisLayer.feature.properties.target) layer.setStyle({fillOpacity: 0.15});
-        }
-/* 
-        var layer = e.target;
-    
-        layer.setStyle({
-            fillOpacity: 0.15
-        }); */
-
-        Array.from(document.getElementsByClassName("leaflet-tooltip")).forEach(tooltip => {
-            if (tooltip.innerHTML === thisLayer.feature.properties.target) (tooltip as HTMLElement).classList.add("tooltipHighlight");
-        })
-    }
-
-    function resetHighlight(e : any) {
-        var thisLayer = e.target;
-        for (var key of Object.keys((map.current as any)._layers)) {
-            var layer = (map.current as any)._layers[key];
-            if (layer.hasOwnProperty("feature") && layer.feature.properties.name === thisLayer.feature.properties.target) geojson.current!.resetStyle(layer);
-        }
-
-        Array.from(document.getElementsByClassName("leaflet-tooltip")).forEach(tooltip => {
-            if (tooltip.innerHTML === e.target.feature.properties.target) (tooltip as HTMLElement).classList.remove("tooltipHighlight");
-        })
-    }
-
-    function onEachFeature(feature : any, layer : any) {
-        layer.on({
-            mouseover: highlightFeature,
-            mouseout: resetHighlight,
-            click: () => {
-                Array.from(document.getElementsByClassName("leaflet-tooltip")).forEach(tooltip => {
-                    if (tooltip.innerHTML === feature.properties.target) (tooltip as HTMLElement).click();
-                })
-            }
-        });
-    }
-
-
-    useEffect(() => {
-        if (map.current === null) return;
-
-        if (!gameContext.isPlaying) {
-            if (guessPos === null) {
-                map.current.setZoom(1, {animate: false});
-            }
-            else {
-                var bounds = new L.LatLngBounds(toFind.pos, guessPos);
-                map.current.fitBounds(bounds);
-            }
-        } 
-    }, [gameContext.isPlaying])
-
 
     function PreloadMaps() {
         return (
@@ -313,119 +160,25 @@ export default function Map({toFind, isMobile}: FuncProps) {
                     bounds={currentMap.name === "The Source" ? Bounds.THESOURCE : Bounds.OVERLAY}
                     url={getMapUrl(currentMap)}
                 />
-                <MapControl />
-                <GuessMarker />
+                <MapSetup map={map} currentMap={currentMap} geojson={geojson}></MapSetup>
+                <GuessMarker currentMap={currentMap} setRegionsMenuOpen={setRegionsMenuOpen} setZonesMenuOpen={setZonesMenuOpen} guessPos={guessPos} setGuessPos={setGuessPos}></GuessMarker>
                 <LineToAnswer />
                 <AnswerMarker />
 
                 {currentMap.markers.map((marker, index) => {
                     var isExit = (currentMap === TheSource ? false : (getRegion(currentMap) !== getRegion(marker.target)))
-
                     return (
-                        <Marker
-                            key={"key" + marker.target.name + index}
-                            position={[marker.latLng[0], marker.latLng[1]]}
-                            opacity={0}
-                        >
-                            <Tooltip
-                                eventHandlers={{
-                                    click: () => {
-                                        changeLocation(marker.target);
-                                    },
-                                    mouseover: (e) => {
-                                        for (var key of Object.keys((map.current as any)._layers)) {
-                                            var layer = (map.current as any)._layers[key];
-                                            if (layer.hasOwnProperty("feature") && layer.feature.properties.name === marker.target.name) layer.setStyle({fillOpacity: 0.15});
-                                        }
-                                    },
-                                    mouseout: (e) => {
-                                        for (var key of Object.keys((map.current as any)._layers)) {
-                                            var layer = (map.current as any)._layers[key];
-                                            if (layer.hasOwnProperty("feature") && layer.feature.properties.name === marker.target.name) geojson.current!.resetStyle(layer);
-                                        }
-                                    }
-                                }}
-                                permanent
-                                direction="top"
-                                offset={new Point(-16, 38)}
-                                interactive={true}
-                                className={`p-[2px] ${isExit ? " tooltipRegion text-[rgb(245,215,120)] shadow-yellow-900/80" : "text-cyan-200 shadow-black"} tracking-wide text-shadow-sm text-base font-myriad-cond bg-transparent shadow-none border-none before:border-none`}
-                            >
-                                {marker.target.name}
-                            </Tooltip>
-                        </Marker>
-                    );
+                        <LocationMarker map={map} key={"key" + marker.target.name + index} marker={marker} isExit={isExit} geojson={geojson} changeLocation={changeLocation}></LocationMarker>
+                    )
                 })}
                 
                 <Control prepend={true} position="topleft">
-                    <div className="z-10 pointer-events-none absolute w-9/12 -left-5 -top-2 h-20 flex opacity-50 shadow-[-40px_4px_8px_#000] blur-sm">
-                        <div className="h-full bg-black grow"></div>
-                        <div className="h-full w-2/12 bg-gradient-to-r from-black to-transparent"></div>
-                    </div>
-                    <div className="absolute left-6 top-2 text-yellow-50 z-20">
-                        <div className="relative flex">
-                            <div onClick={() => { if (gameContext.isPlaying) {setRegionsMenuOpen(!regionsMenuOpen); setZonesMenuOpen(false)}}} className="dropdownMenu cursor-pointer">
-                                <div className="h-5 w-5 select-none text-gray-300 text-base font-bold ffxivBtn rounded-full text-center shadow-[0px_1px_5px_rgba(0,0,0,0.7)] inline-flex justify-center items-center">
-                                    <span className={`${regionsMenuOpen ? "rotate-90" : ""}`}>&#62;</span>
-                                </div>
-                                <div className="ml-2 text-sm text-shadow shadow-amber-300/50 inline-flex justify-center items-center"><span>{getRegion(currentMap)?.name}</span></div>
-                            </div>
-                            {regionsMenuOpen && (
-                                <div className="absolute z-20 px-1 py-2 top-5 left-6 bg-[#4a4a4a] rounded flex flex-col gap-1 border border-x-2 border-y-neutral-500 border-x-neutral-600">
-                                    {TheSource.markers.map((marker) => {
-                                        return (
-                                            <div onClick={() => {changeLocation(marker.target) }} className="hover:bg-gradient-to-r hover:from-orange-300/30 hover:to-transparent px-2 rounded-full cursor-pointer whitespace-nowrap text-amber-100 text-shadow-[0px_1px_1px_rgba(0,0,0,0.85)] text-sm" key={marker.target.name}>{marker.target.name}</div>
-                                        )
-                                    })}
-                                </div>
-                            )}
-                        </div>
-                        <div className="relative flex mt-3">
-                            <div onClick={() => { if (gameContext.isPlaying) {setZonesMenuOpen(!zonesMenuOpen); setRegionsMenuOpen(false)}}} className={`${currentMap.name !== "The Source" ? "cursor-pointer" : null} dropdownMenu`}>
-                                <div className="overflow-hidden relative h-5 w-5 select-none text-gray-300 text-base font-bold ffxivBtn rounded-full text-center shadow-[0px_1px_5px_rgba(0,0,0,0.7)] inline-flex justify-center items-center">
-                                    <span className={`${zonesMenuOpen && currentMap.name !== "The Source" ? "rotate-90" : ""}`}>&#62;</span>
-                                    <div className={`${currentMap.name !== "The Source" ? "hidden" : null} h-full w-full z-10 absolute top-0 left-0 bg-slate-900/80`}></div>
-                                </div>
-                                <div className={`ml-2 text-sm text-shadow shadow-amber-300/50 inline-flex justify-center items-center`}><span>{isRegion(currentMap) ? "--" : (currentMap.name === "The Source" ? "" : currentMap.name)}</span></div>
-                            </div>
-                            {zonesMenuOpen && getRegion(currentMap) !== undefined ? (
-                                <div className="absolute z-20 px-1 py-2 top-5 left-6 bg-[#4a4a4a] rounded flex flex-col gap-1 border border-x-2 border-y-neutral-500 border-x-neutral-600">
-                                    {getRegion(currentMap).markers.map((zone) => {
-                                        return (
-                                            <div onClick={() => {changeLocation(zone.target) }} className="hover:bg-gradient-to-r hover:from-orange-300/30 hover:to-transparent px-2 rounded-full cursor-pointer whitespace-nowrap text-amber-100 text-shadow-[0px_1px_1px_rgba(0,0,0,0.85)] text-sm" key={zone.target.name}>{zone.target.name}</div>
-                                        )
-                                    })}
-                                </div>
-                            ) : null}
-                        </div>
-                    </div>
-                    
-                    <div className="absolute top-0 -left-2 z-10">
-                        <div onClick={() => changeLocation(TheSource)} className=" cursor-pointer p-0.5">
-                            <div className="rounded shadow w-5 h-5 shadow-black bg-gradient-to-tr from-[#513b1e] via-[#b49665] to-[#513b1e] hover:from-[#665033] hover:via-[#c9b17a] hover:to-[#665033] flex center-items">
-                                <div className="w-3 h-2.5 shadow-sm shadow-yellow-200 border border-black m-auto"></div>
-                            </div>
-                        </div>
-                        <div onClick={() => backOneLevel()} className=" cursor-pointer p-0.5">
-                            <div className="flex justify-center items-center rounded shadow w-5 h-5 shadow-black bg-gradient-to-tr from-[#513b1e] via-[#b49665] to-[#513b1e] hover:from-[#665033] hover:via-[#c9b17a] hover:to-[#665033] flex center-items">
-                                <i className="text-slate-900 fa-solid fa-up-long text-shadow shadow-yellow-200/40  text-[0.8rem]"></i>
-                            </div>
-                        </div>
-                        <div onClick={() => map.current?.zoomIn()} className=" cursor-pointer p-0.5">
-                            <div className="flex justify-center items-center rounded shadow w-5 h-5 shadow-black bg-gradient-to-tr from-[#513b1e] via-[#b49665] to-[#513b1e] hover:from-[#665033] hover:via-[#c9b17a] hover:to-[#665033] flex center-items">
-                                <i className="text-slate-900 fa-solid fa-plus text-shadow shadow-yellow-200/40  text-[1rem]"></i>
-                            </div>
-                        </div>
-                        <div onClick={() => map.current?.zoomOut()} className=" cursor-pointer p-0.5">
-                            <div className="flex justify-center items-center rounded shadow w-5 h-5 shadow-black bg-gradient-to-tr from-[#513b1e] via-[#b49665] to-[#513b1e] hover:from-[#665033] hover:via-[#c9b17a] hover:to-[#665033] flex center-items">
-                                <i className="text-slate-900 fa-solid fa-minus text-shadow shadow-yellow-200/40  text-[1rem]"></i>
-                            </div>
-                        </div>
-                    </div> 
+                    <MapMenu currentMap={currentMap} TheSource={TheSource} changeLocation={changeLocation} setRegionsMenuOpen={setRegionsMenuOpen} setZonesMenuOpen={setZonesMenuOpen} regionsMenuOpen={regionsMenuOpen} zonesMenuOpen={zonesMenuOpen}></MapMenu>
+                    <MapControl currentMap={currentMap} map={map} changeLocation={changeLocation} TheSource={TheSource}></MapControl>
                 </Control>
 
                 <Control prepend={true} position="bottomright">
-                    <GuessButton></GuessButton>
+                    <GuessButton currentMap={currentMap} TheSource={TheSource} guessPos={guessPos} guess={guess}></GuessButton>
                 </Control>
 
             </MapContainer>
