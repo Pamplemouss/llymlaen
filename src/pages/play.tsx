@@ -223,16 +223,16 @@ export default function Play() {
                                         </motion.div>
                                     </UserAgent>
                                     <UserAgent mobile>
-                                        <div onClick={() => setDisplayMap(!displayMap)} className="pointer-events-auto cursor-pointer shadow-lg shadow-black/70 absolute bottom-0 right-4 p-4 bg-emerald-500 rounded-full text-4xl text-slate-200">
+                                        <div onClick={() => setDisplayMap(!displayMap)} className="pointer-events-auto cursor-pointer shadow-lg shadow-black/70 fixed bottom-4 right-4 p-4 bg-emerald-500 rounded-full text-4xl text-slate-200">
                                             <i className="fa-regular fa-map"></i>
                                         </div>
-                                        <div className="absolute bottom-0 left-4 p-4 text-3xl text-slate-300 opacity-50">
+                                        <div className="fixed bottom-4 left-4 p-4 text-3xl text-slate-300 opacity-50">
                                             <i className="text-shadow shadow-black fa-solid fa-arrows-up-down-left-right"></i>
                                         </div>
                                         <motion.div
                                             initial= {{ y: "110%" }}
                                             animate={displayMap ? { y: 0 } : { y: "110%"}}
-                                            className="w-11/12 pointer-events-auto aspect-square origin-bottom-right overflow-hidden shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-xl">
+                                            className="fixed bottom-4 w-11/12 pointer-events-auto aspect-square origin-bottom-right overflow-hidden shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-xl">
                                             {toFind === null ? null :
                                                 <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={true} isEdge={isEdge} is4k={is4k} mapLevel={1}></Map>
                                             }

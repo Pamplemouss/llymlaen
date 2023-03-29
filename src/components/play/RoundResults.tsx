@@ -1,6 +1,6 @@
 import { animate, motion, useMotionValue } from "framer-motion";
 import { UserAgent } from '@quentin-sommer/react-useragent'
-import { useContext, useEffect, useState, MutableRefObject } from "react";
+import { useContext, useEffect, useState } from "react";
 import GameContext from "../GameContext";
 import ScoreTooltip from "./ScoreTooltip";
 
@@ -31,16 +31,14 @@ export default function RoundResults() {
             var x;
             if (isMobile) x = "10px"
             else x = "-100%"
-
-            console.log(isMobile)
         
             return (
                 <motion.div
-                    initial={{ x: x, y: isMobile ? "-100%" : "-50%", opacity: 0, scale: isMobile ? 1.2 : 2 }}
-                    animate={{ x: x, y: isMobile ? "-100%" : "-50%", opacity: 1, scale: 1 }}
-                    exit={{ x: x, y: isMobile ? "-100%" : "-50%", opacity: 0, scale: 0, transition: {delay: 0, duration: 0.3} }}
+                    initial={{ x: x, y: isMobile ? 0 : "-50%", opacity: 0, scale: isMobile ? 1.2 : 2 }}
+                    animate={{ x: x, y: isMobile ? 0 : "-50%", opacity: 1, scale: 1 }}
+                    exit={{ x: x, y: isMobile ? 0 : "-50%", opacity: 0, scale: 0, transition: {delay: 0, duration: 0.3} }}
                     transition={{  duration: 0.3, delay: 0.7 }}
-                    className={`${isMobile ? "-top-2 left-0 w-[calc(100vw-20px)] " : "-left-4 top-1/2 w-[25rem] xl:w-[32rem] 4k:w-[60rem]"} absolute z-40 pointer-events-auto py-4 lg:py-8 m-auto flex flex-col rounded-xl border-2 border-x-[#c0a270] border-y-[#e0c290] shadow-[0px_0px_30px_black,0px_0px_30px_black]`}>
+                    className={`${isMobile ? "top-20 left-0 w-[calc(100vw-20px)] fixed" : "-left-4 top-1/2 w-[25rem] xl:w-[32rem] 4k:w-[60rem] absolute"} z-40 pointer-events-auto py-4 lg:py-8 m-auto flex flex-col rounded-xl border-2 border-x-[#c0a270] border-y-[#e0c290] shadow-[0px_0px_30px_black,0px_0px_30px_black]`}>
                     
                     <ScoreTooltip isMobile={isMobile}></ScoreTooltip>
 
