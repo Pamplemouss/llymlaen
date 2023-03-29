@@ -4,10 +4,8 @@ import { useContext, useEffect, useState, MutableRefObject } from "react";
 import GameContext from "../GameContext";
 import ScoreTooltip from "./ScoreTooltip";
 
-interface Props {
-    is4k: MutableRefObject<boolean>
-}
-export default function RoundResults({is4k} : Props) {
+
+export default function RoundResults() {
     const gameContext = useContext(GameContext);
     const [scoreHUD, setScoreHUD] = useState<number | null>(null);
     const x = useMotionValue(0);
@@ -31,17 +29,18 @@ export default function RoundResults({is4k} : Props) {
         {(parser : any) => {
             var isMobile = parser.getDevice().type == "mobile";
             var x;
-            if (isMobile) x = "10xp"
-            else if (is4k.current) x = "-60rem" 
-            else x = "-30rem"
+            if (isMobile) x = "10px"
+            else x = "-100%"
+
+            console.log(isMobile)
         
             return (
                 <motion.div
-                    initial={{ x: x, y: isMobile ? "-100%" : 0, opacity: 0, scale: isMobile ? 1.2 : 2 }}
-                    animate={{ x: x, y: isMobile ? "-100%" : 0, opacity: 1, scale: 1 }}
-                    exit={{ x: x, y: isMobile ? "-100%" : 0, opacity: 0, scale: 0, transition: {delay: 0, duration: 0.3} }}
+                    initial={{ x: x, y: isMobile ? "-100%" : "-50%", opacity: 0, scale: isMobile ? 1.2 : 2 }}
+                    animate={{ x: x, y: isMobile ? "-100%" : "-50%", opacity: 1, scale: 1 }}
+                    exit={{ x: x, y: isMobile ? "-100%" : "-50%", opacity: 0, scale: 0, transition: {delay: 0, duration: 0.3} }}
                     transition={{  duration: 0.3, delay: 0.7 }}
-                    className={`${isMobile ? "absolute -top-4 left-0 w-[calc(100vw-20px)]" : "relative mr-8 4k:mr-12 w-[20rem] lg:w-[30rem] xl:w-[45rem] 4k:w-[60rem]"} z-40 pointer-events-auto py-4 lg:py-8 m-auto flex flex-col rounded-xl border-2 border-x-[#c0a270] border-y-[#e0c290] shadow-[0px_0px_30px_black,0px_0px_30px_black]`}>
+                    className={`${isMobile ? "-top-2 left-0 w-[calc(100vw-20px)] " : "-left-4 top-1/2 w-[25rem] xl:w-[32rem] 4k:w-[60rem]"} absolute z-40 pointer-events-auto py-4 lg:py-8 m-auto flex flex-col rounded-xl border-2 border-x-[#c0a270] border-y-[#e0c290] shadow-[0px_0px_30px_black,0px_0px_30px_black]`}>
                     
                     <ScoreTooltip isMobile={isMobile}></ScoreTooltip>
 

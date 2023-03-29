@@ -26,9 +26,10 @@ interface FuncProps {
     isMobile: boolean,
     isEdge: MutableRefObject<boolean>,
     is4k: MutableRefObject<boolean>,
+    mapLevel?: number
 }
 
-export default function Map({toFind, isMobile, isEdge, is4k}: FuncProps) {
+export default function Map({toFind, isMobile, isEdge, is4k, mapLevel}: FuncProps) {
     const gameContext = useContext(GameContext);
     const blurControls = useAnimation();
     const Bounds = {
@@ -64,6 +65,12 @@ export default function Map({toFind, isMobile, isEdge, is4k}: FuncProps) {
             }
         } 
     }, [gameContext.isPlaying])
+
+    useEffect(() => {
+        setTimeout(() => {
+            map.current?.invalidateSize({pan: false});
+        }, 200);
+    }, [mapLevel])
     
 
     function guess() {
@@ -116,12 +123,28 @@ export default function Map({toFind, isMobile, isEdge, is4k}: FuncProps) {
 
     function getZoom() {
         var zoom;
-         if (currentMap.name === "The Source" && is4k.current) zoom = 1          // world map + 4k
-         else if (currentMap.name === "The Source") zoom = 0.1                   // world map
-         else if (currentMap.name !== "The Source" && is4k.current) zoom = 2.2   // map + 4k
-         else zoom = 1.1                                                         // map
+        
 
-         return zoom
+        if (mapLevel === 1) {
+            if (currentMap.name === "The Source" && is4k.current) zoom = 1          // world map + 4k
+            else if (currentMap.name === "The Source") zoom = 0.1                   // world map
+            else if (currentMap.name !== "The Source" && is4k.current) zoom = 2.2   // map + 4k
+            else zoom = 1.1                                                         // map
+        }
+        else if (mapLevel === 2) {
+            if (currentMap.name === "The Source" && is4k.current) zoom = 1.5        // world map + 4k
+            else if (currentMap.name === "The Source") zoom = 0.5                   // world map
+            else if (currentMap.name !== "The Source" && is4k.current) zoom = 2.2   // map + 4k
+            else zoom = 1.2                                                         // map
+        }
+        else if (mapLevel === 3) {
+            if (currentMap.name === "The Source" && is4k.current) zoom = 1.8        // world map + 4k
+            else if (currentMap.name === "The Source") zoom = 0.8                   // world map
+            else if (currentMap.name !== "The Source" && is4k.current) zoom = 2.5   // map + 4k
+            else zoom = 1.4                                                         // map
+        }
+
+        return zoom
     }
 
     async function changeLocation(target: FFMap) {
@@ -152,7 +175,7 @@ export default function Map({toFind, isMobile, isEdge, is4k}: FuncProps) {
     //const theSourceCenter : LatLngExpression = [(Bounds.THESOURCE as Array<Array<number>>)[0][0] - (Bounds.OVERLAY as Array<Array<number>>)[0][0], (Bounds.THESOURCE as Array<Array<number>>)[0][1] - (Bounds.OVERLAY as Array<Array<number>>)[0][1]];    
 
     return (
-        <div className={`relative h-full w-full ${isMobile ? "mobile" : ""}`}>
+        <div className={`overflow-hidden rounded-b-xl rounded-tr-xl relative h-full w-full ${isMobile ? "mobile" : ""}`}>
             <MapContainer
                 center={currentMap.name === "The Source" ? [0,0] : [0,0]}
                 zoomSnap={0.1}
@@ -166,7 +189,6 @@ export default function Map({toFind, isMobile, isEdge, is4k}: FuncProps) {
                 scrollWheelZoom={true}
                 doubleClickZoom={false}
                 key={currentMap.name + (currentMap.hasOwnProperty("region") ? "Z" : null)}
-
             >
                 <ImageOverlay
                     bounds={currentMap.name === "The Source" ? Bounds.THESOURCE : Bounds.OVERLAY}

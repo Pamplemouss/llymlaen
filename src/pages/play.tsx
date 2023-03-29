@@ -34,7 +34,7 @@ export default function Play() {
         dist: 70,
         total: 100,
         distMax: 110,
-        maxRounds: 2,
+        maxRounds: 5,
     }
     
     // Start up setup
@@ -157,6 +157,8 @@ export default function Play() {
         )
     }
 
+    const [mapLevel, setMapLevel] = useState<number>(1)
+
     const mapVariants = {
         idle: { scale: 0.5, opacity: 0.5, transition: { duration: 0.2, delay: 0.5, type: "linear" } },
         hover: { scale: 1, opacity: 1, transition: { duration: 0.2, delay:0, type: "linear" } }
@@ -188,12 +190,12 @@ export default function Play() {
                                 {/* PHOTOSPHERE */}
                                 <div id="viewer" className="w-full h-full"></div>
 
-                                <div className="pointer-events-none md:pointer-events-auto w-full justify-center md:w-auto md:h-[30rem] 4k:h-[60rem] absolute bottom-6 md:bottom-6 md:right-8 flex">
+                                <div className={`map ${"level" + mapLevel} ${is4k.current ? "res4k" : ""} w-full md:max-w-[55%] pointer-events-none md:pointer-events-auto justify-center absolute bottom-6 md:bottom-6 md:right-8 flex`}>
 
                                     {/* RESULTS */}
                                     <AnimatePresence>
                                     { !isPlaying ? (
-                                        <RoundResults is4k={is4k}></RoundResults>
+                                        <RoundResults></RoundResults>
                                     ) : null }
                                     </AnimatePresence>
                                     
@@ -204,10 +206,20 @@ export default function Play() {
                                             variants={mapVariants}
                                             animate={toFind === null || isPlaying ? "idle" : "hover"}
                                             whileHover={"hover"}
-                                            className="absolute bottom-0 right-0 w-[30rem] h-[30rem] 4k:w-[60rem] 4k:h-[60rem] origin-bottom-right overflow-hidden shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-xl">
+                                            className={`map ${"level" + mapLevel} ${is4k.current ? "res4k" : ""} absolute bottom-0 right-0 origin-bottom-right shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-b-xl rounded-tr-xl`}
+                                        >
+                                            <div className="hidden lg:flex absolute -top-0.5 -left-0.5 bg-slate-800/50 -translate-y-full p-2 gap-2 4k:gap-4 4k:p-4 rounded-t-lg text-sm 4k:text-3xl">
+                                                <div onClick={() => setMapLevel(Math.min(mapLevel + 1, 3))} className={`${ mapLevel === 3 ? "opacity-40" : ""} bg-slate-200 text-slate-800 cursor-pointer w-6 4k:w-12 aspect-square rounded-full flex items-center justify-center -rotate-45`}>
+                                                    <i className="fa-solid fa-up-long"></i>
+                                                </div>
+                                                <div onClick={() => setMapLevel(Math.max(mapLevel - 1, 1))} className={`${ mapLevel === 1 ? "opacity-40" : ""} bg-slate-200 text-slate-800 cursor-pointer w-6 4k:w-12 aspect-square rounded-full flex items-center justify-center rotate-[135deg]`}>
+                                                    <i className="fa-solid fa-up-long"></i>
+                                                </div>
+                                            </div>
                                             {toFind === null ? null :
-                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={false} isEdge={isEdge} is4k={is4k}></Map>
+                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={false} isEdge={isEdge} is4k={is4k} mapLevel={mapLevel}></Map>
                                             }
+
                                         </motion.div>
                                     </UserAgent>
                                     <UserAgent mobile>
@@ -218,10 +230,11 @@ export default function Play() {
                                             <i className="text-shadow shadow-black fa-solid fa-arrows-up-down-left-right"></i>
                                         </div>
                                         <motion.div
+                                            initial= {{ y: "110%" }}
                                             animate={displayMap ? { y: 0 } : { y: "110%"}}
                                             className="w-11/12 pointer-events-auto aspect-square origin-bottom-right overflow-hidden shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-xl">
                                             {toFind === null ? null :
-                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={true} isEdge={isEdge} is4k={is4k}></Map>
+                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={true} isEdge={isEdge} is4k={is4k} mapLevel={1}></Map>
                                             }
                                             <div onClick={() => setDisplayMap(!displayMap)} className="z-10 cursor-pointer w-10 h-10 absolute top-2 right-2 p-2 text-slate-200 bg-slate-800 rounded-full text-2xl flex justify-center items-center shadow shadow-black/70">
                                                 <i className="fa-solid fa-xmark"></i>

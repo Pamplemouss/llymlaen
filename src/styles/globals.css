@@ -207,3 +207,42 @@
 .psv-navbar {
     display: none;
 }
+
+
+
+@media only screen and (min-width: 600px) {
+    .map {
+        transition-property: width, height;
+        transition-duration: 0.2s;
+    }
+    
+    .map.level1 {
+        width: 30rem;
+        height: 30rem;
+    }
+    
+    .map.level2 {
+        width: 45rem;
+        height: 35rem;
+    }
+    
+    .map.level3 {
+        width: 55rem;
+        height: 40rem;
+    }
+    
+    .map.level1.res4k {
+        width: 60rem;
+        height: 60rem;
+    }
+    
+    .map.level2.res4k {
+        width: 90rem;
+        height: 70rem;
+    }
+    
+    .map.level3.res4k {
+        width: 110rem;
+        height: 80rem;
+    }
+  }
