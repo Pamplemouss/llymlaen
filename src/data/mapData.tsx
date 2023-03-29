@@ -26,8 +26,8 @@ const Thanalan : Map = {
     markers: []
 }
 
-const TheBlackShrouds : Map = {
-    name: "The Black Shrouds",
+const TheBlackShroud : Map = {
+    name: "The Black Shroud",
     markers: []
 }
 
@@ -52,43 +52,43 @@ const MorDhona : Map = {
 // THE BLACK SHROUDS
 const OldGridania : Zone = {
     name: "Old Gridania",
-    region: TheBlackShrouds,
+    region: TheBlackShroud,
     markers: [],
 }
 
 const NewGridania : Zone = {
     name: "New Gridania",
-    region: TheBlackShrouds,
+    region: TheBlackShroud,
     markers: [],
 }
 
 const CentralShroud : Zone = {
     name: "Central Shroud",
-    region: TheBlackShrouds,
+    region: TheBlackShroud,
     markers: [],
 }
 
 const NorthShroud : Zone = {
     name: "North Shroud",
-    region: TheBlackShrouds,
+    region: TheBlackShroud,
     markers: [],
 }
 
 const SouthShroud : Zone = {
     name: "South Shroud",
-    region: TheBlackShrouds,
+    region: TheBlackShroud,
     markers: [],
 }
 
 const EastShroud : Zone = {
     name: "East Shroud",
-    region: TheBlackShrouds,
+    region: TheBlackShroud,
     markers: [],
 }
 
 /* const TheLavenderBeds : Zone = {
     name: "The Lavender Beds",
-    region: TheBlackShrouds,
+    region: TheBlackShroud,
     markers: [],
 } */
 
@@ -200,7 +200,7 @@ const MorDhonaZ : Zone = {
 
 // Add markers to regions and zones
 // THE BLACK SHROUDS
-TheBlackShrouds.markers.push(
+TheBlackShroud.markers.push(
     {target: NewGridania, latLng: [28.0625, -19.4375], geojson: { 
         polygons: [[[-14.96875,30.03125],[-14.8125,28.65625],[-14.21875,27.3125],[-13,27.15625],[-12.75,28.0625],[-10.96875,29.28125],[-9.46875,29.625],[-8.96875,28.46875],[-10.21875,28.09375],[-10.9375,26.5],[-14.3125,26.6875],[-15.09375,27.03125],[-15.5625,25.75],[-12.46875,23.5625],[-13.15625,22.875],[-14.53125,23.53125],[-16.34375,24.78125],[-17.09375,24.71875],[-18.75,23.75],[-19.71875,23.875],[-20.0625,25.65625],[-21.28125,27.5],[-21.84375,27.53125],[-22.03125,26.8125],[-23.1875,26.96875],[-23.65625,28.1875],[-23.9375,28.65625],[-23.34375,30.78125],[-22.71875,31.25],[-21.6875,31.53125],[-19.96875,31.25],[-19.0625,31.40625],[-18.25,33.3125],[-17.65625,33.28125],[-15.90625,29.96875]]],
         hitbox: [[[-28.401712127536047,26.116516898883724],[-23.94014049064341,22.634314645699227],[-15.452272498506202,20.457938237458915],[-9.576056196257365,21.11085115993101],[-5.876216302248838,24.91950987435155],[-7.182042147193023,30.79572617660039],[-9.793693837081396,31.99273320113256],[-14.96875,30.03125],[-18.25,33.3125],[-19.96875,31.25],[-23.34375,30.78125]]]
@@ -305,7 +305,7 @@ Thanalan.markers.push(
     }},
     {target: LaNoscea, latLng: [-2.441, -86.87]},
     {target: MorDhona, latLng: [80.526, 1.088]},
-    {target: TheBlackShrouds, latLng: [51.55, 75.109]},
+    {target: TheBlackShroud, latLng: [51.55, 75.109]},
 );
 
 UldahStepsOfNald.markers.push(
@@ -436,7 +436,7 @@ Coerthas.markers.push(
         hitbox: [[[5.223303379776745,-58.76216302248837],[13.058258449441862,-67.25003101462559],[33.31225229491401,-73.66028201418486],[51.4042513861173,-67.48602835607579],[59.776072091753804,-66.7862612118644],[69.8176943448852,-66.217867499423],[78.82942461167151,-61.886123875465245],[86.29596391915223,-49.82479114799638],[86.87031309665075,-32.01996664554234],[85.72161474165372,-19.815046623698848],[81.12682132166557,-3.015333181867216],[74.95256766355652,1.4358729437462934],[63.03482223046228,1.1486983549970347],[51.97860056361582,-0.28717458874925866],[46.809457966129166,-5.887079069359803],[41.11381186659454,-8.715370257434786],[36.28646754625458,-9.813840086373398],[23.398874495504263,-9.662693111503785],[14.115110525628078,-8.715370257434786],[4.926078841158792,-11.936267961269381],[-4.061261981781176,-24.57063498977612],[-4.264325080870235,-37.363610232386826],[0.8122523963562354,-48.73514378137412]]]
     }},
     {target: MorDhona, latLng: [-85.287, 30.967]},
-    {target: TheBlackShrouds, latLng: [-77.062, 59.091]},
+    {target: TheBlackShroud, latLng: [-77.062, 59.091]},
 );
 
 CoerthasCentralHighlands.markers.push(
@@ -461,13 +461,13 @@ MorDhonaZ.markers.push(
 
 TheSource.markers.push(
     {target: LaNoscea, latLng: [-53.862, -181.286]},
-    {target: TheBlackShrouds, latLng: [-37.703, -117.562]},
+    {target: TheBlackShroud, latLng: [-37.703, -117.562]},
     {target: Thanalan, latLng: [-77.680, -144.018]},
     {target: Coerthas, latLng: [-27.311, -158.287]},
     {target: MorDhona, latLng: [-51.913, -142.524]},
 );
 
-//var MapData = [LaNoscea, TheBlackShrouds, Thanalan, Coerthas, MorDhona];
+//var MapData = [LaNoscea, TheBlackShroud, Thanalan, Coerthas, MorDhona];
 
 
 export default TheSource;

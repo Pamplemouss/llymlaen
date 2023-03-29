@@ -1,14 +1,14 @@
 import Head from 'next/head'
 import TopBar from '@/components/TopBar';
 
-export default function Home() {
+export default function Info() {
     var infoContent = (
         <span className="text-slate-300 text-lg font-myriad">
             Hi, I&apos;m <span className="text-emerald-400">Pamplemouss</span> and I&apos;m a french developer. I like to make music and video games. As a fan of Final Fantasy XIV, it was a matter of time until I created something around it. So here it is, Eorguessr!
             
             <div className="flex items-center gap-3 text-base text-yellow-200 bg-slate-700 p-2 shadow shadow-black/50 rounded mt-5">
                 <img className="inline-block" src="/info/gil.png"></img>
-                <span>Here is my <a className="duration-200 px-1 text-yellow-400 text-shadow shadow-yellow-900 hover:shadow-yellow-600 hover:underline" rel="noreferrer" href="https://ko-fi.com/pamplemouss" target="_blank">Kofi</a> if you have any extra gils to spend! I would be really appreciated.</span>
+                <span>Here is my <a className="duration-200 px-1 text-yellow-400 text-shadow shadow-yellow-900 hover:shadow-yellow-600 hover:underline" rel="noreferrer" href="https://ko-fi.com/pamplemouss" target="_blank">Ko-fi</a> if you have any extra gils to spend! It would be really appreciated.</span>
             </div>
             <div className="items-center xl:items-stretch flex-col xl:flex-row flex gap-6 my-5 justify-evenly">
                 <a href="https://na.finalfantasyxiv.com/lodestone/character/18356659/" target="_blank" rel="noreferrer" className="hover:bg-slate-600 duration-200 shadow shadow-black/50 py-1 px-3 rounded text-sm gap-2 bg-slate-700 flex items-center">
@@ -23,8 +23,8 @@ export default function Home() {
                     <span>Pamplemouss#7301</span>
                 </a>
             </div>
-            <div className="text-base text-slate-400 border-l-4 pl-4 border-slate-400 mt-10">
-                <span className="">Special thanks to:</span>
+            <div className="text-sm text-slate-400 border-l-4 pl-4 border-slate-400 mt-10">
+                <span>Special thanks to:</span>
                 <br></br>- Barathesh, for his tutorial on creating photospheres
                 <br></br>- SamHourai, being the first one to create a Geoguessr for FFXIV
                 <br></br>- Saffron, Damian Gray and Spensers for beta-testing
@@ -34,7 +34,7 @@ export default function Home() {
     return (
         <>
             <Head>
-                <title>FFXIV Geoguessr</title>
+                <title>Eorguessr</title>
                 <link key="favApple" rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"></link>
                 <link key="fav32" rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"></link>
                 <link key="fav16" rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"></link>
