@@ -1,3 +1,4 @@
-localhost
-
-file_server
+cdn.eorguessr.com {
+    root * /public
+    file_server
+}
