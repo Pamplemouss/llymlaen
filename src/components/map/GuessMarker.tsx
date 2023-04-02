@@ -4,8 +4,6 @@ import GameContext from "../GameContext";
 import { useMapEvents, Marker } from "react-leaflet";
 import { Icon, LatLng } from "leaflet";
 
-/* import '@geoman-io/leaflet-geoman-free';  
-import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css';   */
 
 interface Props {
     currentMap: FFMap,

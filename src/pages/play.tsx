@@ -190,7 +190,7 @@ export default function Play() {
                                 {/* PHOTOSPHERE */}
                                 <div id="viewer" className="w-full h-full"></div>
 
-                                <div className={`map ${"level" + mapLevel} ${is4k.current ? "res4k" : ""} w-full md:max-w-[55%] pointer-events-none md:pointer-events-auto justify-center absolute bottom-6 md:bottom-6 md:right-8 flex`}>
+                                <div className={`map ${"level" + mapLevel} ${is4k.current ? "res4k" : ""} w-full md:max-w-[55%] pointer-events-none justify-center absolute bottom-6 md:bottom-6 md:right-8 flex`}>
 
                                     {/* RESULTS */}
                                     <AnimatePresence>
@@ -206,7 +206,7 @@ export default function Play() {
                                             variants={mapVariants}
                                             animate={toFind === null || isPlaying ? "idle" : "hover"}
                                             whileHover={"hover"}
-                                            className={`map ${"level" + mapLevel} ${is4k.current ? "res4k" : ""} absolute bottom-0 right-0 origin-bottom-right shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-b-xl rounded-tr-xl`}
+                                            className={`map ${"level" + mapLevel} ${is4k.current ? "res4k" : ""} pointer-events-auto absolute bottom-0 right-0 origin-bottom-right shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-b-xl rounded-tr-xl`}
                                         >
                                             <div className="hidden lg:flex absolute -top-0.5 -left-0.5 bg-slate-800/50 -translate-y-full p-2 gap-2 4k:gap-4 4k:p-4 rounded-t-lg text-sm 4k:text-3xl">
                                                 <div onClick={() => setMapLevel(Math.min(mapLevel + 1, 3))} className={`${ mapLevel === 3 ? "opacity-40" : ""} bg-slate-200 text-slate-800 cursor-pointer w-6 4k:w-12 aspect-square rounded-full flex items-center justify-center -rotate-45`}>

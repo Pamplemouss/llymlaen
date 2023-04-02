@@ -16,7 +16,7 @@ export function toSnakeCase(name: string) {
 export function getMapUrl(map: Map, isEdge: boolean) {
     var format : string;
     isEdge ? format = ".webp" : format = ".avif"
-    return "maps/" + (map.hasOwnProperty("region") ? (map as Zone).region.name + "/" : "") + toSnakeCase(map.name) + format
+    return "maps/" + (map.hasOwnProperty("region") ? (map as Zone).region.name + "/" : "") + map.name + format
 }
 
 export function isRegion(map: Map) {

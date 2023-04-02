@@ -2,8 +2,6 @@ import L from "leaflet";
 import { MutableRefObject } from "react";
 import { Map as FFMap, Zone } from '@/data/mapData'
 
-/* import '@geoman-io/leaflet-geoman-free';  
-import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css';   */
 
 interface Props {
     currentMap: FFMap,

@@ -2,6 +2,7 @@ import { Point } from "leaflet";
 import { MutableRefObject } from "react";
 import { Marker, Tooltip } from "react-leaflet";
 
+
 interface Props {
     isExit: boolean,
     map: MutableRefObject<L.Map | null>,

@@ -4,8 +4,6 @@ import { motion, useAnimation } from "framer-motion";
 import GameContext from "@/components/GameContext";
 import { useContext } from "react";
 
-/* import '@geoman-io/leaflet-geoman-free';  
-import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css';   */
 
 interface Props {
     currentMap: FFMap,

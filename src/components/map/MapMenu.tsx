@@ -3,8 +3,6 @@ import { Map as FFMap } from '@/data/mapData'
 import GameContext from "../GameContext";
 import { getRegion, isRegion } from "@/Utilities";
 
-/* import '@geoman-io/leaflet-geoman-free';  
-import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css';   */
 
 interface Props {
     currentMap: FFMap,
@@ -54,9 +52,10 @@ export default function MapMenu({currentMap, TheSource, changeLocation, regionsM
                 {zonesMenuOpen && getRegion(currentMap) !== undefined ? (
                     <div className="absolute z-20 px-1 py-2 4k:px-3 4k:py-3 top-5 left-6 bg-[#4a4a4a] rounded flex flex-col gap-1 border border-x-2 border-y-neutral-500 border-x-neutral-600">
                         {getRegion(currentMap).markers.map((zone) => {
+                            if (getRegion(currentMap) === getRegion(zone.target)) {
                             return (
                                 <div onClick={() => {changeLocation(zone.target) }} className="hover:bg-gradient-to-r hover:from-orange-300/30 hover:to-transparent px-2 rounded-full cursor-pointer whitespace-nowrap text-amber-100 text-shadow-[0px_1px_1px_rgba(0,0,0,0.85)] text-sm 4k:text-2xl" key={zone.target.name}>{zone.target.name}</div>
-                            )
+                            )}
                         })}
                     </div>
                 ) : null}
