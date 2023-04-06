@@ -1,6 +1,6 @@
 import L from "leaflet";
 import { MutableRefObject } from "react";
-import { Map as FFMap, Zone } from '@/data/mapData'
+import { Map as FFMap, Zone } from '@/data/universe'
 
 
 interface Props {

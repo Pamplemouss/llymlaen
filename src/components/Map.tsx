@@ -9,10 +9,10 @@ import * as L from 'leaflet';
 import { MutableRefObject, useContext, useEffect, useRef, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import Control from 'react-leaflet-custom-control'
-import TheSource from '../data/mapData'
-import { Map as FFMap, Zone } from '../data/mapData'
+import Universe from '@/data/universe'
+import { Map as FFMap, Zone } from '../data/universe'
 import GameContext from '@/components/GameContext';
-import { invLerp, calculateDist, getMapUrl, getRegion } from '@/Utilities';
+import { invLerp, calculateDist } from '@/Utilities';
 import LocationMarker from "./map/LocationMarker";
 import MapSetup from "./map/MapSetup";
 import GuessButton from "./map/GuessButton";
@@ -38,7 +38,7 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel}: FuncProp
         OVERLAY: [[-110,-110], [110,110]] as LatLngBoundsExpression,
         THESOURCE: [[-110,-258], [110,258]] as LatLngBoundsExpression,
     }
-    const [currentMap, setCurrentMap] = useState<FFMap>(TheSource);
+    const [currentMap, setCurrentMap] = useState<FFMap>(Universe.TheSource);
     const [guessPos, setGuessPos] = useState<[number, number] | null>(null);
     const [polyline, setPolyline] = useState<LatLngExpression[] | null>(null);
     const [zonesMenuOpen, setZonesMenuOpen] = useState(false);
@@ -104,7 +104,7 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel}: FuncProp
         return (
             <div className="hidden relative">
                 {currentMap.markers.map((marker, index) => {
-                    return <img key={marker.target.name + "_preload"+index} src={"/"+ getMapUrl(marker.target, isEdge.current)} alt="Preload img"></img>
+                    return <img key={marker.target.name + "_preload"+index} src={"/"+ Universe.getMapUrl(marker.target, isEdge.current)} alt="Preload img"></img>
                 })}
             </div>
         )
@@ -193,7 +193,7 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel}: FuncProp
             >
                 <ImageOverlay
                     bounds={currentMap.name === "The Source" ? Bounds.THESOURCE : Bounds.OVERLAY}
-                    url={getMapUrl(currentMap, isEdge.current)}
+                    url={Universe.getMapUrl(currentMap, isEdge.current)}
                 />
                 <MapSetup map={map} currentMap={currentMap} geojson={geojson}></MapSetup>
                 <GuessMarker currentMap={currentMap} setRegionsMenuOpen={setRegionsMenuOpen} setZonesMenuOpen={setZonesMenuOpen} guessPos={guessPos} setGuessPos={setGuessPos} is4k={is4k}></GuessMarker>
@@ -201,19 +201,19 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel}: FuncProp
                 <AnswerMarker />
 
                 {currentMap.markers.map((marker, index) => {
-                    var isExit = (currentMap === TheSource ? false : (getRegion(currentMap) !== getRegion(marker.target)))
+                    var isExit = (currentMap === Universe.TheSource ? false : Universe.sameRegion(currentMap, marker.target))
                     return (
                         <LocationMarker map={map} key={"key" + marker.target.name + index} marker={marker} isExit={isExit} geojson={geojson} changeLocation={changeLocation}></LocationMarker>
                     )
                 })}
                 
                 <Control prepend={true} position="topleft">
-                    <MapMenu currentMap={currentMap} TheSource={TheSource} changeLocation={changeLocation} setRegionsMenuOpen={setRegionsMenuOpen} setZonesMenuOpen={setZonesMenuOpen} regionsMenuOpen={regionsMenuOpen} zonesMenuOpen={zonesMenuOpen}></MapMenu>
-                    <MapControl currentMap={currentMap} map={map} changeLocation={changeLocation} TheSource={TheSource}></MapControl>
+                    <MapMenu currentMap={currentMap} TheSource={Universe.TheSource} changeLocation={changeLocation} setRegionsMenuOpen={setRegionsMenuOpen} setZonesMenuOpen={setZonesMenuOpen} regionsMenuOpen={regionsMenuOpen} zonesMenuOpen={zonesMenuOpen}></MapMenu>
+                    <MapControl currentMap={currentMap} map={map} changeLocation={changeLocation} TheSource={Universe.TheSource}></MapControl>
                 </Control>
 
                 <Control prepend={true} position="bottomright">
-                    <GuessButton currentMap={currentMap} TheSource={TheSource} guessPos={guessPos} guess={guess}></GuessButton>
+                    <GuessButton currentMap={currentMap} TheSource={Universe.TheSource} guessPos={guessPos} guess={guess}></GuessButton>
                 </Control>
 
             </MapContainer>

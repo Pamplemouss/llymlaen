@@ -1,5 +1,5 @@
 import { MutableRefObject, useContext } from "react";
-import { Map as FFMap } from '@/data/mapData'
+import { Map as FFMap } from '@/data/universe'
 import GameContext from "../GameContext";
 import { useMapEvents, Marker } from "react-leaflet";
 import { Icon, LatLng } from "leaflet";

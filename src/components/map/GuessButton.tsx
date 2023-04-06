@@ -1,5 +1,5 @@
 import { useMapEvents } from "react-leaflet";
-import { Map as FFMap } from '@/data/mapData'
+import { Map as FFMap } from '@/data/universe'
 import { motion, useAnimation } from "framer-motion";
 import GameContext from "@/components/GameContext";
 import { useContext } from "react";

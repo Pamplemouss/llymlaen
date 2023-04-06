@@ -1,7 +1,7 @@
 import L from "leaflet";
 import { MutableRefObject } from "react";
 import { useMap } from "react-leaflet";
-import { Map as FFMap } from '@/data/mapData'
+import { Map as FFMap } from '@/data/universe'
 
 /* import '@geoman-io/leaflet-geoman-free';
 import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css'; */

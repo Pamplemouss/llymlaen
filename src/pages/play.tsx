@@ -9,8 +9,8 @@ import TopBar from '@/components/TopBar';
 import Results from '@/components/play/Results';
 import RoundResults from '@/components/play/RoundResults';
 import RoundStrip from '@/components/play/RoundStrip';
-import TheSource from '../data/mapData'
-import Photospheres from '../data/photospheresData'
+import Universe from '@/data/universe'
+import Photospheres from '@/data/photospheresData'
 const Map = dynamic(() => import("@/components/Map"), { ssr: false });
 
 
@@ -81,28 +81,16 @@ export default function Play() {
     }, [ended]);
 
 
-    function getMap(name: string) {
-        var map;
-
-        TheSource.markers.forEach(marker => {
-            marker.target.markers.forEach(zone => {
-                if (zone.target.name === name) map = zone.target;
-            })
-        })
-        
-        if (map === undefined) throw "Map name not found in MapData";
-        return map;
-    }
-
     function pickLocations() {
         if (gameSystem.maxRounds > Photospheres.length) throw "Max rounds number is above Photospheres selection";
+        
         for (var i = 0 ; i < gameSystem.maxRounds ; i++) {
             var newLocation;
             do {
                 newLocation = Photospheres[Math.floor(Math.random() * Photospheres.length)]
             } while (gameData.current.locations.includes(newLocation))
 
-            if (typeof newLocation.map == "string") newLocation.map = getMap(newLocation.map);
+            if (typeof newLocation.map == "string") newLocation.map = Universe.getMap(newLocation.map);
             gameData.current.locations.push(newLocation);
         }
     }

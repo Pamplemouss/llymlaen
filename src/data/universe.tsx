@@ -13,6 +13,7 @@ type Map = {
 type Zone = Map & {region: Map}
 
 
+
 // WORLD Map
 const TheSource : Map = {
     name: "The Source",
@@ -645,8 +646,50 @@ TheSource.markers.push(
     {target: Dravania, latLng: [-11.25, -184.625]},
 );
 
-//var MapData = [LaNoscea, TheBlackShroud, Thanalan, Coerthas, MorDhona];
 
+class Universe {
+    static TheSource: Map = TheSource;
 
-export default TheSource;
+    static getMap(name: string) {
+        var map;
+
+        Universe.TheSource.markers.forEach(marker => {
+            marker.target.markers.forEach(zone => {
+                if (zone.target.name === name) {
+                    map = zone.target;
+                    return;
+                }
+            })
+        })
+        
+        if (map === undefined) throw "Map name not found in Universe";
+        return map;
+    }
+
+    static isRegion(map: Map) {
+        var isRegion : boolean = false;
+        Universe.TheSource.markers.forEach(marker => {
+            if (marker.target === map) isRegion = true;
+        })
+    
+        return isRegion;
+    }
+    
+    static getRegion(map: Map) {
+        if (Universe.isRegion(map) || map === Universe.TheSource) return map;
+        else return (map as Zone).region;
+    }
+
+    static sameRegion(map1: Map, map2: Map) {
+        return Universe.getRegion(map1) !== Universe.getRegion(map2)
+    }
+
+    static getMapUrl(map: Map, isEdge: boolean) {
+        var format : string;
+        isEdge ? format = ".webp" : format = ".avif"
+        return "maps/" + (map.hasOwnProperty("region") ? (map as Zone).region.name + "/" : "") + map.name + format
+    }
+}
+
+export default Universe;
 export type { Map, Zone }
