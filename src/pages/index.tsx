@@ -55,7 +55,7 @@ export default function Home() {
                 <link key="favSafari" rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5"></link>
             </Head>
 
-            <div className="absolute h-full w-full flex flex-col">
+            <div className="relative md:absolute h-full w-full flex flex-col">
                 <TopBar></TopBar>
 
                 <div className="relative h-full w-full flex flex-col md:justify-center items-center pt-24 xl:pt-8">
@@ -109,8 +109,11 @@ export default function Home() {
                             <img src="/moogle.webp"></img>
                         </Link>
                     </motion.div>
+                    
                 </div>
-            </div>
+
+                <div className="z-10 mb-2 md:absolute md:bottom-0 text-center w-full text-slate-400 text-sm font-myriad pointer-events-none">FINAL FANTASY XIV © 2010 - 2023 SQUARE ENIX CO., LTD. All Rights Reserved.</div>
+            </div>            
         </>
     )
 }

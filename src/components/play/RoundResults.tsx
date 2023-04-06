@@ -28,9 +28,7 @@ export default function RoundResults() {
         <UserAgent returnFullParser>
         {(parser : any) => {
             var isMobile = parser.getDevice().type == "mobile";
-            var x;
-            if (isMobile) x = "10px"
-            else x = "-100%"
+            var x = isMobile ? "10px" : "-100%";
         
             return (
                 <motion.div

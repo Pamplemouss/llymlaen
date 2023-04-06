@@ -101,6 +101,7 @@ export default function Play() {
             do {
                 newLocation = Photospheres[Math.floor(Math.random() * Photospheres.length)]
             } while (gameData.current.locations.includes(newLocation))
+
             if (typeof newLocation.map == "string") newLocation.map = getMap(newLocation.map);
             gameData.current.locations.push(newLocation);
         }
@@ -209,10 +210,10 @@ export default function Play() {
                                             className={`map ${"level" + mapLevel} ${is4k.current ? "res4k" : ""} pointer-events-auto absolute bottom-0 right-0 origin-bottom-right shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-b-xl rounded-tr-xl`}
                                         >
                                             <div className="hidden lg:flex absolute -top-0.5 -left-0.5 bg-slate-800/50 -translate-y-full p-2 gap-2 4k:gap-4 4k:p-4 rounded-t-lg text-sm 4k:text-3xl">
-                                                <div onClick={() => setMapLevel(Math.min(mapLevel + 1, 3))} className={`${ mapLevel === 3 ? "opacity-40" : ""} bg-slate-200 text-slate-800 cursor-pointer w-6 4k:w-12 aspect-square rounded-full flex items-center justify-center -rotate-45`}>
+                                                <div onClick={() => setMapLevel(Math.min(mapLevel + 1, 3))} className={`${ mapLevel === 3 ? "opacity-40" : "cursor-pointer hover:bg-slate-100 hover:text-slate-600"} bg-slate-200 text-slate-800 w-6 4k:w-12 aspect-square rounded-full flex items-center justify-center -rotate-45`}>
                                                     <i className="fa-solid fa-up-long"></i>
                                                 </div>
-                                                <div onClick={() => setMapLevel(Math.max(mapLevel - 1, 1))} className={`${ mapLevel === 1 ? "opacity-40" : ""} bg-slate-200 text-slate-800 cursor-pointer w-6 4k:w-12 aspect-square rounded-full flex items-center justify-center rotate-[135deg]`}>
+                                                <div onClick={() => setMapLevel(Math.max(mapLevel - 1, 1))} className={`${ mapLevel === 1 ? "opacity-40" : "cursor-pointer hover:bg-slate-100 hover:text-slate-600"} bg-slate-200 text-slate-800 w-6 4k:w-12 aspect-square rounded-full flex items-center justify-center rotate-[135deg]`}>
                                                     <i className="fa-solid fa-up-long"></i>
                                                 </div>
                                             </div>

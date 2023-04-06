@@ -214,6 +214,8 @@
     .map {
         transition-property: width, height;
         transition-duration: 0.2s;
+        max-height: 75vh;
+        max-width: 75vw;
     }
     
     .map.level1 {

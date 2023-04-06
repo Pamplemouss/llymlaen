@@ -4,7 +4,7 @@ import TopBar from '@/components/TopBar';
 export default function Info() {
     var infoContent = (
         <span className="text-slate-300 text-lg 4k:text-2xl font-myriad">
-            Hi, I&apos;m <span className="text-emerald-400">Pamplemouss</span> and I&apos;m a french developer. I like to make music and video games. As a fan of Final Fantasy XIV, it was a matter of time until I created something around it. So here it is, Eorguessr!
+            Hi, I&apos;m <span className="text-emerald-400">Pamplemouss</span> and I&apos;m a french developer. My main interests are cooking, making music and developing video games. As a fan of Final Fantasy XIV, it was a matter of time until I created something around it. So here it is: Eorguessr!
             
             <div className="flex items-center gap-3 text-base 4k:text-xl text-yellow-200 bg-slate-700 p-2 shadow shadow-black/50 rounded mt-5">
                 <img className="inline-block" src="/info/gil.png"></img>
@@ -27,7 +27,8 @@ export default function Info() {
                 <span>Special thanks to:</span>
                 <br></br>- Barathesh, for his tutorial on creating photospheres
                 <br></br>- SamHourai, being the first one to create a Geoguessr for FFXIV
-                <br></br>- Saffron, Damian Gray and Spensers for beta-testing
+                <br></br>- <a href="https://fr.finalfantasyxiv.com/lodestone/character/42192455/" className="underline">Saffron</a>, Damian Gray and Spensers for beta-testing
+                <br></br>- <a href="https://na.finalfantasyxiv.com/lodestone/character/34070964/" className="underline">Mighty Melon</a> & <a href="https://fr.finalfantasyxiv.com/lodestone/character/41733031/" className="underline">V'ellexia</a> for helping me stitching out photospheres
             </div>
         </span>
     )
@@ -44,39 +45,22 @@ export default function Info() {
 
             <div className="xl:absolute h-full w-full flex flex-col bg-slate-800">
                 <TopBar></TopBar>
-                { 0 ? (
-                    <div className="relative h-full w-full flex flex-col justify-center items-center overflow-hidden align-middle">
-                        <div>
-                            <video src="/info/aboutme16-9-1080.webm" autoPlay muted loop></video>
+                <div className="relative h-full w-full flex flex-col xl:justify-center items-center xl:overflow-hidden">
+                    <div className="hidden xl:block absolute top-0 left-0 h-full w-full grayscale-[0.25]">
+                        <video className="object-cover h-full w-full" src="/info/sharlayan.webm" autoPlay muted loop></video>
+                    </div>
+                    <div className="fixed top-0 left-0 h-full w-full bg-slate-800 xl:bg-slate-800/40"></div>
+                    
+                    
+                    <div className="pt-8 xl:pt-0 mt-32 w-11/12 xl:w-auto h-full xl:h-auto -translate-y-10 gap-2 flex-col items-center xl:flex-row flex rounded-xl xl:overflow-hidden relative border-2 border-x-[#c0a270] border-y-[#e0c290] bg-gradient-to-br from-slate-800 to-slate-700 shadow-md shadow-black/90">
+                        <div className="aspect-square w-8/12 rounded xl:rounded-none overflow-hidden md:min-w-min md:w-[25rem] md:h-full shadow shadow-black">
+                            <video className="h-full object-cover" src="/info/aboutme1-1-1080b.webm" autoPlay muted loop></video>
                         </div>
-                        <div className="absolute top-0 left-0 bg-gradient-to-br from-slate-900/30 to-slate-600/30 w-full h-full"></div>
-
-                        <div className="py-6 px-8 mt-14 ml-24 flex rounded-lg max-w-xl absolute top-0 left-0 border-2 border-x-[#c0a270] border-y-[#e0c290] bg-gradient-to-br from-slate-800 to-slate-700 shadow-md shadow-black/90">
+                        <div className="xl:max-w-2xl 4k:max-w-4xl p-6">
                             {infoContent}
                         </div>
                     </div>
-                )
-
-                : (
-                    <div className="relative h-full w-full flex flex-col xl:justify-center items-center xl:overflow-hidden">
-                        <div className="hidden xl:block absolute top-0 left-0 h-full w-full grayscale-[0.25]">
-                            <video className="object-cover h-full w-full" src="/info/sharlayan.webm" autoPlay muted loop></video>
-                        </div>
-                        <div className="fixed top-0 left-0 h-full w-full bg-slate-800 xl:bg-slate-800/40"></div>
-                        
-                        
-                        <div className="pt-8 xl:pt-0 mt-32 w-11/12 xl:w-auto h-full xl:h-auto -translate-y-10 gap-2 flex-col items-center xl:flex-row flex rounded-xl xl:overflow-hidden relative border-2 border-x-[#c0a270] border-y-[#e0c290] bg-gradient-to-br from-slate-800 to-slate-700 shadow-md shadow-black/90">
-                            <div className="aspect-square w-8/12 rounded xl:rounded-none overflow-hidden xl:w-[25rem] 4k:h-full shadow shadow-black">
-                                <video className="h-full object-cover" src="/info/aboutme1-1-1080b.webm" autoPlay muted loop></video>
-                            </div>
-                            <div className="xl:max-w-2xl 4k:max-w-4xl p-6">
-                                {infoContent}
-                            </div>
-                        </div>
-                    </div>
-                )
-                }
-                
+                </div>
             </div>
         </>
     )
