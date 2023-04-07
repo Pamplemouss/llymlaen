@@ -27,8 +27,8 @@ export default function Info() {
                 <span>Special thanks to:</span>
                 <br></br>- Barathesh, for his tutorial on creating photospheres
                 <br></br>- SamHourai, being the first one to create a Geoguessr for FFXIV
-                <br></br>- <a href="https://fr.finalfantasyxiv.com/lodestone/character/42192455/" className="underline">Saffron</a>, <a href="https://na.finalfantasyxiv.com/lodestone/character/34070964/" className="underline">Mighty Melon</a>, Damian Gray and Spensers for beta-testing
-                <br></br>- <a href="https://na.finalfantasyxiv.com/lodestone/character/34070964/" className="underline">Mighty Melon</a> & <a href="https://fr.finalfantasyxiv.com/lodestone/character/41733031/" className="underline">V&apos;ellexia</a> for helping me stitching out photospheres
+                <br></br>- <a href="https://fr.finalfantasyxiv.com/lodestone/character/42192455/" target="_blank" rel="noreferrer" className="underline">Saffron</a>, <a href="https://na.finalfantasyxiv.com/lodestone/character/34070964/" target="_blank" rel="noreferrer" className="underline">Mighty Melon</a>, <a href="https://na.finalfantasyxiv.com/lodestone/character/18355689/" target="_blank" rel="noreferrer" className="underline">Yabuqa</a> and Damian Gray for beta-testing
+                <br></br>- <a href="https://na.finalfantasyxiv.com/lodestone/character/34070964/" target="_blank" rel="noreferrer" className="underline">Mighty Melon</a> & <a href="https://na.finalfantasyxiv.com/lodestone/character/41733031/" target="_blank" rel="noreferrer" className="underline">V&apos;ellexia</a> for helping me stitching out photospheres
             </div>
         </span>
     )

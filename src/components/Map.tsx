@@ -100,16 +100,6 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel}: FuncProp
         }        
     }
 
-    function PreloadMaps() {
-        return (
-            <div className="hidden relative">
-                {currentMap.markers.map((marker, index) => {
-                    return <img key={marker.target.name + "_preload"+index} src={"/"+ Universe.getMapUrl(marker.target, isEdge.current)} alt="Preload img"></img>
-                })}
-            </div>
-        )
-    }
-
     function LineToAnswer() {
         return (polyline !== null && currentMap.name === toFind.map.name) ? (
             <Polyline pathOptions={{color: "black", dashArray: "1 8"}} positions={polyline} />
@@ -123,28 +113,38 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel}: FuncProp
     }
 
     function getZoom() {
-        var zoom;
-
         if (mapLevel === 1) {
-            if (currentMap.name === "The Source" && is4k.current) zoom = 1          // world map + 4k
-            else if (currentMap.name === "The Source") zoom = 0.1                   // world map
-            else if (currentMap.name !== "The Source" && is4k.current) zoom = 2.2   // map + 4k
-            else zoom = 1.1                                                         // map
+            if (currentMap.name === "The Source" && is4k.current) return 2.1          // world map + 4k
+            else if (currentMap.name === "The Source") return 1.1                   // world map
+            else if (currentMap.name !== "The Source" && is4k.current) return 2.1   // map + 4k
+            else return 1.1                                                         // map
         }
         else if (mapLevel === 2) {
-            if (currentMap.name === "The Source" && is4k.current) zoom = 1.5        // world map + 4k
-            else if (currentMap.name === "The Source") zoom = 0.5                   // world map
-            else if (currentMap.name !== "The Source" && is4k.current) zoom = 2.2   // map + 4k
-            else zoom = 1.2                                                         // map
+            if (currentMap.name === "The Source" && is4k.current) return 2.3        // world map + 4k
+            else if (currentMap.name === "The Source") return 1.3                   // world map
+            else if (currentMap.name !== "The Source" && is4k.current) return 2.2   // map + 4k
+            else return 1.3                                                         // map
         }
         else if (mapLevel === 3) {
-            if (currentMap.name === "The Source" && is4k.current) zoom = 1.8        // world map + 4k
-            else if (currentMap.name === "The Source") zoom = 0.8                   // world map
-            else if (currentMap.name !== "The Source" && is4k.current) zoom = 2.5   // map + 4k
-            else zoom = 1.4                                                         // map
+            if (currentMap.name === "The Source" && is4k.current) return 2.5        // world map + 4k
+            else if (currentMap.name === "The Source") return 1.5                   // world map
+            else if (currentMap.name !== "The Source" && is4k.current) return 2.5   // map + 4k
+            else return 1.4                                                         // map
         }
+    }
 
-        return zoom
+    function getCenter() {
+        if (currentMap.name !== "The Source") return [0,0]
+
+        if (mapLevel === 1 && currentMap.name === "The Source") {
+            return [0, (Bounds.THESOURCE as Array<Array<number>>)[0][1] + 110]
+        }
+        else if (mapLevel === 2 && currentMap.name === "The Source") {
+            return [0, (Bounds.THESOURCE as Array<Array<number>>)[0][1] + 145]
+        }
+        else if (mapLevel === 3 && currentMap.name === "The Source") {
+            return [0, (Bounds.THESOURCE as Array<Array<number>>)[0][1] + 155]
+        }
     }
 
     async function changeLocation(target: FFMap) {
@@ -173,11 +173,11 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel}: FuncProp
 
     // Calcultate the offset needed to start with the world map snapped to the left corners
     //const theSourceCenter : LatLngExpression = [(Bounds.THESOURCE as Array<Array<number>>)[0][0] - (Bounds.OVERLAY as Array<Array<number>>)[0][0], (Bounds.THESOURCE as Array<Array<number>>)[0][1] - (Bounds.OVERLAY as Array<Array<number>>)[0][1]];    
-
+    console.log([0, (Bounds.THESOURCE as Array<Array<number>>)[0][1]])
     return (
         <div className={`overflow-hidden rounded-b-xl rounded-tr-xl relative h-full w-full ${isMobile ? "mobile" : ""}`}>
             <MapContainer
-                center={currentMap.name === "The Source" ? [0,0] : [0,0]}
+                center={getCenter() as LatLngExpression}
                 zoomSnap={0.1}
                 zoom={getZoom()}
                 minZoom={currentMap.name === "The Source" ? 0.1 : 0.5}
@@ -220,7 +220,6 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel}: FuncProp
                 animate={blurControls}
                 className="absolute top-0 left-0 w-full h-full z-20 backdrop-blur opacity-0 hidden"
             ></motion.div>
-            <PreloadMaps></PreloadMaps>
         </div>
     );
 }
