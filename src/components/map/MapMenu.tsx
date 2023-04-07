@@ -49,7 +49,7 @@ export default function MapMenu({currentMap, TheSource, changeLocation, regionsM
                     </div>
                     <div className={`ml-2 text-sm 4k:text-2xl text-shadow shadow-amber-300/50 inline-flex justify-center items-center`}><span>{Universe.isRegion(currentMap) ? "--" : (currentMap.name === "The Source" ? "" : currentMap.name)}</span></div>
                 </div>
-                {zonesMenuOpen && Universe.getRegion(currentMap) !== undefined ? (
+                {zonesMenuOpen && currentMap !== Universe.TheSource ? (
                     <div className="absolute z-20 px-1 py-2 4k:px-3 4k:py-3 top-5 left-6 bg-[#4a4a4a] rounded flex flex-col gap-1 border border-x-2 border-y-neutral-500 border-x-neutral-600">
                         {Universe.getRegion(currentMap).markers.map((zone) => {
                             if (Universe.getRegion(currentMap) === Universe.getRegion(zone.target)) {

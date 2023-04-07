@@ -28,7 +28,7 @@ export default function Info() {
                 <br></br>- Barathesh, for his tutorial on creating photospheres
                 <br></br>- SamHourai, being the first one to create a Geoguessr for FFXIV
                 <br></br>- <a href="https://fr.finalfantasyxiv.com/lodestone/character/42192455/" className="underline">Saffron</a>, Damian Gray and Spensers for beta-testing
-                <br></br>- <a href="https://na.finalfantasyxiv.com/lodestone/character/34070964/" className="underline">Mighty Melon</a> & <a href="https://fr.finalfantasyxiv.com/lodestone/character/41733031/" className="underline">V'ellexia</a> for helping me stitching out photospheres
+                <br></br>- <a href="https://na.finalfantasyxiv.com/lodestone/character/34070964/" className="underline">Mighty Melon</a> & <a href="https://fr.finalfantasyxiv.com/lodestone/character/41733031/" className="underline">V&apos;ellexia</a> for helping me stitching out photospheres
             </div>
         </span>
     )
@@ -44,7 +44,6 @@ export default function Info() {
             </Head>
 
             <div className="xl:absolute h-full w-full flex flex-col bg-slate-800">
-                <TopBar></TopBar>
                 <div className="relative h-full w-full flex flex-col xl:justify-center items-center xl:overflow-hidden">
                     <div className="hidden xl:block absolute top-0 left-0 h-full w-full grayscale-[0.25]">
                         <video className="object-cover h-full w-full" src="/info/sharlayan.webm" autoPlay muted loop></video>
