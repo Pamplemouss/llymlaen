@@ -27,7 +27,8 @@ export default function TopBar() {
 
     useEffect(() => {
         window.addEventListener('mouseup', (e) => {
-            if ((e?.target as HTMLElement).closest(".popup") === null) setOpenPopup(false);
+            if (typeof (e.target as any)!.closest !== 'function') return;
+            if ((e?.target as HTMLElement).closest!(".popup") === null) setOpenPopup(false);
         })
     }, [])
 

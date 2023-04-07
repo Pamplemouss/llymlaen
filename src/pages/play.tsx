@@ -97,18 +97,22 @@ export default function Play() {
 
     function pickLocations() {
         if (gameSystem.maxRounds > Photospheres.length) throw "Max rounds number is above Photospheres selection";
-        
+
         for (var i = 0 ; i < gameSystem.maxRounds ; i++) {
+            const randomExpansion = cookies.expansions[Math.floor(Math.random() * cookies.expansions.length)];
+            const randomMap = Universe.getRandomMap(randomExpansion);
             var newLocation;
             var j = 0;
-            do {
+
+            while(true) {
                 newLocation = Photospheres[Math.floor(Math.random() * Photospheres.length)]
                 j++;
-            } while ((gameData.current.locations.includes(newLocation) || !cookies.expansions?.includes(newLocation.expansion)) && j < 100000)
+                if (j >= 10000) throw "Couldn't pick a location!"
+                
+                if (!gameData.current.locations.includes(newLocation) && newLocation.expansion === randomExpansion && newLocation.map === randomMap) break;
+            }
 
-            if (j == 100000) throw "Couldn't pick a location!"
-
-            if (typeof newLocation.map == "string") newLocation.map = Universe.getMap(newLocation.map);
+            newLocation.map = Universe.getMap(newLocation.map);
             gameData.current.locations.push(newLocation);
         }
     }
