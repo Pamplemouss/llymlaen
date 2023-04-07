@@ -101,6 +101,12 @@ export default function Play() {
         for (var i = 0 ; i < gameSystem.maxRounds ; i++) {
             const randomExpansion = cookies.expansions[Math.floor(Math.random() * cookies.expansions.length)];
             const randomMap = Universe.getRandomMap(randomExpansion);
+            
+            if (randomExpansion != "ARR" && randomExpansion != "HW") {
+                setCookie('expansions', ["ARR"], {sameSite: 'strict'})
+                window.location.replace("/");
+            }
+
             var newLocation;
             var j = 0;
 

@@ -49,7 +49,7 @@ export default function Home() {
                     </div>
 
                     <div className="flex-wrap justify-center w-full flex md:flex-flow-col md:flex-rows-3 gap-10 md:w-10/12 4k:w-8/12 4k:gap-16">
-                        {["ARR", "HS", "SB", "ShB", "EW"].map(expansion => {
+                        {["ARR", "HW", "SB", "ShB", "EW"].map(expansion => {
                             var disabled = expansion === "SB" || expansion === "ShB" || expansion === "EW";
                             var tap = disabled ? { } : { scale: [1.2, 1] };
                             var hover = disabled ? {} : { y: -4 };

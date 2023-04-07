@@ -40,7 +40,7 @@
 
 .ShB-bg,
 .SB-bg,
-.HS-bg,
+.HW-bg,
 .EW-bg,
 .ARR-bg {
     background-size: cover;
@@ -51,8 +51,8 @@
     background-image: url("/expansions/ARR.webp");
 }
 
-.HS-bg {
-    background-image: url("/expansions/HS.webp");
+.HW-bg {
+    background-image: url("/expansions/HW.webp");
 }
 
 .SB-bg {
@@ -107,16 +107,16 @@
 }
 
 
-.HS.active {
+.HW.active {
     @apply border-cyan-100/90 shadow-cyan-100;
 }
 
-.HS:not(.disabled):hover .bg,
-.HS.active .bg {
+.HW:not(.disabled):hover .bg,
+.HW.active .bg {
     @apply bg-cyan-500/80;
 }
 
-.HS.active .left-bar {
+.HW.active .left-bar {
     @apply bg-cyan-100/90;
 }
 
@@ -259,4 +259,4 @@
         width: 110rem;
         height: 80rem;
     }
-  }
+}
