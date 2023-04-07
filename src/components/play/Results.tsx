@@ -76,7 +76,7 @@ export default function Results({ isEdge }: Props) {
 
             <div className="relative overflow-hidden rounded py-1 px-7 font-neosans md:text-3xl text-slate-100 shadow-inner shadow-black/90 w-11/12 md:w-9/12 text-center">
                 <div className="absolute top-0 left-0 h-full w-full bg-slate-900 z-[-1]">
-                    <div style={{width: 100*(totalScoreHUD!/(gameContext.gameSystem.total * gameContext.gameSystem.maxRounds))+"%"}} className="absolute h-full bg-gradient-to-br from-emerald-800 to-emerald-500"></div>
+                    <div style={{width: 100*(totalScoreHUD!/(gameContext.gameSystem.total * gameContext.gameSystem.maxRounds))+"%"}} className={`${Math.round(totalScoreHUD!) < gameContext.gameSystem.maxRounds * gameContext.gameSystem.total ? "bg-emerald-500" : "bg-yellow-300 duration-500"} absolute h-full`}></div>
                 </div>
                 <span className="text-shadow shadow-black/50">Total score: <span className="text-right w-16 inline-block">{Math.round(totalScoreHUD!)}</span> / {gameContext.gameSystem.maxRounds * gameContext.gameSystem.total}</span>
             </div>
