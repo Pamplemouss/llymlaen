@@ -11,11 +11,16 @@ module.exports = {
         'neosans': ["ui-sans-serif", "'Neo Sans'"],
         'myriad': ["ui-sans-serif", "'Myriad Pro'"],
         'myriad-cond': ["ui-sans-serif", "'Myriad Pro Condensed'"],
+        'meiryo': ["ui-sans-serif", "'Meiryo'"]
       },
       textShadow: {
         sm: '1px 0px 1px var(--tw-shadow-color), -1px 0px 1px var(--tw-shadow-color), 0px 1px 1px var(--tw-shadow-color), 0px -1px 1px var(--tw-shadow-color)',
         DEFAULT: '1px 0px 2px var(--tw-shadow-color), -1px 0px 2px var(--tw-shadow-color), 0px 1px 2px var(--tw-shadow-color), 0px -1px 2px var(--tw-shadow-color)',
         lg: '1px 0px 4px var(--tw-shadow-color), -1px 0px 4px var(--tw-shadow-color), 0px 1px 4px var(--tw-shadow-color), 0px -1px 4px var(--tw-shadow-color)',
+        ff: '0px 2px 1px var(--tw-shadow-color), 2px 0px 1px var(--tw-shadow-color), -1px 0px 1px var(--tw-shadow-color)'
+      },
+      screens: {
+        '4k': '2000px',
       },
     },
   },
