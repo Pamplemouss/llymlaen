@@ -124,7 +124,6 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel}: FuncProp
 
     function getZoom() {
         var zoom;
-        
 
         if (mapLevel === 1) {
             if (currentMap.name === "The Source" && is4k.current) zoom = 1          // world map + 4k

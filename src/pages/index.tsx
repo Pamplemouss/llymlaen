@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { motion } from "framer-motion";
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
+import { expansionsValid } from '@/components/CookiesManager';
 
 
 export default function Home() {
@@ -10,11 +11,12 @@ export default function Home() {
     const [expansions, setExpansions] = useState<string[]>();
     
     useEffect(() => {
+        console.log(expansions);
         setCookie('expansions', expansions, {sameSite: 'strict'})
     }, [expansions])
 
     useEffect(() => {
-        setExpansions(cookies.expansions == undefined ? ["ARR"] : cookies.expansions);
+        setExpansions(expansionsValid(cookies.expansions) ? cookies.expansions : ["ARR"]);
     }, [])
 
     function expClick(expansion : string) {
@@ -24,6 +26,7 @@ export default function Home() {
             setExpansions([...expansions!]);
         }
     };
+
 
     return (
         <>

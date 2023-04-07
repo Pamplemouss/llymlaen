@@ -1,11 +1,11 @@
-import CookiePopup from '@/components/CookiePopup';
+import { CookieModal } from '@/components/CookiesManager';
 import TopBar from '@/components/TopBar';
 
 export default function Layout({ children } : any) {
   return (
     <>
-      <TopBar></TopBar>
-      <CookiePopup></CookiePopup>
+      <TopBar/>
+      <CookieModal/>
       <main>{children}</main>
     </>
   )

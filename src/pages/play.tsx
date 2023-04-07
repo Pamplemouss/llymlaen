@@ -6,7 +6,7 @@ import { useCookies } from 'react-cookie';
 import { motion, AnimatePresence } from "framer-motion";
 import dynamic from 'next/dynamic';
 import GameContext from '@/components/GameContext';
-import TopBar from '@/components/TopBar';
+import { expansionsValid } from '@/components/CookiesManager';
 import Results from '@/components/play/Results';
 import RoundResults from '@/components/play/RoundResults';
 import RoundStrip from '@/components/play/RoundStrip';
@@ -46,8 +46,11 @@ export default function Play() {
     
     // Start up setup
     useEffect(() => {
-        if (cookies.expansions?.length === 0 || cookies.expansions === undefined) window.location.replace("/");
-        setMapLevel(cookies.mapLevel === undefined ? 1 : parseInt(cookies.mapLevel));
+        if (!expansionsValid(cookies.expansions)) window.location.replace("/");
+
+        if (cookies.mapLevel != 1 && cookies.mapLevel != 2 && cookies.mapLevel != 3) setMapLevel(1);
+        else setMapLevel(parseInt(cookies.mapLevel))
+
         is4k.current = window.innerWidth >= 2000
         startGame();
     }, [])
