@@ -11,7 +11,6 @@ export default function Home() {
     const [expansions, setExpansions] = useState<string[]>();
     
     useEffect(() => {
-        console.log(expansions);
         setCookie('expansions', expansions, {sameSite: 'strict'})
     }, [expansions])
 
@@ -30,15 +29,6 @@ export default function Home() {
 
     return (
         <>
-            <Head>
-                <title>Eorguessr</title>
-                <link key="favApple" rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"></link>
-                <link key="fav32" rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"></link>
-                <link key="fav16" rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"></link>
-                <link key="manifest" rel="manifest" href="/favicon/site.webmanifest"></link>
-                <link key="favSafari" rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5"></link>
-            </Head>
-
             <div className="relative md:absolute h-full w-full flex flex-col">
 
                 <div className="relative h-full w-full flex flex-col md:justify-center items-center pt-24 xl:pt-8">
@@ -130,6 +120,7 @@ export default function Home() {
                         </Link>
                     </motion.div>
                     
+                    <div className="text-shadow shadow-black z-10 mb-2 md:absolute md:bottom-0 text-center w-full text-slate-400 text-sm font-myriad pointer-events-none">FINAL FANTASY XIV © 2010 - 2023 SQUARE ENIX CO., LTD. All Rights Reserved.</div>
                 </div>
             </div>            
         </>
