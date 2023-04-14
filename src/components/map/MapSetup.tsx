@@ -3,8 +3,8 @@ import { MutableRefObject } from "react";
 import { useMap } from "react-leaflet";
 import { Map as FFMap } from '@/data/universe'
 
-import '@geoman-io/leaflet-geoman-free';
-import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css';
+/* import '@geoman-io/leaflet-geoman-free';
+import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css'; */
 
 interface Props {
     currentMap: FFMap,
@@ -16,7 +16,7 @@ export default function MapSetup({currentMap, map, geojson} : Props) {
     map.current = useMap();
 
     // GEOJSON CREATOR
-    (map.current as any).pm.addControls({  
+/*     (map.current as any).pm.addControls({  
         position: 'topleft',  
         drawCircle: false,  
         }); 
@@ -28,7 +28,7 @@ export default function MapSetup({currentMap, map, geojson} : Props) {
             polygon.push([latlng.lng, latlng.lat]);
         })
         console.log(JSON.stringify(polygon))
-    });
+    }); */
     // GEOJSON CREATOR
 
     function highlightFeature(e : any) {
