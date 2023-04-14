@@ -8,6 +8,7 @@ type Map = {
             hitbox: [number, number][][],
         }
     }[];
+    exp?: string;
 }
 
 type Zone = Map & {region: Map}
@@ -24,52 +25,62 @@ const TheSource : Map = {
 // REGIONS
 const Thanalan : Map = {
     name: "Thanalan",
-    markers: []
+    markers: [],
+    exp: "ARR"
 }
 
 const TheBlackShroud : Map = {
     name: "The Black Shroud",
-    markers: []
+    markers: [],
+    exp: "ARR"
 }
 
 const LaNoscea : Map = {
     name: "La Noscea",
-    markers: []
+    markers: [],
+    exp: "ARR"
 }
 
 const Coerthas : Map = {
     name: "Coerthas",
-    markers: []
+    markers: [],
+    exp: "ARR"
 }
 
 const MorDhona : Map = {
     name: "Mor Dhona",
-    markers: []
+    markers: [],
+    exp: "ARR"
 }
 
 const AbalathiasSpine : Map = {
     name: "Abalathia's Spine",
-    markers: []
+    markers: [],
+    exp: "HW"
 }
 
 const Dravania : Map = {
     name: "Dravania",
-    markers: []
+    markers: [],
+    exp: "HW"
 }
 
 const GyrAbania : Map = {
     name: "Gyr Abania",
-    markers: []
+    markers: [],
+    exp: "SB"
 }
 
 const Hingashi : Map = {
     name: "Hingashi",
-    markers: []
+    markers: [],
+    exp: "SB"
 }
 
 const Othard : Map = {
     name: "Othard",
-    markers: []
+    markers: [],
+    exp: "SB"
 }
 
 
@@ -79,36 +90,42 @@ const OldGridania : Zone = {
     name: "Old Gridania",
     region: TheBlackShroud,
     markers: [],
+    exp: "ARR"
 }
 
 const NewGridania : Zone = {
     name: "New Gridania",
     region: TheBlackShroud,
     markers: [],
+    exp: "ARR"
 }
 
 const CentralShroud : Zone = {
     name: "Central Shroud",
     region: TheBlackShroud,
     markers: [],
+    exp: "ARR"
 }
 
 const NorthShroud : Zone = {
     name: "North Shroud",
     region: TheBlackShroud,
     markers: [],
+    exp: "ARR"
 }
 
 const SouthShroud : Zone = {
     name: "South Shroud",
     region: TheBlackShroud,
     markers: [],
+    exp: "ARR"
 }
 
 const EastShroud : Zone = {
     name: "East Shroud",
     region: TheBlackShroud,
     markers: [],
+    exp: "ARR"
 }
 
 /* const TheLavenderBeds : Zone = {
@@ -122,42 +139,49 @@ const UldahStepsOfNald : Zone = {
     name: "Ul'dah - Steps of Nald",
     region: Thanalan,
     markers: [],
+    exp: "ARR"
 }
 
 const UldahStepsOfThal : Zone = {
     name: "Ul'dah - Steps of Thal",
     region: Thanalan,
     markers: [],
+    exp: "ARR"
 }
 
 const EasternThanalan : Zone = {
     name: "Eastern Thanalan",
     region: Thanalan,
     markers: [],
+    exp: "ARR"
 }
 
 const NorthernThanalan : Zone = {
     name: "Northern Thanalan",
     region: Thanalan,
     markers: [],
+    exp: "ARR"
 }
 
 const SouthernThanalan : Zone = {
     name: "Southern Thanalan",
     region: Thanalan,
     markers: [],
+    exp: "ARR"
 }
 
 const WesternThanalan : Zone = {
     name: "Western Thanalan",
     region: Thanalan,
     markers: [],
+    exp: "ARR"
 }
 
 const CentralThanalan : Zone = {
     name: "Central Thanalan",
     region: Thanalan,
     markers: [],
+    exp: "ARR"
 }
 
 // LA NOSCEA
@@ -165,48 +189,56 @@ const LimsaLominsaUpperDecks : Zone = {
     name: "Limsa Lominsa Upper Decks",
     region: LaNoscea,
     markers: [],
+    exp: "ARR"
 }
 
 const LimsaLominsaLowerDecks : Zone = {
     name: "Limsa Lominsa Lower Decks",
     region: LaNoscea,
     markers: [],
+    exp: "ARR"
 }
 
 const OuterLaNoscea : Zone = {
     name: "Outer La Noscea",
     region: LaNoscea,
     markers: [],
+    exp: "ARR"
 }
 
 const UpperLaNoscea : Zone = {
     name: "Upper La Noscea",
     region: LaNoscea,
     markers: [],
+    exp: "ARR"
 }
 
 const WesternLaNoscea : Zone = {
     name: "Western La Noscea",
     region: LaNoscea,
     markers: [],
+    exp: "ARR"
 }
 
 const EasternLaNoscea : Zone = {
     name: "Eastern La Noscea",
     region: LaNoscea,
     markers: [],
+    exp: "ARR"
 }
 
 const LowerLaNoscea : Zone = {
     name: "Lower La Noscea",
     region: LaNoscea,
     markers: [],
+    exp: "ARR"
 }
 
 const MiddleLaNoscea : Zone = {
     name: "Middle La Noscea",
     region: LaNoscea,
     markers: [],
+    exp: "ARR"
 }
 
 // COERTHAS
@@ -214,24 +246,28 @@ const CoerthasCentralHighlands : Zone = {
     name: "Coerthas Central Highlands",
     region: Coerthas,
     markers: [],
+    exp: "ARR"
 }
 
 const CoerthasWesternHighlands : Zone = {
     name: "Coerthas Western Highlands",
     region: Coerthas,
     markers: [],
+    exp: "HW"
 }
 
 const IshgardFoundation : Zone = {
     name: "Ishgard - Foundation",
     region: Coerthas,
     markers: [],
+    exp: "HW"
 }
 
 const IshgardThePillars : Zone = {
     name: "Ishgard - The Pillars",
     region: Coerthas,
     markers: [],
+    exp: "HW"
 }
 
 
@@ -241,6 +277,7 @@ const MorDhonaZ : Zone = {
     name: "Mor Dhona",
     region: MorDhona,
     markers: [],
+    exp: "ARR"
 }
 
 // ABALATHIA'S SPINE
@@ -248,12 +285,14 @@ const TheSeaOfClouds : Zone = {
     name: "The Sea of Clouds",
     region: AbalathiasSpine,
     markers: [],
+    exp: "HW"
 }
 
 const AzysLa : Zone = {
     name: "Azys La",
     region: AbalathiasSpine,
     markers: [],
+    exp: "HW"
 }
 
 // DRAVANIA
@@ -261,24 +300,28 @@ const TheDravanianForelands : Zone = {
     name: "The Dravanian Forelands",
     region: Dravania,
     markers: [],
+    exp: "HW"
 }
 
 const TheDravanianHinterlands : Zone = {
     name: "The Dravanian Hinterlands",
     region: Dravania,
     markers: [],
+    exp: "HW"
 }
 
 const TheChurningMists : Zone = {
     name: "The Churning Mists",
     region: Dravania,
     markers: [],
+    exp: "HW"
 }
 
 const Idyllshire : Zone = {
     name: "Idyllshire",
     region: Dravania,
     markers: [],
+    exp: "HW"
 }
 
 // GYR ABANIA
@@ -286,24 +329,28 @@ const RhalgrsReach : Zone = {
     name: "Rhalgr's Reach",
     region: GyrAbania,
     markers: [],
+    exp: "SB"
 }
 
 const TheFringes : Zone = {
     name: "The Fringes",
     region: GyrAbania,
     markers: [],
+    exp: "SB"
 }
 
 const ThePeaks : Zone = {
     name: "The Peaks",
     region: GyrAbania,
     markers: [],
+    exp: "SB"
 }
 
 const TheLochs : Zone = {
     name: "The Lochs",
     region: GyrAbania,
     markers: [],
+    exp: "SB"
 }
 
 // HINGASHI
@@ -311,6 +358,7 @@ const Kugane : Zone = {
     name: "Kugane",
     region: Hingashi,
     markers: [],
+    exp: "SB"
 }
 
 // OTHARD
@@ -318,18 +366,21 @@ const TheRubySea : Zone = {
     name: "The Ruby Sea",
     region: Othard,
     markers: [],
+    exp: "SB"
 }
 
 const Yanxia : Zone = {
     name: "Yanxia",
     region: Othard,
     markers: [],
+    exp: "SB"
 }
 
 const TheAzimSteppe : Zone = {
     name: "The Azim Steppe",
     region: Othard,
     markers: [],
+    exp: "SB"
 }
 
 
@@ -849,17 +900,25 @@ class Universe {
         return "maps/" + (map.hasOwnProperty("region") ? (map as Zone).region.name + "/" : "") + map.name + format
     }
 
+    static mapsByExpansions: {[key: string] : string[]} = {
+        "ARR": ["Ul'dah - Steps of Nald", "Ul'dah - Steps of Thal", "Northern Thanalan", "Central Thanalan", "Southern Thanalan", "Eastern Thanalan", "Western Thanalan",
+              "Old Gridania", "New Gridania", "Central Shroud", "East Shroud", "South Shroud", "North Shroud",
+              "Limsa Lominsa Lower Decks", "Limsa Lominsa Upper Decks", "Middle La Noscea", "Eastern La Noscea", "Western La Noscea", "Outer La Noscea", "Upper La Noscea", "Lower La Noscea",
+              "Coerthas Central Highlands", "Mor Dhona"],
+        "HW": ["Coerthas Western Highlands", "The Dravanian Forelands", "The Dravanian Hinterlands", "The Churning Mists", "The Sea of Clouds", "Azys La", "Ishgard - Foundation", "Ishgard - The Pillars"],
+        "SB": ["The Fringes", "The Peaks", "The Lochs", "Rhalgr's Reach", "Kugane", "Yanxia", "The Ruby Sea", "The Azim Steppe"]
+    }
+
     static getRandomMap(expansion: string) {
-        var mapList: {[key: string] : string[]} =  {
-            "ARR": ["Ul'dah - Steps of Nald", "Ul'dah - Steps of Thal", "Northern Thanalan", "Central Thanalan", "Southern Thanalan", "Eastern Thanalan", "Western Thanalan",
-                  "Old Gridania", "New Gridania", "Central Shroud", "East Shroud", "South Shroud", "North Shroud",
-                  "Limsa Lominsa Lower Decks", "Limsa Lominsa Upper Decks", "Middle La Noscea", "Eastern La Noscea", "Western La Noscea", "Outer La Noscea", "Upper La Noscea", "Lower La Noscea",
-                  "Coerthas Central Highlands", "Mor Dhona"],
-            "HW": ["Coerthas Western Highlands", "The Dravanian Forelands", "The Dravanian Hinterlands", "The Churning Mists", "The Sea of Clouds", "Azys La", "Ishgard - Foundation", "Ishgard - The Pillars"],
-            "SB": ["The Fringes", "The Peaks", "The Lochs", "Rhalgr's Reach", "Kugane", "Yanxia", "The Ruby Sea", "The Azim Steppe"]
+        return this.mapsByExpansions[expansion][Math.floor(Math.random() * this.mapsByExpansions[expansion].length)];
+    }
+
+    static isInExpansions(map: Map, expansions: string[]) {
+        if (!(expansions.includes("HW") && map.name == "Coerthas")) {
+            if (!expansions.includes(map.exp!)) return false;
         }
 
-        return mapList[expansion][Math.floor(Math.random() * mapList[expansion].length)];
+        return true;
     }
 }
 

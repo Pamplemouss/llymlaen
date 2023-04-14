@@ -38,7 +38,7 @@ export default function Home() {
                     <div className="border-2 border-x-[#c0a270] border-y-[#e0c290] w-11/12 md:w-10/12 4k:w-8/12 bg-gradient-to-br from-slate-800 to-slate-700 relative px-6 py-4 text-slate-300 font-myriad text-lg 4k:text-3xl shadow-lg shadow-black/50 rounded-lg mb-16">
                         Welcome Warrior of <span className="text-shadow shadow-yellow-200/20 text-yellow-200">Light</span>! How much time did you spend in Eorzea? You will be dropped at random places in the <span className="text-emerald-400">critically acclaimed Final Fantasy XIV Online MMORPG</span>, and will have to guess where you are. Select the expansions you want to play with, click &quot;Play&quot; and have fun! 
                         <br></br>
-                        <div className="text-sky-400 mt-4">For now, only A Realm Reborn and Heavensward are available. Stormblood will be unlocked really soon, so stay tuned!</div>
+                        <div className="text-sky-400 mt-4">For now, only A Realm Reborn, Heavensward and Stormblood are available. I expect to release Shadowbringer at the end of April.</div>
                     </div>
 
                     <div className="flex-wrap justify-center w-full flex md:flex-flow-col md:flex-rows-3 gap-10 md:w-10/12 4k:w-8/12 4k:gap-16">
