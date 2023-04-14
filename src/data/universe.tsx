@@ -855,7 +855,8 @@ class Universe {
                   "Old Gridania", "New Gridania", "Central Shroud", "East Shroud", "South Shroud", "North Shroud",
                   "Limsa Lominsa Lower Decks", "Limsa Lominsa Upper Decks", "Middle La Noscea", "Eastern La Noscea", "Western La Noscea", "Outer La Noscea", "Upper La Noscea", "Lower La Noscea",
                   "Coerthas Central Highlands", "Mor Dhona"],
-            "HW": ["Coerthas Western Highlands", "The Dravanian Forelands", "The Dravanian Hinterlands", "The Churning Mists", "The Sea of Clouds", "Azys La", "Ishgard - Foundation", "Ishgard - The Pillars"]
+            "HW": ["Coerthas Western Highlands", "The Dravanian Forelands", "The Dravanian Hinterlands", "The Churning Mists", "The Sea of Clouds", "Azys La", "Ishgard - Foundation", "Ishgard - The Pillars"],
+            "SB": ["The Fringes", "The Peaks", "The Lochs", "Rhalgr's Reach", "Kugane", "Yanxia", "The Ruby Sea", "The Azim Steppe"]
         }
 
         return mapList[expansion][Math.floor(Math.random() * mapList[expansion].length)];

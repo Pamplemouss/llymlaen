@@ -105,7 +105,7 @@ export default function Play() {
             const randomExpansion = cookies.expansions[Math.floor(Math.random() * cookies.expansions.length)];
             const randomMap = Universe.getRandomMap(randomExpansion);
             
-            if (randomExpansion != "ARR" && randomExpansion != "HW") {
+            if (randomExpansion != "ARR" && randomExpansion != "HW" && randomExpansion != "SB") {
                 setCookie('expansions', ["ARR"], {sameSite: 'strict'})
                 window.location.replace("/");
             }
