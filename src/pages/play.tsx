@@ -46,8 +46,6 @@ export default function Play() {
     
     // Start up setup
     useEffect(() => {
-        if (!expansionsValid(cookies.expansions)) window.location.replace("/");
-
         if (cookies.mapLevel != 1 && cookies.mapLevel != 2 && cookies.mapLevel != 3) setMapLevel(1);
         else setMapLevel(parseInt(cookies.mapLevel))
 
@@ -101,14 +99,14 @@ export default function Play() {
     function pickLocations() {
         if (gameSystem.maxRounds > Photospheres.length) throw "Max rounds number is above Photospheres selection";
 
+        if (!expansionsValid(cookies.expansions)) {
+            setCookie('expansions', ["ARR"], {sameSite: 'strict'})
+            window.location.replace("/");
+        }
+
         for (var i = 0 ; i < gameSystem.maxRounds ; i++) {
             const randomExpansion = cookies.expansions[Math.floor(Math.random() * cookies.expansions.length)];
             const randomMap = Universe.getRandomMap(randomExpansion);
-            
-            if (randomExpansion != "ARR" && randomExpansion != "HW" && randomExpansion != "SB") {
-                setCookie('expansions', ["ARR"], {sameSite: 'strict'})
-                window.location.replace("/");
-            }
 
             var newLocation;
             var j = 0;

@@ -127,10 +127,11 @@ export function CookiePopup({ setOpenPopup }: Props) {
 }
 
 export function expansionsValid(expansions: any) {
+    var valid = true;
     if (!Array.isArray(expansions)) return false;
     expansions.map(exp => {
-        if (exp !== "ARR" && exp !== "HW") return false
+        if (exp != "ARR" && exp != "HW" && exp != "SB") valid = false;
     });
 
-    return true;
+    return valid;
 }

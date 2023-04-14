@@ -209,7 +209,7 @@ var photospheres = [
     {map: "The Ruby Sea", expansion: "SB", pos: [51.585, -71.088], id: "192"},
     {map: "The Ruby Sea", expansion: "SB", pos: [80.125, 62.625], id: "193"},
     {map: "The Ruby Sea", expansion: "SB", pos: [-5.873, -89.38], id: "194"},
-    {map: "The Ruby Sea", expansion: "SB", pos: [9.576, 63.55], id: "195"},
+    {map: "The Ruby Sea", expansion: "SB", pos: [5.19, 71.027], id: "195"},
     {map: "The Ruby Sea", expansion: "SB", pos: [22.262, 51.298], id: "196"},
     {map: "The Ruby Sea", expansion: "SB", pos: [-90.871, 90.72], id: "197"},
     {map: "The Ruby Sea", expansion: "SB", pos: [-91.085, 27.993], id: "198"},
@@ -576,7 +576,7 @@ export const PhotospheresTest = [
     {map: "The Ruby Sea", expansion: "SB", pos: [51.585, -71.088], id: "192"},
     {map: "The Ruby Sea", expansion: "SB", pos: [80.125, 62.625], id: "193"},
     {map: "The Ruby Sea", expansion: "SB", pos: [-5.873, -89.38], id: "194"},
-    {map: "The Ruby Sea", expansion: "SB", pos: [9.576, 63.55], id: "195"},
+    {map: "The Ruby Sea", expansion: "SB", pos: [5.19, 71.027], id: "195"},
     {map: "The Ruby Sea", expansion: "SB", pos: [22.262, 51.298], id: "196"},
     {map: "The Ruby Sea", expansion: "SB", pos: [-90.871, 90.72], id: "197"},
     {map: "The Ruby Sea", expansion: "SB", pos: [-91.085, 27.993], id: "198"},
@@ -725,11 +725,13 @@ export const PhotospheresTest = [
     {map: "Kugane", expansion: "SB", pos: [12.625, -23.719], id: "333"},
     {map: "Kugane", expansion: "SB", pos: [-13.263, 0.201], id: "334"},
     {map: "Kugane", expansion: "SB", pos: [-20, 30.75], id: "335"},
+    {map: "Kugane", expansion: "SB", pos: [-31.617, 18.957], id: "336"},
     {map: "Kugane", expansion: "SB", pos: [-37.625, 3.563], id: "337"},
     {map: "Kugane", expansion: "SB", pos: [-24.725, -17.573], id: "338"},
     {map: "Kugane", expansion: "SB", pos: [-11.652, -10.752], id: "339"},
     {map: "Kugane", expansion: "SB", pos: [-23.73, -28.941], id: "340"},
     {map: "Kugane", expansion: "SB", pos: [12.42, -10.482], id: "341"},
+
 
     {map: "The Lochs", expansion: "SB", pos: [-80.759, 7.105], id: "atest"},
 ];
