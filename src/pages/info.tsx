@@ -34,15 +34,6 @@ export default function Info() {
     )
     return (
         <>
-            <Head>
-                <title>Eorguessr</title>
-                <link key="favApple" rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"></link>
-                <link key="fav32" rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"></link>
-                <link key="fav16" rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"></link>
-                <link key="manifest" rel="manifest" href="/favicon/site.webmanifest"></link>
-                <link key="favSafari" rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5"></link>
-            </Head>
-
             <div className="xl:absolute h-full w-full flex flex-col bg-slate-800">
                 <div className="relative h-full w-full flex flex-col xl:justify-center items-center xl:overflow-hidden">
                     <div className="hidden xl:block absolute top-0 left-0 h-full w-full grayscale-[0.25]">

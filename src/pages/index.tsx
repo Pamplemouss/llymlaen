@@ -11,7 +11,6 @@ export default function Home() {
     const [expansions, setExpansions] = useState<string[]>();
     
     useEffect(() => {
-        console.log(expansions);
         setCookie('expansions', expansions, {sameSite: 'strict'})
     }, [expansions])
 
@@ -30,15 +29,6 @@ export default function Home() {
 
     return (
         <>
-            <Head>
-                <title>Eorguessr</title>
-                <link key="favApple" rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"></link>
-                <link key="fav32" rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"></link>
-                <link key="fav16" rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"></link>
-                <link key="manifest" rel="manifest" href="/favicon/site.webmanifest"></link>
-                <link key="favSafari" rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5"></link>
-            </Head>
-
             <div className="relative md:absolute h-full w-full flex flex-col">
 
                 <div className="relative h-full w-full flex flex-col md:justify-center items-center pt-24 xl:pt-8">
@@ -48,12 +38,12 @@ export default function Home() {
                     <div className="border-2 border-x-[#c0a270] border-y-[#e0c290] w-11/12 md:w-10/12 4k:w-8/12 bg-gradient-to-br from-slate-800 to-slate-700 relative px-6 py-4 text-slate-300 font-myriad text-lg 4k:text-3xl shadow-lg shadow-black/50 rounded-lg mb-16">
                         Welcome Warrior of <span className="text-shadow shadow-yellow-200/20 text-yellow-200">Light</span>! How much time did you spend in Eorzea? You will be dropped at random places in the <span className="text-emerald-400">critically acclaimed Final Fantasy XIV Online MMORPG</span>, and will have to guess where you are. Select the expansions you want to play with, click &quot;Play&quot; and have fun! 
                         <br></br>
-                        <div className="text-sky-400 mt-4">For now, only A Realm Reborn and Heavensward are available. Stormblood will be unlocked really soon, so stay tuned!</div>
+                        <div className="text-sky-400 mt-4">For now, only A Realm Reborn, Heavensward and Stormblood are available. I expect to release Shadowbringer at the end of April.</div>
                     </div>
 
                     <div className="flex-wrap justify-center w-full flex md:flex-flow-col md:flex-rows-3 gap-10 md:w-10/12 4k:w-8/12 4k:gap-16">
                         {["ARR", "HW", "SB", "ShB", "EW"].map(expansion => {
-                            var disabled = expansion === "SB" || expansion === "ShB" || expansion === "EW";
+                            var disabled = expansion === "ShB" || expansion === "EW";
                             var tap = disabled ? { } : { scale: [1.2, 1] };
                             var hover = disabled ? {} : { y: -4 };
                             var transition = disabled ? { duration: 0.5 } : { duration: 0.1 }
@@ -130,6 +120,7 @@ export default function Home() {
                         </Link>
                     </motion.div>
                     
+                    <div className="text-shadow shadow-black z-10 mb-2 md:absolute md:bottom-0 text-center w-full text-slate-400 text-sm font-myriad pointer-events-none">FINAL FANTASY XIV © 2010 - 2023 SQUARE ENIX CO., LTD. All Rights Reserved.</div>
                 </div>
             </div>            
         </>

@@ -10,7 +10,7 @@ import { MutableRefObject, useContext, useEffect, useRef, useState } from "react
 import { motion, useAnimation } from "framer-motion";
 import Control from 'react-leaflet-custom-control'
 import Universe from '@/data/universe'
-import { Map as FFMap, Zone } from '../data/universe'
+import { Map as FFMap, Zone } from '@/data/universe'
 import GameContext from '@/components/GameContext';
 import { invLerp, calculateDist } from '@/Utilities';
 import LocationMarker from "./map/LocationMarker";
@@ -19,6 +19,7 @@ import GuessButton from "./map/GuessButton";
 import MapControl from "./map/MapControl";
 import MapMenu from "./map/MapMenu";
 import GuessMarker from "./map/GuessMarker";
+import { useCookies } from "react-cookie";
 
 
 interface FuncProps {
@@ -26,10 +27,11 @@ interface FuncProps {
     isMobile: boolean,
     isEdge: MutableRefObject<boolean>,
     is4k: MutableRefObject<boolean>,
-    mapLevel?: number
+    mapLevel?: number,
+    leftCentered: boolean,
 }
 
-export default function Map({toFind, isMobile, isEdge, is4k, mapLevel}: FuncProps) {
+export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCentered}: FuncProps) {
     const gameContext = useContext(GameContext);
     const blurControls = useAnimation();
     const Bounds = {
@@ -43,6 +45,7 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel}: FuncProp
     const [polyline, setPolyline] = useState<LatLngExpression[] | null>(null);
     const [zonesMenuOpen, setZonesMenuOpen] = useState(false);
     const [regionsMenuOpen, setRegionsMenuOpen] = useState(false);
+    const [cookies, setCookie] = useCookies(['expansions']);
     const map = useRef<L.Map | null>(null)
     const geojson = useRef<L.GeoJSON | null>(null)
     const answerIcon = new Icon({
@@ -114,27 +117,29 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel}: FuncProp
 
     function getZoom() {
         if (mapLevel === 1) {
-            if (currentMap.name === "The Source" && is4k.current) return 2.1          // world map + 4k
-            else if (currentMap.name === "The Source") return 1.1                   // world map
-            else if (currentMap.name !== "The Source" && is4k.current) return 2.1   // map + 4k
-            else return 1.1                                                         // map
+            if (currentMap.name === "The Source" && is4k.current) return leftCentered ? 2.1 : 1         // world map + 4k
+            else if (currentMap.name === "The Source") return leftCentered ? 1.1 : 0.1                  // world map
+            else if (currentMap.name !== "The Source" && is4k.current) return 2.1                       // map + 4k
+            else return 1.1                                                                             // map
         }
         else if (mapLevel === 2) {
-            if (currentMap.name === "The Source" && is4k.current) return 2.3        // world map + 4k
-            else if (currentMap.name === "The Source") return 1.3                   // world map
-            else if (currentMap.name !== "The Source" && is4k.current) return 2.2   // map + 4k
-            else return 1.3                                                         // map
+            if (currentMap.name === "The Source" && is4k.current) return leftCentered ? 2.3 : 1.5       // world map + 4k
+            else if (currentMap.name === "The Source") return leftCentered ? 1.3 : 0.5                  // world map
+            else if (currentMap.name !== "The Source" && is4k.current) return 2.2                       // map + 4k
+            else return 1.3                                                                             // map
         }
         else if (mapLevel === 3) {
-            if (currentMap.name === "The Source" && is4k.current) return 2.5        // world map + 4k
-            else if (currentMap.name === "The Source") return 1.5                   // world map
-            else if (currentMap.name !== "The Source" && is4k.current) return 2.5   // map + 4k
-            else return 1.4                                                         // map
+            if (currentMap.name === "The Source" && is4k.current) return leftCentered ? 2.5 : 1.8       // world map + 4k
+            else if (currentMap.name === "The Source") return leftCentered ? 1.5 : 0.8                  // world map
+            else if (currentMap.name !== "The Source" && is4k.current) return 2.5                       // map + 4k
+            else return 1.4                                                                             // map
         }
     }
 
     function getCenter() {
         if (currentMap.name !== "The Source") return [0,0]
+
+        if (!leftCentered) return [0,0]
 
         if (mapLevel === 1 && currentMap.name === "The Source") {
             return [0, (Bounds.THESOURCE as Array<Array<number>>)[0][1] + 110]
@@ -173,7 +178,6 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel}: FuncProp
 
     // Calcultate the offset needed to start with the world map snapped to the left corners
     //const theSourceCenter : LatLngExpression = [(Bounds.THESOURCE as Array<Array<number>>)[0][0] - (Bounds.OVERLAY as Array<Array<number>>)[0][0], (Bounds.THESOURCE as Array<Array<number>>)[0][1] - (Bounds.OVERLAY as Array<Array<number>>)[0][1]];    
-    console.log([0, (Bounds.THESOURCE as Array<Array<number>>)[0][1]])
     return (
         <div className={`overflow-hidden rounded-b-xl rounded-tr-xl relative h-full w-full ${isMobile ? "mobile" : ""}`}>
             <MapContainer
@@ -201,6 +205,10 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel}: FuncProp
 
                 {currentMap.markers.map((marker, index) => {
                     var isExit = (currentMap === Universe.TheSource ? false : Universe.sameRegion(currentMap, marker.target))
+
+                     if (!Universe.isInExpansions(marker.target, cookies.expansions)) return;
+                    
+
                     return (
                         <LocationMarker map={map} key={"key" + marker.target.name + index} marker={marker} isExit={isExit} geojson={geojson} changeLocation={changeLocation}></LocationMarker>
                     )

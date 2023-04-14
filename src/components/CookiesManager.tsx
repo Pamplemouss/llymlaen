@@ -58,7 +58,6 @@ export function CookieModal() {
                     </div>
                     
                 </div>
-                <div className="text-shadow shadow-black z-10 mb-2 md:absolute md:bottom-0 text-center w-full text-slate-400 text-sm font-myriad pointer-events-none">FINAL FANTASY XIV © 2010 - 2023 SQUARE ENIX CO., LTD. All Rights Reserved.</div>
             </>
         ) : null}
         </>
@@ -95,7 +94,7 @@ export function CookiePopup({ setOpenPopup }: Props) {
         <div
             className="md:translate-y-full md:-translate-x-full fixed md:absolute top-20 md:top-0 bottom-0 left-0 origin-top-right w-screen md:w-max"
         >
-            <div className="md:w-auto md:max-w-xl z-50 overflow-hidden p-6 bg-[rgb(50,50,50)] rounded shadow-[0_0_1px_2px_rgba(0,0,0,0.6)]">
+            <div className="md:w-auto md:max-w-xl z-50 overflow-hidden p-6 bg-[rgb(50,50,50)] rounded relative shadow-[0_0_1px_2px_rgba(0,0,0,0.6)]">
                 <div className="absolute top-0 left-0 h-4 w-full bg-gradient-to-b from-white opacity-30"></div>
                 <div className="flex gap-4">
                     <div className="relative rounded-lg shadow-[-1px_1px_3px_2px_rgba(0,0,0,.7)] overflow-hidden h-16 aspect-square">
@@ -128,10 +127,11 @@ export function CookiePopup({ setOpenPopup }: Props) {
 }
 
 export function expansionsValid(expansions: any) {
+    var valid = true;
     if (!Array.isArray(expansions)) return false;
     expansions.map(exp => {
-        if (exp !== "ARR" && exp !== "HW") return false
+        if (exp != "ARR" && exp != "HW" && exp != "SB") valid = false;
     });
 
-    return true;
+    return valid;
 }

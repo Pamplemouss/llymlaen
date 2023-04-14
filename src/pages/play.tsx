@@ -46,8 +46,6 @@ export default function Play() {
     
     // Start up setup
     useEffect(() => {
-        if (!expansionsValid(cookies.expansions)) window.location.replace("/");
-
         if (cookies.mapLevel != 1 && cookies.mapLevel != 2 && cookies.mapLevel != 3) setMapLevel(1);
         else setMapLevel(parseInt(cookies.mapLevel))
 
@@ -101,14 +99,14 @@ export default function Play() {
     function pickLocations() {
         if (gameSystem.maxRounds > Photospheres.length) throw "Max rounds number is above Photospheres selection";
 
+        if (!expansionsValid(cookies.expansions)) {
+            setCookie('expansions', ["ARR"], {sameSite: 'strict'})
+            window.location.replace("/");
+        }
+
         for (var i = 0 ; i < gameSystem.maxRounds ; i++) {
             const randomExpansion = cookies.expansions[Math.floor(Math.random() * cookies.expansions.length)];
             const randomMap = Universe.getRandomMap(randomExpansion);
-            
-            if (randomExpansion != "ARR" && randomExpansion != "HW") {
-                setCookie('expansions', ["ARR"], {sameSite: 'strict'})
-                window.location.replace("/");
-            }
 
             var newLocation;
             var j = 0;
@@ -181,15 +179,6 @@ export default function Play() {
 
     return (
         <GameContext.Provider value={{isPlaying, setIsPlaying, round, score, setScore, totalScore, distance, setDistance, gameSystem, gameData, displayResults, restart, nextRound, ended}}>
-            <Head>
-                <title>Eorguessr</title>
-                <link key="favApple" rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"></link>
-                <link key="fav32" rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"></link>
-                <link key="fav16" rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"></link>
-                <link key="manifest" rel="manifest" href="/favicon/site.webmanifest"></link>
-                <link key="favSafari" rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5"></link>
-            </Head>
-
             <CheckEdge/>
             
             <div className="absolute h-full w-full flex flex-col overflow-hidden select-none">
@@ -231,7 +220,7 @@ export default function Play() {
                                                 </div>
                                             </div>
                                             {toFind === null ? null :
-                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={false} isEdge={isEdge} is4k={is4k} mapLevel={mapLevel}></Map>
+                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={false} isEdge={isEdge} is4k={is4k} mapLevel={mapLevel} leftCentered={!["SB", "ShB", "EW"].some(value => cookies.expansions.includes(value))}></Map>
                                             }
 
                                         </motion.div>
@@ -248,7 +237,7 @@ export default function Play() {
                                             animate={displayMap ? { y: 0 } : { y: "110%"}}
                                             className="fixed bottom-4 w-11/12 pointer-events-auto aspect-square origin-bottom-right overflow-hidden shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-xl">
                                             {toFind === null ? null :
-                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={true} isEdge={isEdge} is4k={is4k} mapLevel={1}></Map>
+                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={true} isEdge={isEdge} is4k={is4k} mapLevel={1} leftCentered={!["SB", "ShB", "EW"].some(value => cookies.expansions.includes(value))}></Map>
                                             }
                                             <div onClick={() => setDisplayMap(!displayMap)} className="z-10 cursor-pointer w-10 h-10 absolute top-2 right-2 p-2 text-slate-200 bg-slate-800 rounded-full text-2xl flex justify-center items-center shadow shadow-black/70">
                                                 <i className="fa-solid fa-xmark"></i>

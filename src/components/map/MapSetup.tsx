@@ -16,7 +16,7 @@ export default function MapSetup({currentMap, map, geojson} : Props) {
     map.current = useMap();
 
     // GEOJSON CREATOR
-    /* (map.current as any).pm.addControls({  
+/*     (map.current as any).pm.addControls({  
         position: 'topleft',  
         drawCircle: false,  
         }); 
