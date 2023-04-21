@@ -13,11 +13,12 @@ import Universe from '@/data/universe'
 import { Map as FFMap, Zone } from '@/data/universe'
 import GameContext from '@/components/GameContext';
 import { invLerp, calculateDist } from '@/Utilities';
-import LocationMarker from "./map/LocationMarker";
-import MapSetup from "./map/MapSetup";
-import GuessButton from "./map/GuessButton";
-import MapControl from "./map/MapControl";
-import MapMenu from "./map/MapMenu";
+import LocationMarker from "@/components/map/LocationMarker";
+import MapSetup from "@/components/map/MapSetup";
+import GuessButton from "@/components/map/GuessButton";
+import MapControl from "@/components/map/MapControl";
+import MapMenu from "@/components/map/MapMenu";
+import SubAreas from "@/components/map/SubAreas";
 import GuessMarker from "./map/GuessMarker";
 import { useCookies } from "react-cookie";
 
@@ -32,20 +33,22 @@ interface FuncProps {
 }
 
 export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCentered}: FuncProps) {
+    const [cookies, setCookie] = useCookies(['expansions']);
     const gameContext = useContext(GameContext);
     const blurControls = useAnimation();
     const Bounds = {
         CONTAINER: [[-180,-180], [180,180]] as LatLngBoundsExpression,
         CONTAINER_TS: [[-200,-350], [200,350]] as LatLngBoundsExpression,
+        CONTAINER_TF: [[-200,-300], [200,300]] as LatLngBoundsExpression,
         OVERLAY: [[-110,-110], [110,110]] as LatLngBoundsExpression,
         THESOURCE: [[-110,-258], [110,258]] as LatLngBoundsExpression,
+        THEFIRST: [[-110,-196], [110,196]] as LatLngBoundsExpression,
     }
-    const [currentMap, setCurrentMap] = useState<FFMap>(Universe.TheSource);
+    const [currentMap, setCurrentMap] = useState<FFMap>(cookies.expansions.length === 1 && cookies.expansions[0] === "ShB" ? Universe.getMap("Norvrandt") : Universe.TheSource);
     const [guessPos, setGuessPos] = useState<[number, number] | null>(null);
     const [polyline, setPolyline] = useState<LatLngExpression[] | null>(null);
     const [zonesMenuOpen, setZonesMenuOpen] = useState(false);
     const [regionsMenuOpen, setRegionsMenuOpen] = useState(false);
-    const [cookies, setCookie] = useCookies(['expansions']);
     const map = useRef<L.Map | null>(null)
     const geojson = useRef<L.GeoJSON | null>(null)
     const answerIcon = new Icon({
@@ -137,9 +140,7 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCente
     }
 
     function getCenter() {
-        if (currentMap.name !== "The Source") return [0,0]
-
-        if (!leftCentered) return [0,0]
+        if (!leftCentered || currentMap.name !== "The Source") return [0,0]
 
         if (mapLevel === 1 && currentMap.name === "The Source") {
             return [0, (Bounds.THESOURCE as Array<Array<number>>)[0][1] + 110]
@@ -152,8 +153,21 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCente
         }
     }
 
+    function getMaxBounds() {
+        if (currentMap.name === "The Source") return Bounds.CONTAINER_TS;
+        if (currentMap.name === "The First") return Bounds.CONTAINER_TF;
+        return Bounds.CONTAINER;
+    }
+
+    function getBounds() {
+        if (currentMap.name === "The Source") return Bounds.THESOURCE;
+        if (currentMap.name === "The First") return Bounds.THEFIRST;
+        return Bounds.OVERLAY;
+    }
+
     async function changeLocation(target: FFMap) {
         if (!gameContext.isPlaying) return;
+        if (target.name === currentMap.name) return;
         setZonesMenuOpen(false);
         setRegionsMenuOpen(false);
         setGuessPos(null)
@@ -184,10 +198,10 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCente
                 center={getCenter() as LatLngExpression}
                 zoomSnap={0.1}
                 zoom={getZoom()}
-                minZoom={currentMap.name === "The Source" ? 0.1 : 0.5}
+                minZoom={(currentMap.name === "The Source" || currentMap.name === "The First") ? 0.1 : 0.5}
                 maxZoom={5}
                 crs={CRS.Simple}
-                maxBounds={currentMap.name === "The Source" ? Bounds.CONTAINER_TS : Bounds.CONTAINER}
+                maxBounds={getMaxBounds()}
                 attributionControl={false}
                 zoomControl={false}
                 scrollWheelZoom={true}
@@ -195,28 +209,28 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCente
                 key={currentMap.name + (currentMap.hasOwnProperty("region") ? "Z" : null)}
             >
                 <ImageOverlay
-                    bounds={currentMap.name === "The Source" ? Bounds.THESOURCE : Bounds.OVERLAY}
+                    bounds={getBounds()}
                     url={Universe.getMapUrl(currentMap, isEdge.current)}
                 />
                 <MapSetup map={map} currentMap={currentMap} geojson={geojson}></MapSetup>
                 <GuessMarker currentMap={currentMap} setRegionsMenuOpen={setRegionsMenuOpen} setZonesMenuOpen={setZonesMenuOpen} guessPos={guessPos} setGuessPos={setGuessPos} is4k={is4k}></GuessMarker>
-                <LineToAnswer />
-                <AnswerMarker />
+                <LineToAnswer/>
+                <AnswerMarker/>
 
                 {currentMap.markers.map((marker, index) => {
-                    var isExit = (currentMap === Universe.TheSource ? false : Universe.sameRegion(currentMap, marker.target))
-
-                     if (!Universe.isInExpansions(marker.target, cookies.expansions)) return;
-                    
-
+                    if (!Universe.isInExpansions(marker.target, cookies.expansions)) return;
                     return (
-                        <LocationMarker map={map} key={"key" + marker.target.name + index} marker={marker} isExit={isExit} geojson={geojson} changeLocation={changeLocation}></LocationMarker>
+                        <LocationMarker map={map} key={"key" + marker.target.name + index} currentMap={currentMap} marker={marker} geojson={geojson} changeLocation={changeLocation}></LocationMarker>
                     )
                 })}
                 
                 <Control prepend={true} position="topleft">
-                    <MapMenu currentMap={currentMap} TheSource={Universe.TheSource} changeLocation={changeLocation} setRegionsMenuOpen={setRegionsMenuOpen} setZonesMenuOpen={setZonesMenuOpen} regionsMenuOpen={regionsMenuOpen} zonesMenuOpen={zonesMenuOpen}></MapMenu>
-                    <MapControl currentMap={currentMap} map={map} changeLocation={changeLocation} TheSource={Universe.TheSource}></MapControl>
+                    <MapMenu currentMap={currentMap} changeLocation={changeLocation} setRegionsMenuOpen={setRegionsMenuOpen} setZonesMenuOpen={setZonesMenuOpen} regionsMenuOpen={regionsMenuOpen} zonesMenuOpen={zonesMenuOpen}></MapMenu>
+                    <MapControl currentMap={currentMap} map={map} changeLocation={changeLocation}></MapControl>
+                </Control>
+
+                <Control prepend={true} position="topright">
+                    <SubAreas currentMap={currentMap} changeLocation={changeLocation}/>
                 </Control>
 
                 <Control prepend={true} position="bottomright">

@@ -105,7 +105,8 @@ export default function Play() {
         }
 
         for (var i = 0 ; i < gameSystem.maxRounds ; i++) {
-            const randomExpansion = cookies.expansions[Math.floor(Math.random() * cookies.expansions.length)];
+            /* const randomExpansion = cookies.expansions[Math.floor(Math.random() * cookies.expansions.length)]; */ //WARNING: REMOVE WHEN ShB PHOTOSPHERES DONE
+            const randomExpansion = "ARR";
             const randomMap = Universe.getRandomMap(randomExpansion);
 
             var newLocation;
@@ -119,7 +120,7 @@ export default function Play() {
                 if (!gameData.current.locations.includes(newLocation) && newLocation.expansion === randomExpansion && newLocation.map === randomMap) break;
             }
 
-            newLocation.map = Universe.getMap(newLocation.map);
+            (newLocation.map as any) = Universe.getMap(newLocation.map);
             gameData.current.locations.push(newLocation);
         }
     }

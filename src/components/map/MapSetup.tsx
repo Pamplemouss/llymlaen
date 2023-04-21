@@ -39,7 +39,7 @@ export default function MapSetup({currentMap, map, geojson} : Props) {
         }
     
         Array.from(document.getElementsByClassName("leaflet-tooltip")).forEach(tooltip => {
-            if (tooltip.innerHTML === thisLayer.feature.properties.target) (tooltip as HTMLElement).classList.add("tooltipHighlight");
+            if ((tooltip.firstChild as HTMLElement).getAttribute("id") === thisLayer.feature.properties.target) (tooltip as HTMLElement).classList.add("tooltipHighlight");
         })
     }
     
@@ -51,7 +51,7 @@ export default function MapSetup({currentMap, map, geojson} : Props) {
         }
     
         Array.from(document.getElementsByClassName("leaflet-tooltip")).forEach(tooltip => {
-            if (tooltip.innerHTML === e.target.feature.properties.target) (tooltip as HTMLElement).classList.remove("tooltipHighlight");
+            if ((tooltip.firstChild as HTMLElement).getAttribute("id") === thisLayer.feature.properties.target) (tooltip as HTMLElement).classList.remove("tooltipHighlight");
         })
     }
     
@@ -61,7 +61,7 @@ export default function MapSetup({currentMap, map, geojson} : Props) {
             mouseout: resetHighlight,
             click: () => {
                 Array.from(document.getElementsByClassName("leaflet-tooltip")).forEach(tooltip => {
-                    if (tooltip.innerHTML === feature.properties.target) (tooltip as HTMLElement).click();
+                    if ((tooltip.firstChild as HTMLElement).getAttribute("id")) (tooltip as HTMLElement).click();
                 })
             }
         });
