@@ -106,8 +106,10 @@ export default function Play() {
         }
 
         for (var i = 0 ; i < gameSystem.maxRounds ; i++) {
-            const randomExpansion = cookies.expansions[Math.floor(Math.random() * cookies.expansions.length)];
-            const randomMap = Universe.getRandomMap(randomExpansion);
+            /* const randomExpansion = cookies.expansions[Math.floor(Math.random() * cookies.expansions.length)]; */ //WARNING: CHANGE BACK TO THIS FOR ENDWALKER
+            const randomExpansion = "ARR";
+            const randomMap = Universe.getRandomMap(randomExpansion); 
+
 
             var newLocation;
             var j = 0;
