@@ -9,6 +9,17 @@ export default function RoundResults() {
     const gameContext = useContext(GameContext);
     const [scoreHUD, setScoreHUD] = useState<number | null>(null);
     const x = useMotionValue(0);
+
+    const modalD = 0.4;
+    const progressBarT = 1;
+    const progressBarD = 0.3 + modalD;
+    const textD = gameContext.score === 0 ? 0.5 : progressBarT + progressBarD + 0.2;
+    const UITimings = {
+        modal: modalD,
+        progressBar: progressBarD,
+        progressBarDuration: progressBarT,
+        text: textD,
+    }
     
     useEffect(() => {
         if (gameContext.score === null) return;
@@ -17,10 +28,10 @@ export default function RoundResults() {
         setScoreHUD(null);
         setTimeout(() => {
             animate(x, gameContext.score, {
-                duration: 1,
+                duration: UITimings.progressBarDuration,
                 onUpdate: latest => setScoreHUD(latest)
             });
-        }, 1300)
+        }, UITimings.progressBar * 1000)
     }, [gameContext.score]);
 
 
@@ -35,7 +46,7 @@ export default function RoundResults() {
                     initial={{ x: x, y: isMobile ? 0 : "-50%", opacity: 0, scale: isMobile ? 1.2 : 2 }}
                     animate={{ x: x, y: isMobile ? 0 : "-50%", opacity: 1, scale: 1 }}
                     exit={{ x: x, y: isMobile ? 0 : "-50%", opacity: 0, scale: 0, transition: {delay: 0, duration: 0.3} }}
-                    transition={{  duration: 0.3, delay: 0.7 }}
+                    transition={{  duration: 0.3, delay: UITimings.modal }}
                     className={`${isMobile ? "top-20 left-0 w-[calc(100vw-20px)] fixed" : "-left-4 top-1/2 w-[25rem] xl:w-[32rem] 4k:w-[60rem] absolute"} z-40 pointer-events-auto py-4 lg:py-8 m-auto flex flex-col rounded-xl border-2 border-x-[#c0a270] border-y-[#e0c290] shadow-[0px_0px_30px_black,0px_0px_30px_black]`}>
                     
                     <ScoreTooltip isMobile={isMobile}></ScoreTooltip>
@@ -80,7 +91,7 @@ export default function RoundResults() {
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1}}
-                            transition={{ delay: gameContext.score === 0 ? 1.7 : 2.7 }}
+                            transition={{ delay: UITimings.text }}
                             className="text-slate-300 text-center font-neosans font-normal text-sm xl:text-base 4k:text-2xl"
                         >
                             {gameContext.score <= 10 && gameContext.score !== null ?
