@@ -10,7 +10,8 @@ type Map = {
     }[];
     exp?: string;
     subAreas?: string[],
-    menuName?: string
+    menuName?: string,
+    city?: boolean,
 }
 
 type Zone = Map & {region: Map}
@@ -109,14 +110,16 @@ const OldGridania : Zone = {
     name: "Old Gridania",
     region: TheBlackShroud,
     markers: [],
-    exp: "ARR"
+    exp: "ARR",
+    city: true,
 }
 
 const NewGridania : Zone = {
     name: "New Gridania",
     region: TheBlackShroud,
     markers: [],
-    exp: "ARR"
+    exp: "ARR",
+    city: true,
 }
 
 const CentralShroud : Zone = {
@@ -158,14 +161,16 @@ const UldahStepsOfNald : Zone = {
     name: "Ul'dah - Steps of Nald",
     region: Thanalan,
     markers: [],
-    exp: "ARR"
+    exp: "ARR",
+    city: true,
 }
 
 const UldahStepsOfThal : Zone = {
     name: "Ul'dah - Steps of Thal",
     region: Thanalan,
     markers: [],
-    exp: "ARR"
+    exp: "ARR",
+    city: true,
 }
 
 const EasternThanalan : Zone = {
@@ -208,14 +213,16 @@ const LimsaLominsaUpperDecks : Zone = {
     name: "Limsa Lominsa Upper Decks",
     region: LaNoscea,
     markers: [],
-    exp: "ARR"
+    exp: "ARR",
+    city: true,
 }
 
 const LimsaLominsaLowerDecks : Zone = {
     name: "Limsa Lominsa Lower Decks",
     region: LaNoscea,
     markers: [],
-    exp: "ARR"
+    exp: "ARR",
+    city: true,
 }
 
 const OuterLaNoscea : Zone = {
@@ -279,14 +286,16 @@ const IshgardFoundation : Zone = {
     name: "Ishgard - Foundation",
     region: Coerthas,
     markers: [],
-    exp: "HW"
+    exp: "HW",
+    city: true,
 }
 
 const IshgardThePillars : Zone = {
     name: "Ishgard - The Pillars",
     region: Coerthas,
     markers: [],
-    exp: "HW"
+    exp: "HW",
+    city: true,
 }
 
 
@@ -296,7 +305,8 @@ const MorDhonaZ : Zone = {
     name: "Mor Dhona",
     region: MorDhona,
     markers: [],
-    exp: "ARR"
+    exp: "ARR",
+    city: true,
 }
 
 // ABALATHIA'S SPINE
@@ -340,7 +350,8 @@ const Idyllshire : Zone = {
     name: "Idyllshire",
     region: Dravania,
     markers: [],
-    exp: "HW"
+    exp: "HW",
+    city: true,
 }
 
 // GYR ABANIA
@@ -348,7 +359,8 @@ const RhalgrsReach : Zone = {
     name: "Rhalgr's Reach",
     region: GyrAbania,
     markers: [],
-    exp: "SB"
+    exp: "SB",
+    city: true,
 }
 
 const TheFringes : Zone = {
@@ -377,7 +389,8 @@ const Kugane : Zone = {
     name: "Kugane",
     region: Hingashi,
     markers: [],
-    exp: "SB"
+    exp: "SB",
+    city: true,
 }
 
 // OTHARD
@@ -450,6 +463,7 @@ const TheCrystarium : Zone = {
     region: Norvrandt,
     markers: [],
     exp: "ShB",
+    city: true,
 }
 
 const TheButtress : Zone = {
@@ -458,7 +472,8 @@ const TheButtress : Zone = {
     markers: [],
     exp: "ShB",
     subAreas: ["The Buttress", "The Understory", "The Canopy"],
-    menuName: "Eulmore"
+    menuName: "Eulmore",
+    city: true,
 }
 const TheUnderstory : Zone = {
     name: "The Understory",
@@ -466,7 +481,8 @@ const TheUnderstory : Zone = {
     markers: [],
     exp: "ShB",
     subAreas: ["The Buttress", "The Understory", "The Canopy"],
-    menuName: "Eulmore"
+    menuName: "Eulmore",
+    city: true,
 }
 const TheCanopy : Zone = {
     name: "The Canopy",
@@ -474,7 +490,8 @@ const TheCanopy : Zone = {
     markers: [],
     exp: "ShB",
     subAreas: ["The Buttress", "The Understory", "The Canopy"],
-    menuName: "Eulmore"
+    menuName: "Eulmore",
+    city: true,
 }
 
 
@@ -1054,7 +1071,9 @@ class Universe {
         "ShB": ["The Crystarium", "Lakeland", "Amh Araeng", "Il Mheg", "Kholusia", "The Rak'tika Greatwood", "The Tempest", "Eulmore"]
     }
 
-    static subAreaMaps= [TheButtress, TheUnderstory, TheCanopy];
+    static subAreaMaps = [TheButtress, TheUnderstory, TheCanopy];
+
+    static YalmsConstant = 0.10731;
 
     static getMap(name: string) {
         var map;

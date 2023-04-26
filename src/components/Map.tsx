@@ -3,11 +3,12 @@ import {
     ImageOverlay,
     Marker,
     Polyline,
+    Circle,
 } from "react-leaflet";
 import { CRS, Icon, LatLngBoundsExpression, LatLngExpression } from "leaflet";
 import * as L from 'leaflet';
 import { MutableRefObject, useContext, useEffect, useRef, useState } from "react";
-import { motion, useAnimation } from "framer-motion";
+import { distance, motion, useAnimation } from "framer-motion";
 import Control from 'react-leaflet-custom-control'
 import Universe from '@/data/universe'
 import { Map as FFMap, Zone } from '@/data/universe'
@@ -56,7 +57,8 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCente
         iconAnchor: [24, 33],
         iconSize: [35, 35],
     });
-
+    const distFor100 = gameContext.gameSystem.distFor100 * (toFind.map.city === true ? (2.0/3.0) : 1);
+    const distMax = gameContext.gameSystem.distMax * (toFind.map.city === true ? 0.5 : 1);
 
     useEffect(() => {
         if (map.current === null) return;
@@ -83,7 +85,6 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCente
         if (guessPos === null) return;
 
         var calculScore = 0;
-        var distFor100 = toFind.expansion === "ARR" ? 2 : 4;
 
         // region
         if (Universe.sameRegion(toFind.map, currentMap)) calculScore += gameContext.gameSystem.region;
@@ -93,10 +94,10 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCente
 
         // exact location
         if (currentMap.name === toFind.map.name) {
-            var dist = Math.round(calculateDist(guessPos, toFind.pos));
+            var dist = Math.round((calculateDist(guessPos, toFind.pos) / Universe.YalmsConstant) * (currentMap.city === true ? 0.5 : 1));
             gameContext.setDistance(dist);
             if (dist <= distFor100) calculScore += gameContext.gameSystem.dist;
-            else if (dist < gameContext.gameSystem.distMax) calculScore += (invLerp(gameContext.gameSystem.distMax,2,dist) * gameContext.gameSystem.dist);
+            else if (dist < distMax) calculScore += (invLerp(distMax, distFor100, dist) * gameContext.gameSystem.dist);
         }
         
         gameContext.setScore(Math.floor(calculScore));
@@ -112,10 +113,18 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCente
     }
 
     function LineToAnswer() {
-        return (polyline !== null && currentMap.name === toFind.map.name) ? (
+        return (polyline !== null) ? (
             <Polyline pathOptions={{color: "black", dashArray: "1 8"}} positions={polyline} />
         ) : null;
     }
+
+    function AnswerCircle() {
+        return (gameContext.distance !== null) ? (
+            <Circle center={[toFind.pos[0], toFind.pos[1]]} radius={distFor100 * Universe.YalmsConstant * (currentMap.city === true ? 2 : 1)} />
+        ) : null;
+    }
+
+
 
     function AnswerMarker() {
         return (!gameContext.isPlaying && currentMap.name === toFind.map.name) ? (
@@ -220,6 +229,7 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCente
                 <MapSetup map={map} currentMap={currentMap} geojson={geojson}></MapSetup>
                 <GuessMarker currentMap={currentMap} setRegionsMenuOpen={setRegionsMenuOpen} setZonesMenuOpen={setZonesMenuOpen} guessPos={guessPos} setGuessPos={setGuessPos} is4k={is4k}></GuessMarker>
                 <LineToAnswer/>
+                <AnswerCircle/>
                 <AnswerMarker/>
 
                 {currentMap.markers.map((marker, index) => {

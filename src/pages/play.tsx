@@ -32,11 +32,12 @@ export default function Play() {
     const isEdge = useRef<boolean>(false);
     const is4k = useRef(false);
     const gameSystem = {
-        region: 10,
-        map: 20,
-        dist: 70,
+        region: 10,     // score for getting the region right
+        map: 20,        // score for getting the map right
+        dist: 70,       // score for getting the exact location
         total: 100,
-        distMax: 110,
+        distMax: 500,   // max distance in yalms
+        distFor100: 30, // distance needed to get max score in yalms
         maxRounds: 5,
     }
     const mapVariants = {
