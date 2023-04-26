@@ -85,8 +85,13 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCente
         var calculScore = 0;
         var distFor100 = toFind.expansion === "ARR" ? 2 : 4;
 
-        if ((currentMap as Zone).region.name === toFind.map.region.name) calculScore += gameContext.gameSystem.region;
-        if (currentMap.name === toFind.map.name) calculScore += gameContext.gameSystem.map;
+        // region
+        if (Universe.sameRegion(toFind.map, currentMap)) calculScore += gameContext.gameSystem.region;
+
+        // map
+        if (Universe.sameMap(toFind.map, currentMap)) calculScore += gameContext.gameSystem.map;
+
+        // exact location
         if (currentMap.name === toFind.map.name) {
             var dist = Math.round(calculateDist(guessPos, toFind.pos));
             gameContext.setDistance(dist);

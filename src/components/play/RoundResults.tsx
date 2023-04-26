@@ -87,10 +87,10 @@ export default function RoundResults() {
                                 <span>Your guess was not in the correct map.</span>
                             : gameContext.score === gameContext.gameSystem.total ? 
                                 <span>You found the exact location!</span>
-                            : gameContext.distance !== null ?
-                                <span>Your guess was <span className="mx-1 bg-slate-100/10 inline-block -skew-x-12 px-3 py-0.5 rounded"><span className="inline-block skew-x-12">{Math.round(gameContext.distance)} units</span></span> from the correct location.</span>
+                            : gameContext.distance === null ?
+                                <span>Your guess was not in the correct sub area.</span>
                             :
-                                <span> - </span>
+                                <span>Your guess was <span className="mx-1 bg-slate-100/10 inline-block -skew-x-12 px-3 py-0.5 rounded"><span className="inline-block skew-x-12">{Math.round(gameContext.distance)} units</span></span> from the correct location.</span>
                             }
                         </motion.div>
 

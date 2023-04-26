@@ -22,7 +22,7 @@ export default function LocationMarker({currentMap, map, marker, geojson, change
         else return marker.target.name;
     }
 
-    var isExit = (Universe.isWorldMap(currentMap) ? false : Universe.sameRegion(currentMap, marker.target))
+    var isExit = (Universe.isWorldMap(currentMap) ? false : !Universe.sameRegion(currentMap, marker.target))
 
     return (
         <Marker
