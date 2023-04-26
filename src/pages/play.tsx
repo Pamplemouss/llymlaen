@@ -105,20 +105,19 @@ export default function Play() {
         }
 
         for (var i = 0 ; i < gameSystem.maxRounds ; i++) {
-            /* const randomExpansion = cookies.expansions[Math.floor(Math.random() * cookies.expansions.length)]; */ //WARNING: REMOVE WHEN ShB PHOTOSPHERES DONE
-            const randomExpansion = "ARR";
+            const randomExpansion = cookies.expansions[Math.floor(Math.random() * cookies.expansions.length)];
             const randomMap = Universe.getRandomMap(randomExpansion);
 
             var newLocation;
             var j = 0;
 
-            while(true) {
+            do {
                 newLocation = Photospheres[Math.floor(Math.random() * Photospheres.length)]
                 j++;
                 if (j >= 10000) throw "Couldn't pick a location!"
-                
-                if (!gameData.current.locations.includes(newLocation) && newLocation.expansion === randomExpansion && newLocation.map === randomMap) break;
-            }
+            } while (gameData.current.locations.includes(newLocation) || newLocation.expansion !== randomExpansion || newLocation.map !== randomMap)
+
+            if (newLocation.subArea !== undefined) newLocation.map = newLocation.subArea;
 
             (newLocation.map as any) = Universe.getMap(newLocation.map);
             gameData.current.locations.push(newLocation);

@@ -61,7 +61,7 @@ export default function MapSetup({currentMap, map, geojson} : Props) {
             mouseout: resetHighlight,
             click: () => {
                 Array.from(document.getElementsByClassName("leaflet-tooltip")).forEach(tooltip => {
-                    if ((tooltip.firstChild as HTMLElement).getAttribute("id")) (tooltip as HTMLElement).click();
+                    if ((tooltip.firstChild as HTMLElement).getAttribute("id") === feature.properties.target) (tooltip as HTMLElement).click();
                 })
             }
         });
