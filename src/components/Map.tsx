@@ -57,6 +57,7 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCente
         iconAnchor: [24, 33],
         iconSize: [35, 35],
     });
+    console.log(gameContext.gameSystem)
     const distFor100 = gameContext.gameSystem.distFor100 * (toFind.map.city === true ? (2.0/3.0) : 1);
     const distMax = gameContext.gameSystem.distMax * (toFind.map.city === true ? 0.5 : 1);
 

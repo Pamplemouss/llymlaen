@@ -1231,7 +1231,8 @@ class Universe {
               "Coerthas Central Highlands", "Mor Dhona"],
         "HW": ["Coerthas Western Highlands", "The Dravanian Forelands", "The Dravanian Hinterlands", "The Churning Mists", "The Sea of Clouds", "Azys La", "Ishgard - Foundation", "Ishgard - The Pillars"],
         "SB": ["The Fringes", "The Peaks", "The Lochs", "Rhalgr's Reach", "Kugane", "Yanxia", "The Ruby Sea", "The Azim Steppe"],
-        "ShB": ["The Crystarium", "Lakeland", "Amh Araeng", "Il Mheg", "Kholusia", "The Rak'tika Greatwood", "The Tempest", "Eulmore"]
+        "ShB": ["The Crystarium", "Lakeland", "Amh Araeng", "Il Mheg", "Kholusia", "The Rak'tika Greatwood", "The Tempest", "Eulmore"],
+        "EW": ["Old Sharlayan", "Labyrinthos", "Radz-at-Han", "Thavnair", "Garlemald", "Elpis", "Mare Lamentorum", "Ultima Thule"]
     }
 
     static subAreaMaps = [TheButtress, TheUnderstory, TheCanopy];
