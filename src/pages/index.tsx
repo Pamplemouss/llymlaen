@@ -44,7 +44,7 @@ export default function Home() {
                         <div className="text-center">Welcome Warrior of {element} !</div>
                         How much time did you spend in Eorzea? You will be dropped at random places in the <span className="text-emerald-400">critically acclaimed Final Fantasy XIV Online MMORPG</span>, and will have to guess where you are. Select the expansions you want to play with, click &quot;Play&quot; and have fun! 
                         <br></br>
-                        <div className="text-sky-400 mt-4">For now, only A Realm Reborn, Heavensward and Stormblood are available. I expect to release Shadowbringer at the end of April.</div>
+                        <div className="text-sky-400 mt-4">All expansions are available! What's coming next: dungeons, and QoL improvements.</div>
                     </div>
 
                     <div className="flex-wrap justify-center w-full flex md:flex-flow-col md:flex-rows-3 gap-10 md:w-10/12 4k:w-8/12 4k:gap-16">
