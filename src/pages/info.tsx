@@ -18,9 +18,13 @@ export default function Info() {
                         <span className="text-xs 4k:text-lg text-slate-400">Chaos - Omega</span>
                     </div>
                 </a>
-                <a href="https://discordapp.com/users/123133020034170889" target="_blank" rel="noreferrer" className="hover:bg-slate-600 duration-200 cursor-pointer shadow shadow-black/50 py-1 px-3 rounded text-sm gap-2 bg-slate-700 flex items-center">
-                    <i className="4k:text-2xl fa-brands fa-discord mr-2"></i>
+                <a href="https://discordapp.com/users/123133020034170889" target="_blank" rel="noreferrer" className="group hover:bg-slate-600 duration-200 cursor-pointer shadow shadow-black/50 py-1 px-3 rounded text-sm gap-2 bg-slate-700 flex items-center">
+                    <i className="4k:text-2xl fa-brands fa-discord mr-1 group-hover:text-indigo-400 duration-200"></i>
                     <span className="4k:text-2xl">Pamplemouss#7301</span>
+                </a>
+                <a href="https://twitter.com/Pamplemouss42" target="_blank" rel="noreferrer" className="group hover:bg-slate-600 duration-200 cursor-pointer shadow shadow-black/50 py-1 px-3 rounded text-sm gap-2 bg-slate-700 flex items-center">
+                    <i className="4k:text-2xl fa-brands fa-twitter  group-hover:text-cyan-500 duration-200"></i>
+                    <span className="4k:text-2xl">@Pamplemouss42</span>
                 </a>
             </div>
             <div className="text-sm 4k:text-xl text-slate-400 border-l-4 pl-4 border-slate-400 mt-10">
