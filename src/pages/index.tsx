@@ -26,24 +26,30 @@ export default function Home() {
         }
     };
 
+    const element = expansions?.length === 1 && cookies.expansions[0] === "ShB" ?
+    (<span className="text-shadow shadow-violet-500/40 text-violet-400">Darkness</span>)
+    : (<span className="text-shadow shadow-yellow-200/20 text-yellow-200">Light</span>)
+    
+
 
     return (
         <>
             <div className="relative md:absolute h-full w-full flex flex-col">
 
-                <div className="relative h-full w-full flex flex-col md:justify-center items-center pt-24 xl:pt-8">
+                <div className="relative h-full w-full flex flex-col md:justify-center items-center pt-24 md:pt-0">
                     <div className="fixed top-0 left-0 h-full w-full home-background grayscale"></div>
                     <div className="fixed top-0 left-0 h-full w-full bg-slate-800/90"></div>
 
-                    <div className="border-2 border-x-[#c0a270] border-y-[#e0c290] w-11/12 md:w-10/12 4k:w-8/12 bg-gradient-to-br from-slate-800 to-slate-700 relative px-6 py-4 text-slate-300 font-myriad text-lg 4k:text-3xl shadow-lg shadow-black/50 rounded-lg mb-16">
-                        Welcome Warrior of <span className="text-shadow shadow-yellow-200/20 text-yellow-200">Light</span>! How much time did you spend in Eorzea? You will be dropped at random places in the <span className="text-emerald-400">critically acclaimed Final Fantasy XIV Online MMORPG</span>, and will have to guess where you are. Select the expansions you want to play with, click &quot;Play&quot; and have fun! 
+                    <div className="border-2 border-x-[#c0a270] border-y-[#e0c290] w-11/12 md:w-10/12 4k:w-8/12 bg-gradient-to-br from-slate-800 to-slate-700 relative px-6 py-4 text-slate-300 font-myriad xl:text-lg 4k:text-3xl shadow-lg shadow-black/50 rounded-lg mb-4 xl:mb-16">
+                        <div className="text-center">Welcome Warrior of {element} !</div>
+                        How much time did you spend in Eorzea? You will be dropped at random places in the <span className="text-emerald-400">critically acclaimed Final Fantasy XIV Online MMORPG</span>, and will have to guess where you are. Select the expansions you want to play with, click &quot;Play&quot; and have fun! 
                         <br></br>
-                        <div className="text-sky-400 mt-4">For now, only A Realm Reborn, Heavensward and Stormblood are available. I expect to release Shadowbringer at the end of April.</div>
+                        <div className="text-sky-400 mt-4">All expansions are available! What is coming next: dungeons, and QoL improvements.</div>
                     </div>
 
                     <div className="flex-wrap justify-center w-full flex md:flex-flow-col md:flex-rows-3 gap-10 md:w-10/12 4k:w-8/12 4k:gap-16">
                         {["ARR", "HW", "SB", "ShB", "EW"].map(expansion => {
-                            var disabled = expansion === "ShB" || expansion === "EW";
+                            var disabled = false;
                             var tap = disabled ? { } : { scale: [1.2, 1] };
                             var hover = disabled ? {} : { y: -4 };
                             var transition = disabled ? { duration: 0.5 } : { duration: 0.1 }
@@ -55,7 +61,7 @@ export default function Home() {
                                     whileHover={hover}
                                     whileTap={tap}
                                     transition={transition}
-                                    className={`vignette ${expansion} ${expansions?.includes(expansion) ? "active shadow-[0px_0px_20px_8px_rgb(0,0,0)] border-4 4k:border-8" : null} ${disabled ? "disabled opacity-50 cursor-not-allowed backdrop-blur-xl" : "cursor-pointer backdrop-blur-sm"} w-9/12 h-32 4k:h-60 md:w-3/12 md:h-44 -skew-x-12 group overflow-hidden shadow-lg shadow-black/50 relative py-4 px-16 rounded-xl`}
+                                    className={`vignette ${expansion} ${expansions?.includes(expansion) ? "active shadow-[0px_0px_20px_8px_rgb(0,0,0)] border-4 4k:border-8" : null} ${disabled ? "disabled opacity-50 cursor-not-allowed backdrop-blur-xl" : "cursor-pointer backdrop-blur-sm"} w-9/12 h-32 md:h-28 4k:h-60 md:w-3/12 xl:h-44 -skew-x-12 group overflow-hidden shadow-lg shadow-black/50 relative py-4 px-16 rounded-xl`}
                                 >
                                     <div className={`bg mix-blend-color-dodge absolute top-0 left-0 h-full w-full opacity-20 z-10`}></div>
                                     <div className={`duration-100 bgImage ${expansion}-bg skew-x-12 absolute top-0 -left-4 h-full w-[110%]`}></div>
@@ -83,7 +89,7 @@ export default function Home() {
                         })}
                     </div>
 
-                    <div className="mt-16 mb-10 md:mb-0">
+                    <div className="mt-4 xl:mt-16 mb-10 md:mb-0">
                         <div className={`${expansions?.length === 0 ? null : "invisible"} translate-x-2 text-center text-red-500 text-shadow shadow-red-900 uppercase -skew-x-12 mb-3 font-myriad`}>Select at least 1 expansion!</div>
                         <Link href="play">
                             <motion.div

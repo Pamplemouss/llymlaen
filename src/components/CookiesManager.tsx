@@ -130,7 +130,7 @@ export function expansionsValid(expansions: any) {
     var valid = true;
     if (!Array.isArray(expansions)) return false;
     expansions.map(exp => {
-        if (exp != "ARR" && exp != "HW" && exp != "SB") valid = false;
+        if (exp != "ARR" && exp != "HW" && exp != "SB" && exp != "ShB" && exp != "EW") valid = false;
     });
 
     return valid;

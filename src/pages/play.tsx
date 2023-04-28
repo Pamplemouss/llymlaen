@@ -32,11 +32,12 @@ export default function Play() {
     const isEdge = useRef<boolean>(false);
     const is4k = useRef(false);
     const gameSystem = {
-        region: 10,
-        map: 20,
-        dist: 70,
+        region: 10,     // score for getting the region right
+        map: 20,        // score for getting the map right
+        dist: 70,       // score for getting the exact location
         total: 100,
-        distMax: 110,
+        distMax: 500,   // max distance in yalms
+        distFor100: 30, // distance needed to get max score in yalms
         maxRounds: 5,
     }
     const mapVariants = {
@@ -106,20 +107,21 @@ export default function Play() {
 
         for (var i = 0 ; i < gameSystem.maxRounds ; i++) {
             const randomExpansion = cookies.expansions[Math.floor(Math.random() * cookies.expansions.length)];
-            const randomMap = Universe.getRandomMap(randomExpansion);
+            const randomMap = Universe.getRandomMap(randomExpansion); 
+
 
             var newLocation;
             var j = 0;
 
-            while(true) {
+            do {
                 newLocation = Photospheres[Math.floor(Math.random() * Photospheres.length)]
                 j++;
                 if (j >= 10000) throw "Couldn't pick a location!"
-                
-                if (!gameData.current.locations.includes(newLocation) && newLocation.expansion === randomExpansion && newLocation.map === randomMap) break;
-            }
+            } while (gameData.current.locations.includes(newLocation) || newLocation.expansion !== randomExpansion || newLocation.map !== randomMap)
 
-            newLocation.map = Universe.getMap(newLocation.map);
+            if (newLocation.subArea !== undefined) newLocation.map = newLocation.subArea;
+
+            (newLocation.map as any) = Universe.getMap(newLocation.map);
             gameData.current.locations.push(newLocation);
         }
     }

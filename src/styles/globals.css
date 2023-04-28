@@ -171,7 +171,10 @@
     z-index: 10;
 }
 
-.leaflet-top.leaflet-left, .leaflet-bottom.leaflet-left, .leaflet-control:not(.leaflet-control-zoom):not(.leaflet-pm-toolbar),
+.leaflet-top.leaflet-left,
+.leaflet-top.leaflet-right,
+.leaflet-bottom.leaflet-left,
+.leaflet-control:not(.leaflet-control-zoom):not(.leaflet-pm-toolbar),
 .leaflet-bottom.leaflet-right {
     width: 100%;
 }

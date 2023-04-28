@@ -1,17 +1,29 @@
 import { Point } from "leaflet";
 import { MutableRefObject } from "react";
 import { Marker, Tooltip } from "react-leaflet";
+import { Map as FFMap } from '@/data/universe'
+import Universe from '@/data/universe'
 
 
 interface Props {
-    isExit: boolean,
+    currentMap: FFMap,
     map: MutableRefObject<L.Map | null>,
     marker: any,
     geojson: MutableRefObject<L.GeoJSON | null>,
     changeLocation: any
 }
 
-export default function LocationMarker({isExit, map, marker, geojson, changeLocation} : Props) {
+export default function LocationMarker({currentMap, map, marker, geojson, changeLocation} : Props) {
+    function getLocationName() {
+        if (marker.target.subAreas !== undefined) {
+            if (currentMap.menuName !== marker.target.menuName) return marker.target.menuName
+            else return marker.target.name;
+        }
+        else return marker.target.name;
+    }
+
+    var isExit = (Universe.isWorldMap(currentMap) ? false : !Universe.sameRegion(currentMap, marker.target))
+
     return (
         <Marker
             position={[marker.latLng[0], marker.latLng[1]]}
@@ -41,7 +53,8 @@ export default function LocationMarker({isExit, map, marker, geojson, changeLoca
                 interactive={true}
                 className={`p-[2px] ${isExit ? "tooltipRegion text-[rgb(245,215,120)] shadow-yellow-900/80" : "text-cyan-200 shadow-black"} tracking-wide text-shadow-sm text-base 4k:text-3xl font-myriad-cond bg-transparent shadow-none border-none before:border-none`}
             >
-                {marker.target.name}
+                <span id={marker.target.name}></span>
+                {getLocationName()}
             </Tooltip>
         </Marker>
     )

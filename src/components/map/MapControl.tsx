@@ -1,24 +1,29 @@
 import L from "leaflet";
 import { MutableRefObject } from "react";
-import { Map as FFMap, Zone } from '@/data/universe'
+import Universe, { Map as FFMap, Zone } from '@/data/universe'
 
 
 interface Props {
     currentMap: FFMap,
     map: MutableRefObject<L.Map | null>,
     changeLocation: any,
-    TheSource: FFMap,
 }
 
-export default function MapControl({currentMap, TheSource, map, changeLocation} : Props) {
+export default function MapControl({currentMap, map, changeLocation} : Props) {
     function backOneLevel() {
         if (currentMap.hasOwnProperty("region")) changeLocation((currentMap as Zone).region);
-        else changeLocation(TheSource);
+        else {
+            var inTheFirst = false;
+            Universe.TheFirst.markers.forEach(marker => {
+                if (marker.target.name === currentMap.name) inTheFirst = true;
+            })
+            changeLocation(inTheFirst ? Universe.TheFirst : Universe.TheSource)
+        }
     }
 
     return (
         <div className="absolute top-0 -left-2 z-10">
-            <div onClick={() => changeLocation(TheSource)} className="cursor-pointer p-0.5">
+            <div onClick={() => changeLocation(Universe.TheSource)} className="cursor-pointer p-0.5">
                 <div className="rounded shadow w-5 h-5 4k:w-10 4k:h-10 shadow-black bg-gradient-to-tr from-[#513b1e] via-[#b49665] to-[#513b1e] hover:from-[#665033] hover:via-[#c9b17a] hover:to-[#665033] flex center-items">
                     <div className="w-3 h-2.5 4k:w-6 4k:h-4 shadow-sm shadow-yellow-200 border 4k:border-2 border-black m-auto"></div>
                 </div>
