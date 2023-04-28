@@ -372,7 +372,7 @@ var photospheres = [
     {map: "Lakeland", expansion: "ShB", pos: [-96.118, -69.975], id: "347"},
     {map: "Lakeland", expansion: "ShB", pos: [-84.102, -69.517], id: "348"},
     {map: "Lakeland", expansion: "ShB", pos: [-84.536, 58.01], id: "349"},
-    {map: "Lakeland", expansion: "ShB", pos: [-75.946, -34.267], id: "350"},
+    {map: "Lakeland", expansion: "ShB", pos: [-76.469, -32.406], id: "350"},
     {map: "Lakeland", expansion: "ShB", pos: [-75.792, -14.235], id: "351"},
     {map: "Lakeland", expansion: "ShB", pos: [-72.528, 8.869], id: "352"},
     {map: "Lakeland", expansion: "ShB", pos: [14.146, -16.867], id: "353"},
@@ -507,7 +507,7 @@ var photospheres = [
     {map: "The Crystarium", expansion: "ShB", pos: [-33.781, -13.469], id: "474"},
 
     {map: "Old Sharlayan", expansion: "EW", pos: [-55, -9.75], id: "475"},
-    {map: "Old Sharlayan", expansion: "EW", pos: [-32.5, -19.062], id: "476"},
+    {map: "Old Sharlayan", expansion: "EW", pos: [-32.187, -18.812], id: "476"},
     {map: "Old Sharlayan", expansion: "EW", pos: [-57.437, 25.875], id: "477"},
     {map: "Old Sharlayan", expansion: "EW", pos: [-2.137, 38.069], id: "478"},
     {map: "Old Sharlayan", expansion: "EW", pos: [15.733, 33.146], id: "479"},
