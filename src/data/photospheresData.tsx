@@ -575,7 +575,7 @@ var photospheres = [
     {map: "Radz-at-Han", expansion: "EW", pos: [-6.963, -0.047], id: "535"},
     {map: "Radz-at-Han", expansion: "EW", pos: [-6.594, 32.125], id: "536"},
     {map: "Radz-at-Han", expansion: "EW", pos: [-8.687, 23.188], id: "537"},
-    {map: "Radz-at-Han", expansion: "EW", pos: [8.239, -63.904], id: "538"},
+    {map: "Radz-at-Han", expansion: "EW", pos: [-8.239, -63.904], id: "538"},
     {map: "Radz-at-Han", expansion: "EW", pos: [12.928, -75.493], id: "539"},
     {map: "Radz-at-Han", expansion: "EW", pos: [-17.751, -34.699], id: "540"},
     {map: "Radz-at-Han", expansion: "EW", pos: [-32.689, -39.254], id: "541"},
