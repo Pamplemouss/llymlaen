@@ -181,7 +181,7 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCente
 
     async function changeLocation(target: FFMap) {
         if (!gameContext.isPlaying) return;
-        if (target.name === currentMap.name) return;
+        if (target.name === currentMap.name && target.name !== "Mor Dhona") return;
         setZonesMenuOpen(false);
         setRegionsMenuOpen(false);
         setGuessPos(null)

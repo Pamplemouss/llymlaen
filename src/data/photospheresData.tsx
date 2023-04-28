@@ -632,7 +632,6 @@ var photospheres = [
     {map: "Garlemald", expansion: "EW", pos: [36.018, 5.524], id: "593"},
     {map: "Garlemald", expansion: "EW", pos: [65.469, -24.062], id: "594"},
 
-    {map: "Elpis", expansion: "EW", pos: [65.469, -24.062], id: "594"},
     {map: "Elpis", expansion: "EW", pos: [-39.642, -60.104], id: "595"},
     {map: "Elpis", expansion: "EW", pos: [-85.869, -59.795], id: "596"},
     {map: "Elpis", expansion: "EW", pos: [-60.594, -72.375], id: "597"},
