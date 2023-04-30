@@ -530,7 +530,6 @@ var photospheres = [
     {map: "Old Sharlayan", expansion: "EW", pos: [9.767, -15.998], id: "496"},
     {map: "Old Sharlayan", expansion: "EW", pos: [11.181, 11.49], id: "497"},
     
-    {map: "Labyrinthos", expansion: "EW", pos: [11.181, 11.49], id: "497"},
     {map: "Labyrinthos", expansion: "EW", pos: [86.688, -43], id: "498"},
     {map: "Labyrinthos", expansion: "EW", pos: [45.5, -29.062], id: "499"},
     {map: "Labyrinthos", expansion: "EW", pos: [87.938, -3.062], id: "500"},
@@ -556,8 +555,8 @@ var photospheres = [
     {map: "Labyrinthos", expansion: "EW", pos: [-60.344, -58.402], id: "520"},
     {map: "Labyrinthos", expansion: "EW", pos: [-83.946, -40.011], id: "521"},
     {map: "Labyrinthos", expansion: "EW", pos: [-72.437, -21.875], id: "522"},
-    {map: "Labyrinthos", expansion: "EW", pos: [-47.812, 7.375], id: "524"},
     {map: "Labyrinthos", expansion: "EW", pos: [-67.75, -0.75], id: "523"},
+    {map: "Labyrinthos", expansion: "EW", pos: [-47.812, 7.375], id: "524"},
     {map: "Labyrinthos", expansion: "EW", pos: [-23.312, -35.969], id: "549"},
     {map: "Labyrinthos", expansion: "EW", pos: [-29, -26.469], id: "550"},
     {map: "Labyrinthos", expansion: "EW", pos: [-32.531, -34.281], id: "551"},
