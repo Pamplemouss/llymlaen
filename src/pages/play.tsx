@@ -139,8 +139,10 @@ export default function Play() {
     }
 
     function initRound() {
-        setDistance(null);
-        setScore(null);
+        setTimeout(() => {
+            setDistance(null);
+        }, 1000)
+        
         setDisplayMap(false);
     }
 

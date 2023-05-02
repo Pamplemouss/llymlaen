@@ -94,7 +94,7 @@ export default function RoundResults() {
                             transition={{ delay: UITimings.text }}
                             className="text-slate-300 text-center font-neosans font-normal text-sm xl:text-base 4k:text-2xl"
                         >
-                            {gameContext.score <= 10 && gameContext.score !== null ?
+                            {gameContext.score <= gameContext.gameSystem.region && gameContext.score !== null ?
                                 <span>Your guess was not in the correct map.</span>
                             : gameContext.score === gameContext.gameSystem.total ? 
                                 <span>You found the exact location!</span>
