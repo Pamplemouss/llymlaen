@@ -239,7 +239,7 @@ export default function Map({toFind, isMobile, is4k, mapLevel, leftCentered}: Fu
                 })}
                 
                 <Control prepend={true} position="topleft">
-                    <MapMenu currentMap={currentMap} changeLocation={changeLocation} setRegionsMenuOpen={setRegionsMenuOpen} setZonesMenuOpen={setZonesMenuOpen} regionsMenuOpen={regionsMenuOpen} zonesMenuOpen={zonesMenuOpen}></MapMenu>
+                    <MapMenu currentMap={currentMap} changeLocation={changeLocation} setRegionsMenuOpen={setRegionsMenuOpen} setZonesMenuOpen={setZonesMenuOpen} regionsMenuOpen={regionsMenuOpen} zonesMenuOpen={zonesMenuOpen} isMobile={isMobile}></MapMenu>
                     <MapControl currentMap={currentMap} map={map} changeLocation={changeLocation}></MapControl>
                 </Control>
 
