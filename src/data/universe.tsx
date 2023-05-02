@@ -1307,8 +1307,8 @@ class Universe {
         return map1.name === map2.name || (map1.menuName === map2.menuName && map1.menuName !== undefined)
     }
 
-    static getMapUrl(map: Map, isEdge: boolean) {
-        const format = isEdge ? ".webp" : ".avif";
+    static getMapUrl(map: Map) {
+        const format = ".webp";
         const regionFolder = map.hasOwnProperty("region") ? (map as Zone).region.name + "/" : "";
         const areaFolder = map.subAreas !== undefined ? map.menuName + "/" : "";
         return "maps/" + regionFolder + areaFolder + map.name + format

@@ -29,7 +29,6 @@ export default function Play() {
     const [round, setRound] = useState<number>(0);
     const [ended, setEnded] = useState<boolean>(false);
     const gameData = useRef<any>({locations: [], scores: []});
-    const isEdge = useRef<boolean>(false);
     const is4k = useRef(false);
     const gameSystem = {
         region: 10,     // score for getting the region right
@@ -63,9 +62,7 @@ export default function Play() {
     useEffect(() => {
         if (toFind=== null) return;
 
-        var format : string;
-        isEdge.current ? format = ".webp" : format = ".avif"
-
+        var format : string = ".webp";
         viewer!.setPanorama('photospheres/' + toFind.id + format).then(()=> {
             if (gameData.current.locations[round] !== undefined) setPreloadImg(<img className="hidden" src={'photospheres/' + gameData.current.locations[round].id + format} alt="Preload img"></img>);
         })
@@ -167,21 +164,8 @@ export default function Play() {
         startGame();
     }
 
-    function CheckEdge () {
-        return (
-            <UserAgent returnFullParser>
-                {(parser : any) => {
-                    isEdge.current = parser.getBrowser().name === "Edge"
-                }}
-            </UserAgent>
-        )
-    }
-
-    
-
     return (
         <GameContext.Provider value={{isPlaying, setIsPlaying, round, score, setScore, totalScore, distance, setDistance, gameSystem, gameData, displayResults, restart, nextRound, ended}}>
-            <CheckEdge/>
             
             <div className="absolute h-full w-full flex flex-col overflow-hidden select-none">
                 {preloadImg}
@@ -222,7 +206,7 @@ export default function Play() {
                                                 </div>
                                             </div>
                                             {toFind === null ? null :
-                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={false} isEdge={isEdge} is4k={is4k} mapLevel={mapLevel} leftCentered={!["SB", "ShB", "EW"].some(value => cookies.expansions.includes(value))}></Map>
+                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={false} is4k={is4k} mapLevel={mapLevel} leftCentered={!["SB", "ShB", "EW"].some(value => cookies.expansions.includes(value))}></Map>
                                             }
 
                                         </motion.div>
@@ -239,7 +223,7 @@ export default function Play() {
                                             animate={displayMap ? { y: 0 } : { y: "110%"}}
                                             className="fixed bottom-4 w-11/12 pointer-events-auto aspect-square origin-bottom-right overflow-hidden shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-xl">
                                             {toFind === null ? null :
-                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={true} isEdge={isEdge} is4k={is4k} mapLevel={1} leftCentered={!["SB", "ShB", "EW"].some(value => cookies.expansions.includes(value))}></Map>
+                                                <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={true} is4k={is4k} mapLevel={1} leftCentered={!["SB", "ShB", "EW"].some(value => cookies.expansions.includes(value))}></Map>
                                             }
                                             <div onClick={() => setDisplayMap(!displayMap)} className="z-10 cursor-pointer w-10 h-10 absolute top-2 right-2 p-2 text-slate-200 bg-slate-800 rounded-full text-2xl flex justify-center items-center shadow shadow-black/70">
                                                 <i className="fa-solid fa-xmark"></i>
@@ -251,7 +235,7 @@ export default function Play() {
                         </div>
                     </div>
                 ) : (
-                    <Results isEdge={isEdge}></Results>
+                    <Results></Results>
                 )}
                 
             </div>

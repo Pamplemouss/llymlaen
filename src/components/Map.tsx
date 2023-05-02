@@ -27,13 +27,12 @@ import { useCookies } from "react-cookie";
 interface FuncProps {
     toFind: any,
     isMobile: boolean,
-    isEdge: MutableRefObject<boolean>,
     is4k: MutableRefObject<boolean>,
     mapLevel?: number,
     leftCentered: boolean,
 }
 
-export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCentered}: FuncProps) {
+export default function Map({toFind, isMobile, is4k, mapLevel, leftCentered}: FuncProps) {
     const [cookies, setCookie] = useCookies(['expansions']);
     const gameContext = useContext(GameContext);
     const blurControls = useAnimation();
@@ -224,7 +223,7 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCente
             >
                 <ImageOverlay
                     bounds={getBounds()}
-                    url={Universe.getMapUrl(currentMap, isEdge.current)}
+                    url={Universe.getMapUrl(currentMap)}
                 />
                 <MapSetup map={map} currentMap={currentMap} geojson={geojson}></MapSetup>
                 <GuessMarker currentMap={currentMap} setRegionsMenuOpen={setRegionsMenuOpen} setZonesMenuOpen={setZonesMenuOpen} guessPos={guessPos} setGuessPos={setGuessPos} is4k={is4k}></GuessMarker>

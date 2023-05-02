@@ -2,10 +2,8 @@ import { animate, motion, useMotionValue } from "framer-motion";
 import { MutableRefObject, useContext, useEffect, useState } from "react";
 import GameContext from "../GameContext";
 
-interface Props  {
-    isEdge: MutableRefObject<boolean>,
-}
-export default function Results({ isEdge }: Props) {
+
+export default function Results() {
     const gameContext = useContext(GameContext);
     const [totalScoreHUD, setTotalScoreHUD] = useState<number | null>(null);
     const x = useMotionValue(0); 
@@ -50,9 +48,7 @@ export default function Results({ isEdge }: Props) {
                 className="items-center justify-center grid grid-cols-2 md:flex md:flex-wrap md:flex-rows-3 gap-3 md:gap-16 w-11/12 md:w-10/12"
             >
                 {gameContext.gameData.current.locations.map((location: any, index: number) => {
-                    var format : string;
-                    isEdge.current ? format = ".webp" : format = ".avif"
-                    var bgURL = "url('/snapshots/" + location.id + format + "')";
+                    var bgURL = "url('/snapshots/" + location.id + ".webp')";
                     return (
                         <motion.div
                             variants={item}
