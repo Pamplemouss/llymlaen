@@ -8,7 +8,7 @@ import {
 import { CRS, Icon, LatLngBoundsExpression, LatLngExpression } from "leaflet";
 import * as L from 'leaflet';
 import { MutableRefObject, useContext, useEffect, useRef, useState } from "react";
-import { distance, motion, useAnimation } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import Control from 'react-leaflet-custom-control'
 import Universe from '@/data/universe'
 import { Map as FFMap, Zone } from '@/data/universe'

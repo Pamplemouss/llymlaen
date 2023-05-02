@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import { UserAgent } from '@quentin-sommer/react-useragent'
 import { Viewer } from '@photo-sphere-viewer/core';
 import { useEffect, useRef, useState } from 'react';

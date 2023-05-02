@@ -1,5 +1,5 @@
 import { animate, motion, useMotionValue } from "framer-motion";
-import { MutableRefObject, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import GameContext from "../GameContext";
 
 

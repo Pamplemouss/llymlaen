@@ -1,6 +1,3 @@
-import Head from 'next/head'
-import TopBar from '@/components/TopBar';
-
 export default function Info() {
     var infoContent = (
         <span className="text-slate-300 text-lg 4k:text-2xl font-myriad">
