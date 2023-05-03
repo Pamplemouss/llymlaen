@@ -141,6 +141,7 @@ export default function Play() {
     function initRound() {
         setTimeout(() => {
             setDistance(null);
+            setScore(null);
         }, 1000)
         
         setDisplayMap(false);
