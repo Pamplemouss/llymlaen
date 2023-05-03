@@ -8,7 +8,7 @@ import {
 import { CRS, Icon, LatLngBoundsExpression, LatLngExpression } from "leaflet";
 import * as L from 'leaflet';
 import { MutableRefObject, useContext, useEffect, useRef, useState } from "react";
-import { distance, motion, useAnimation } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import Control from 'react-leaflet-custom-control'
 import Universe from '@/data/universe'
 import { Map as FFMap, Zone } from '@/data/universe'
@@ -27,13 +27,12 @@ import { useCookies } from "react-cookie";
 interface FuncProps {
     toFind: any,
     isMobile: boolean,
-    isEdge: MutableRefObject<boolean>,
     is4k: MutableRefObject<boolean>,
     mapLevel?: number,
     leftCentered: boolean,
 }
 
-export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCentered}: FuncProps) {
+export default function Map({toFind, isMobile, is4k, mapLevel, leftCentered}: FuncProps) {
     const [cookies, setCookie] = useCookies(['expansions']);
     const gameContext = useContext(GameContext);
     const blurControls = useAnimation();
@@ -119,7 +118,7 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCente
     }
 
     function AnswerCircle() {
-        return (gameContext.distance !== null) ? (
+        return (gameContext.distance !== null && !gameContext.isPlaying) ? (
             <Circle center={[toFind.pos[0], toFind.pos[1]]} radius={distFor100 * Universe.YalmsConstant * (currentMap.city === true ? 2 : 1)} />
         ) : null;
     }
@@ -207,7 +206,7 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCente
     // Calcultate the offset needed to start with the world map snapped to the left corners
     //const theSourceCenter : LatLngExpression = [(Bounds.THESOURCE as Array<Array<number>>)[0][0] - (Bounds.OVERLAY as Array<Array<number>>)[0][0], (Bounds.THESOURCE as Array<Array<number>>)[0][1] - (Bounds.OVERLAY as Array<Array<number>>)[0][1]];    
     return (
-        <div className={`overflow-hidden rounded-b-xl rounded-tr-xl relative h-full w-full ${isMobile ? "mobile" : ""}`}>
+        <div className={`overflow-hidden relative h-full w-full ${isMobile ? "mobile rounded-xl" : "rounded-b-xl rounded-tr-xl"}`}>
             <MapContainer
                 center={getCenter() as LatLngExpression}
                 zoomSnap={0.1}
@@ -224,7 +223,7 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCente
             >
                 <ImageOverlay
                     bounds={getBounds()}
-                    url={Universe.getMapUrl(currentMap, isEdge.current)}
+                    url={Universe.getMapUrl(currentMap)}
                 />
                 <MapSetup map={map} currentMap={currentMap} geojson={geojson}></MapSetup>
                 <GuessMarker currentMap={currentMap} setRegionsMenuOpen={setRegionsMenuOpen} setZonesMenuOpen={setZonesMenuOpen} guessPos={guessPos} setGuessPos={setGuessPos} is4k={is4k}></GuessMarker>
@@ -240,7 +239,7 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCente
                 })}
                 
                 <Control prepend={true} position="topleft">
-                    <MapMenu currentMap={currentMap} changeLocation={changeLocation} setRegionsMenuOpen={setRegionsMenuOpen} setZonesMenuOpen={setZonesMenuOpen} regionsMenuOpen={regionsMenuOpen} zonesMenuOpen={zonesMenuOpen}></MapMenu>
+                    <MapMenu currentMap={currentMap} changeLocation={changeLocation} setRegionsMenuOpen={setRegionsMenuOpen} setZonesMenuOpen={setZonesMenuOpen} regionsMenuOpen={regionsMenuOpen} zonesMenuOpen={zonesMenuOpen} isMobile={isMobile}></MapMenu>
                     <MapControl currentMap={currentMap} map={map} changeLocation={changeLocation}></MapControl>
                 </Control>
 
@@ -255,7 +254,7 @@ export default function Map({toFind, isMobile, isEdge, is4k, mapLevel, leftCente
             </MapContainer>
             <motion.div
                 animate={blurControls}
-                className="absolute top-0 left-0 w-full h-full z-20 backdrop-blur opacity-0 hidden"
+                className="absolute top-0 left-0 w-full h-full z-10 backdrop-blur opacity-0 hidden"
             ></motion.div>
         </div>
     );
