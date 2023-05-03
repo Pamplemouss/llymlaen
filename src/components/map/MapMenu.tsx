@@ -20,13 +20,10 @@ export default function MapMenu({currentMap, changeLocation, regionsMenuOpen, se
     const [cookies, setCookie] = useCookies(['expansions']);
 
     function getMapName() {
-        var name;
-
         if (Universe.isRegion(currentMap)) return "--";
         if (Universe.isWorldMap(currentMap)) return "";
         if (currentMap.subAreas !== undefined) return currentMap.menuName;
         else return currentMap.name;
-
     }
 
     return (
@@ -35,7 +32,7 @@ export default function MapMenu({currentMap, changeLocation, regionsMenuOpen, se
             <div className="h-full bg-black grow"></div>
             <div className="h-full w-2/12 bg-gradient-to-r from-black to-transparent"></div>
         </div>
-        <div className="absolute left-6 4k:left-12 top-2 text-yellow-50 z-20">
+        <div className={`absolute left-6 4k:left-12 ${isMobile ? "top-3" : "top-2"} text-yellow-50 z-20`}>
             <div className="relative flex">
                 <div onClick={() => { if (gameContext.isPlaying) {setRegionsMenuOpen(!regionsMenuOpen); setZonesMenuOpen(false)}}} className="dropdownMenu cursor-pointer">
                     <div className="h-5 w-5 4k:w-7 4k:h-7 select-none text-gray-300 text-base 4k:text-xl font-bold ffxivBtn rounded-full text-center shadow-[0px_1px_5px_rgba(0,0,0,0.7)] inline-flex justify-center items-center">

@@ -221,13 +221,13 @@ export default function Play() {
                                         </div>
                                         <motion.div
                                             initial= {{ y: "110%" }}
-                                            animate={displayMap ? { y: 0 } : { y: "110%"}}
-                                            className="fixed bottom-4 w-11/12 pointer-events-auto aspect-square origin-bottom-right overflow-hidden shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-xl">
+                                            animate={displayMap ? { y: 0 } : { y: "120%"}}
+                                            className="fixed bottom-4 w-11/12 pointer-events-auto aspect-square origin-bottom-right shadow-[0px_0px_30px_black,0px_0px_30px_black] border-2 border-x-[#c0a270] border-y-[#e0c290] rounded-xl">
                                             {toFind === null ? null :
                                                 <Map key={toFind.map.name + toFind.pos} toFind={toFind} isMobile={true} is4k={is4k} mapLevel={1} leftCentered={!["SB", "ShB", "EW"].some(value => cookies.expansions.includes(value))}></Map>
                                             }
-                                            <div onClick={() => setDisplayMap(!displayMap)} className="z-10 cursor-pointer w-10 h-10 absolute top-2 right-2 p-2 text-slate-200 bg-slate-800 rounded-full text-2xl flex justify-center items-center shadow shadow-black/70">
-                                                <i className="fa-solid fa-xmark"></i>
+                                            <div onClick={() => setDisplayMap(!displayMap)} className="z-10 border-2 border-x-[#c0a270] border-y-[#e0c290] cursor-pointer w-24 h-10 absolute -top-2 left-1/2 p-2 text-slate-200 bg-slate-800 rounded-full text-2xl flex justify-center items-center shadow shadow-black/70 -translate-y-1/2 -translate-x-1/2">
+                                                <i className="fa-solid fa-arrow-down"></i>
                                             </div>
                                         </motion.div>
                                     </UserAgent>

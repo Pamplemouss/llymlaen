@@ -206,7 +206,7 @@ export default function Map({toFind, isMobile, is4k, mapLevel, leftCentered}: Fu
     // Calcultate the offset needed to start with the world map snapped to the left corners
     //const theSourceCenter : LatLngExpression = [(Bounds.THESOURCE as Array<Array<number>>)[0][0] - (Bounds.OVERLAY as Array<Array<number>>)[0][0], (Bounds.THESOURCE as Array<Array<number>>)[0][1] - (Bounds.OVERLAY as Array<Array<number>>)[0][1]];    
     return (
-        <div className={`overflow-hidden rounded-b-xl rounded-tr-xl relative h-full w-full ${isMobile ? "mobile" : ""}`}>
+        <div className={`overflow-hidden relative h-full w-full ${isMobile ? "mobile rounded-xl" : "rounded-b-xl rounded-tr-xl"}`}>
             <MapContainer
                 center={getCenter() as LatLngExpression}
                 zoomSnap={0.1}
@@ -254,7 +254,7 @@ export default function Map({toFind, isMobile, is4k, mapLevel, leftCentered}: Fu
             </MapContainer>
             <motion.div
                 animate={blurControls}
-                className="absolute top-0 left-0 w-full h-full z-20 backdrop-blur opacity-0 hidden"
+                className="absolute top-0 left-0 w-full h-full z-10 backdrop-blur opacity-0 hidden"
             ></motion.div>
         </div>
     );
