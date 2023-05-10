@@ -190,6 +190,9 @@ export default function Play() {
                                     ) : null }
                                     </AnimatePresence>
                                     
+                                    <div className={`fixed bottom-0 left-1 p-4 text-3xl text-slate-300 opacity-50`}>
+                                        <i className="text-shadow shadow-black fa-solid fa-arrows-up-down-left-right"></i>
+                                    </div>
                                     {/* MAP */}
                                     <UserAgent computer>
                                         <motion.div
@@ -216,9 +219,6 @@ export default function Play() {
                                     <UserAgent mobile>
                                         <div onClick={() => setDisplayMap(!displayMap)} className="pointer-events-auto cursor-pointer shadow-lg shadow-black/70 fixed bottom-4 right-4 p-4 bg-emerald-500 rounded-full text-4xl text-slate-200">
                                             <i className="fa-regular fa-map"></i>
-                                        </div>
-                                        <div className="fixed bottom-4 left-4 p-4 text-3xl text-slate-300 opacity-50">
-                                            <i className="text-shadow shadow-black fa-solid fa-arrows-up-down-left-right"></i>
                                         </div>
                                         <motion.div
                                             initial= {{ y: "110%" }}

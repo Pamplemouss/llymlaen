@@ -203,8 +203,6 @@ export default function Map({toFind, isMobile, is4k, mapLevel, leftCentered}: Fu
         });
     }
 
-    // Calcultate the offset needed to start with the world map snapped to the left corners
-    //const theSourceCenter : LatLngExpression = [(Bounds.THESOURCE as Array<Array<number>>)[0][0] - (Bounds.OVERLAY as Array<Array<number>>)[0][0], (Bounds.THESOURCE as Array<Array<number>>)[0][1] - (Bounds.OVERLAY as Array<Array<number>>)[0][1]];    
     return (
         <div className={`overflow-hidden relative h-full w-full ${isMobile ? "mobile rounded-xl" : "rounded-b-xl rounded-tr-xl"}`}>
             <MapContainer
