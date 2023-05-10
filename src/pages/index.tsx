@@ -95,7 +95,7 @@ export default function Home() {
                                 initial={{ scale: 1, skewX: -12 }}
                                 whileHover={{ scale: [1.2, 1] }}
                                 transition={{ duration: 0.1 }}
-                                className={`${expansions?.length === 0 ? "pointer-events-none opacity-30" : " hover:shadow-yellow-500 hover:from-yellow-700 hover:to-yellow-400"} text-slate-200 border-slate-100/70  block border-4 4k:border-8 -skew-x-12 group duration-100 shadow-lg shadow-black/50 relative uppercase bg-gradient-to-br from-gray-800/50 to-gray-700/50 cursor-pointer py-4 px-16 rounded-xl`}
+                                className={`${expansions?.length === 0 ? "pointer-events-none opacity-30" : " hover:shadow-sky-500 hover:from-sky-700 hover:to-sky-400"} text-slate-200 border-slate-100/70  block border-4 4k:border-8 -skew-x-12 group duration-100 shadow-lg shadow-black/50 relative uppercase bg-gradient-to-br from-gray-800/50 to-gray-700/50 cursor-pointer py-4 px-16 rounded-xl`}
                             >
                                 <div className="overflow-hidden absolute top-0 left-0 h-full w-full scale-[0.95] rounded-xl">
                                     <div className="absolute top-0 left-0 group-hover:bg-white/50 bg-white/50 h-full w-1.5 4k:w-2 rounded-xl"></div>

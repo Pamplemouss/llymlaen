@@ -335,3 +335,7 @@
         height: 80rem;
     }
 }
+
+.score {
+    text-shadow: 4px 3px black,4px 1px black,0px 3px black,-1px 0px black,0px -1px black,1px 0px black;
+}

@@ -20,11 +20,11 @@ export default function TopBar() {
                 <div className="h-[85%] aspect-square relative">
                     <Image alt="logo" fill src="/logo.png" sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw" className="object-contain"></Image>
                 </div>
-                <div className="text-xl 4k:text-2xl text-emerald-400 font-neosans tracking-wider flex justify-center items-center ml-5">EORGUESSR</div>
+                <div className="text-xl 4k:text-2xl text-cyan-400 font-neosans tracking-wider flex justify-center items-center ml-5">EORGUESSR</div>
             </Link>
 
             <div className="relative">
-                <div onClick={() => setOpenPopup(!openPopup)} className="p-2 text-slate-400 hover:text-emerald-400 duration-100 cursor-pointer text-2xl text-shadow-lg shadow-black/30 hover:shadow-emerald-200/10">
+                <div onClick={() => setOpenPopup(!openPopup)} className="p-2 text-slate-400 hover:text-cyan-400 duration-100 cursor-pointer text-2xl text-shadow-lg shadow-black/30 hover:shadow-emerald-200/10">
                     <i className="fa-sharp fa-solid fa-cookie-bite"></i>
                 </div>
 

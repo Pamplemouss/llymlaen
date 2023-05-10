@@ -119,7 +119,7 @@ export default function Map({toFind, isMobile, is4k, mapLevel, leftCentered}: Fu
 
     function AnswerCircle() {
         return (gameContext.distance !== null && !gameContext.isPlaying) ? (
-            <Circle center={[toFind.pos[0], toFind.pos[1]]} radius={distFor100 * Universe.YalmsConstant * (currentMap.city === true ? 2 : 1)} />
+            <Circle center={[toFind.pos[0], toFind.pos[1]]} radius={distFor100 * Universe.YalmsConstant * (currentMap.city === true ? 2 : 1)} pathOptions={{ color: 'rgb(14 165 233)' }}/>
         ) : null;
     }
 

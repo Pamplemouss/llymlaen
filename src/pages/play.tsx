@@ -217,7 +217,7 @@ export default function Play() {
                                         </motion.div>
                                     </UserAgent>
                                     <UserAgent mobile>
-                                        <div onClick={() => setDisplayMap(!displayMap)} className="pointer-events-auto cursor-pointer shadow-lg shadow-black/70 fixed bottom-4 right-4 p-4 bg-emerald-500 rounded-full text-4xl text-slate-200">
+                                        <div onClick={() => setDisplayMap(!displayMap)} className="pointer-events-auto cursor-pointer shadow-lg shadow-black/70 fixed bottom-4 right-4 p-4 bg-cyan-500 rounded-full text-4xl text-slate-200">
                                             <i className="fa-regular fa-map"></i>
                                         </div>
                                         <motion.div
