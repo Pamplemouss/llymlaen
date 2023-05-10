@@ -115,7 +115,7 @@ export default function RoundResults() {
                             </motion.div>
                             <motion.div
                                 style={{width: 100*(scoreHUD!/gameContext.gameSystem.total)+"%"}}
-                                className={`${Math.round(scoreHUD!) < gameContext.gameSystem.total ? "from-cyan-400 via-cyan-200 to-cyan-400" : "from-amber-400 via-yellow-200 to-amber-400"} bg-gradient-to-l absolute h-full rounded-full`}>
+                                className={`${Math.round(scoreHUD!) < gameContext.gameSystem.total ? "from-cyan-400 via-cyan-200 to-cyan-400" : "from-amber-400 via-yellow-200 to-amber-400"} bg-gradient-to-l absolute h-full rounded-l-full`}>
                             </motion.div>
                             { Math.round(scoreHUD!) == gameContext.gameSystem.total && (
                                 <motion.div

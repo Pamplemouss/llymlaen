@@ -37,7 +37,7 @@ export default function MapControl({currentMap, map, changeLocation} : Props) {
         return (
             <input
                 type="range" min="0" max="100" value={value} onChange={handleOnChange}
-                className="zoom-slider w-24 rotate-180 origin-center accent-red-300"
+                className="zoom-slider w-24 4k:w-40 rotate-180 origin-center accent-red-300"
             />
         );
     }    
@@ -55,7 +55,7 @@ export default function MapControl({currentMap, map, changeLocation} : Props) {
                 </div>
             </div>
 
-            <div className="flex rotate-90 origin-top-left translate-x-6 pl-1">
+            <div className="flex rotate-90 origin-top-left translate-x-6 4k:translate-x-11 pl-1">
                 <div onClick={() => map.current?.zoomIn()} className="cursor-pointer p-0.5 -rotate-90">
                     <div className="flex justify-center items-center rounded shadow w-5 h-5 4k:w-10 4k:h-10 shadow-black bg-gradient-to-tr from-[#513b1e] via-[#b49665] to-[#513b1e] hover:from-[#665033] hover:via-[#c9b17a] hover:to-[#665033] flex center-items">
                         <i className="text-slate-900 fa-solid fa-plus text-shadow shadow-yellow-200/40 text-[1rem] 4k:text-[1.5rem]"></i>

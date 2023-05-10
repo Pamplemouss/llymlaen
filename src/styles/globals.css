@@ -230,7 +230,7 @@
 }
   
 .zoom-slider::-moz-range-thumb {
-    height: 20px;
+    height: 95%;
     width: 10px;
     border-radius: 6px;
     background: linear-gradient(to bottom right, #fad59a, #b49665 50%, #fad59a);
@@ -241,7 +241,7 @@
 
 .zoom-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    height: 20px;
+    height: 95%;
     width: 10px;
     border-radius: 6px;
     background: linear-gradient(to bottom right, #fad59a, #b49665 50%, #fad59a);
@@ -252,7 +252,7 @@
 }
 
 .zoom-slider::-ms-thumb {
-    height: 20px;
+    height: 95%;
     width: 10px;
     border-radius: 6px;
     background: linear-gradient(to bottom right, #fad59a, #b49665 50%, #fad59a);
