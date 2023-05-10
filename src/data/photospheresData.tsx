@@ -121,7 +121,7 @@ var photospheres = [
     {map: "The Dravanian Forelands", expansion: "HW", pos: [62.563, -15.312], id: "161"},
     {map: "The Dravanian Forelands", expansion: "HW", pos: [40.705, -49.746], id: "162"},
     {map: "The Dravanian Forelands", expansion: "HW", pos: [-33.024, 62.096], id: "181"},
-    {map: "The Dravanian Forelands", expansion: "HW", pos: [14.844, 89.281], id: "182"},
+    {map: "The Dravanian Forelands", expansion: "HW", pos: [-14.844, 89.281], id: "182"},
     {map: "The Dravanian Forelands", expansion: "HW", pos: [47.719, 81.844], id: "183"},
     {map: "The Dravanian Forelands", expansion: "HW", pos: [80.852, 82.259], id: "184"},
 
