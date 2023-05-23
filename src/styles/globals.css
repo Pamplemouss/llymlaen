@@ -241,14 +241,14 @@
 
 .zoom-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    height: 95%;
+    height: 25px;
     width: 10px;
     border-radius: 6px;
     background: linear-gradient(to bottom right, #fad59a, #b49665 50%, #fad59a);
     box-shadow: -1px 0px 2px 1px rgba(0,0,0,0.6);
     cursor: pointer;
     border: none;
-    transform: translateY(-9px);
+    transform: translateY(-12px);
 }
 
 .zoom-slider::-ms-thumb {

@@ -7,7 +7,7 @@ export default function Info() {
                 <img className="inline-block" src="/info/gil.png"></img>
                 <span>Here is my <a className="duration-200 px-1 text-yellow-400 text-shadow shadow-yellow-900 hover:shadow-yellow-600 hover:underline" rel="noreferrer" href="https://ko-fi.com/pamplemouss" target="_blank">Ko-fi</a> if you have any extra gils to spend! It would be really appreciated.</span>
             </div>
-            <div className="items-center xl:items-stretch flex-col xl:flex-row flex gap-6 my-5 justify-evenly">
+            <div className="items-center xl:items-stretch flex-col md:flex-row flex gap-6 my-5 justify-evenly">
                 <a href="https://na.finalfantasyxiv.com/lodestone/character/18356659/" target="_blank" rel="noreferrer" className="hover:bg-slate-600 duration-200 shadow shadow-black/50 py-1 px-3 rounded text-sm gap-2 bg-slate-700 flex items-center">
                     <img src="/info/arrLogo.png" className="bg-clip-text w-6 4k:w-12 aspect-square"></img>
                     <div className="flex flex-col">
@@ -24,12 +24,14 @@ export default function Info() {
                     <span className="4k:text-2xl">@Pamplemouss42</span>
                 </a>
             </div>
-            <div className="text-sm 4k:text-xl text-slate-400 border-l-4 pl-4 border-slate-400 mt-10">
+            <div className="text-xs 4k:text-xl text-slate-400 border-l-4 pl-4 border-slate-400 mt-10">
                 <span>Special thanks to:</span>
-                <br></br>- Barathesh, for his tutorial on creating photospheres
-                <br></br>- SamHourai, being the first one to create a Geoguessr for FFXIV
                 <br></br>- <a href="https://fr.finalfantasyxiv.com/lodestone/character/42192455/" target="_blank" rel="noreferrer" className="underline">Saffron</a>, <a href="https://na.finalfantasyxiv.com/lodestone/character/34070964/" target="_blank" rel="noreferrer" className="underline">Mighty Melon</a>, <a href="https://na.finalfantasyxiv.com/lodestone/character/18355689/" target="_blank" rel="noreferrer" className="underline">Yabuqa</a> and Damian Gray for beta-testing
                 <br></br>- <a href="https://na.finalfantasyxiv.com/lodestone/character/34070964/" target="_blank" rel="noreferrer" className="underline">Mighty Melon</a> & <a href="https://na.finalfantasyxiv.com/lodestone/character/41733031/" target="_blank" rel="noreferrer" className="underline">V&apos;ellexia</a> for helping me stitching out photospheres
+                <br></br>- Kaito Krit for coming up with the name
+                <br></br>- Barathesh, for his tutorial on creating photospheres
+                <br></br>- SamHourai, being the first one to create a Geoguessr for FFXIV
+                <br></br>- Emery Nianh, Nibble Nao, Fafaye Faye, Bluevey Wintersoul, Willow Robyn, Myst Robyn, Oz Hayle and Marcel Michel for being the nicest Lalafells
             </div>
         </span>
     )
@@ -47,7 +49,7 @@ export default function Info() {
                         <div className="aspect-square w-8/12 rounded xl:rounded-none overflow-hidden md:min-w-min md:w-[25rem] md:h-full shadow shadow-black">
                             <video className="h-full object-cover" src="/info/aboutme1-1-1080b.webm" autoPlay muted loop></video>
                         </div>
-                        <div className="xl:max-w-2xl 4k:max-w-4xl p-6">
+                        <div className="xl:max-w-2xl 4k:max-w-4xl px-6 py-12">
                             {infoContent}
                         </div>
                     </div>
