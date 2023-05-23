@@ -30,6 +30,9 @@ yarn-error.log*
 
 .env
 
+localhost.crt
+localhost.key
+
 # vercel
 .vercel
 
