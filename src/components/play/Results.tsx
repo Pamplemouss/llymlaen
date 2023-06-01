@@ -1,4 +1,5 @@
-import { AnimatePresence, animate, motion, useMotionValue } from "framer-motion";
+import { AnimatePresence, animate, motion } from "framer-motion";
+import { UserAgent } from '@quentin-sommer/react-useragent'
 import { useContext, useEffect, useRef, useState } from "react";
 import { TwitterShareButton, FacebookShareButton } from 'react-share';
 import * as htmlToImage from 'html-to-image';
@@ -32,7 +33,6 @@ export default function Results() {
         if (snapshot || !snapReady) return;
         setFlash(true)
         setSnapshot(true)
-
         navigator.clipboard.write([
             new ClipboardItem(
                 Object.defineProperty({}, screenshot.current!.type, {
@@ -151,7 +151,7 @@ export default function Results() {
                 
 
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: gameContext.gameSystem.maxRounds*0.25 + 2.55, duration: 0.5 }}>
-                    <div className="flex gap-4 relative mt-7 items-center">
+                    <div className="flex gap-4 relative mt-7 items-center justify-around">
                         <div className="text-slate-400 text-xl absolute top-1/2 -left-4 -translate-y-1/2 -translate-x-full">
                             <i className="fa-solid fa-share-nodes"></i>
                         </div>
@@ -161,13 +161,19 @@ export default function Results() {
                         <FacebookShareButton url={`https://eorguessr.com`} hashtag={"#FFXIV"}>
                             <div className="duration-200 -skew-x-12 rounded bg-blue-600 hover:bg-blue-500 w-14 shadow shadow-black py-2 text-slate-100 flex justify-center items-center"><i className="fa-brands fa-facebook-f"></i></div>
                         </FacebookShareButton>
-                        <div className={` ${snapReady? "duration-200 cursor-pointer bg-indigo-600 hover:bg-indigo-500 text-slate-100" : "bg-slate-500 text-slate-400" }  -skew-x-12 rounded w-14 shadow shadow-black py-2 flex justify-center items-center`} onClick={snap}>
-                            { snapReady ? (
-                                <i className="fa-solid fa-clipboard"></i>
-                            ) : (
-                                <i className="fa-solid fa-spinner animate-spin "></i>
-                            )}
-                        </div>
+                        <UserAgent returnFullParser>
+                            {(parser : any) => {
+                                if (parser.getBrowser().name !== "Firefox" && parser.getBrowser().name !== "Safari") return (
+                                    <div className={` ${snapReady? "duration-200 cursor-pointer bg-indigo-600 hover:bg-indigo-500 text-slate-100" : "bg-slate-500 text-slate-400" }  -skew-x-12 rounded w-14 shadow shadow-black py-2 flex justify-center items-center`} onClick={snap}>
+                                        { snapReady ? (
+                                            <i className="fa-solid fa-clipboard"></i>
+                                        ) : (
+                                            <i className="fa-solid fa-spinner animate-spin "></i>
+                                        )}
+                                    </div>
+                                )
+                            }}
+                        </UserAgent>
                     </div>
                     
 
