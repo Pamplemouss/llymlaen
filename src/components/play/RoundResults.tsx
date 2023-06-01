@@ -108,7 +108,7 @@ export default function RoundResults() {
                         </div>
 
                         {/* PROGRESS BAR */}
-                        <div className="h-2 4k:h-4 mt-2 lg:mt-5 mb-4 4k:mb-8 bg-slate-600 rounded-full flex relative -skew-x-12">
+                        <div className="h-2 4k:h-4 mt-2 lg:mt-5 mb-4 4k:mb-8 bg-slate-600 rounded-full flex relative -skew-x-12 overflow-hidden">
                             <motion.div initial={{ width: 100*(gameContext.gameSystem.region/gameContext.gameSystem.total)+"%" }} className="z-10 border-r-2 border-slate-800 relative">
                             </motion.div>
                             <motion.div initial={{ width: 100*(gameContext.gameSystem.map/gameContext.gameSystem.total)+"%" }} className="z-10 border-r-2 border-slate-800 relative">

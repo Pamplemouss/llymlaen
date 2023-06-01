@@ -1,38 +1,32 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+#Eorguessr
+Game inspired by the gameplay of https://geoguessr.com and the universe of Final Fantasy XIV.
+You will be dropped at random places in FFXIV, and will have to guess in the map where you are.
 
-## Getting Started
+##What it looks like
+<div style="display:flex;gap:5px;">
+<img src="https://i.imgur.com/d3290Jk.png" width="250"/>
+<video src="https://i.imgur.com/2PDJH5J.mp4" width="250" autoplay loop/>
+<img src="https://i.imgur.com/d6KaW27.gif" width="250" />
+</div>
 
-First, run the development server:
+##Made with
+- Next.js
+- Typescript
+- Leaflet
+- Tailwindcss
+- Framer Motion
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+##Features
+Currently in:
+- World places from all expansions
+- Basic game mode
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Planned:
+- Dungeons and raids
+- Multiplayer mode
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+##Thanks
+- Saffron, Mighty Melon, Yabuqa and Damian Gray for beta-testing
+- Mighty Melon & V'ellexia for helping me stitching out photospheres
+- Kaito Krit for coming up with the name
+- SamHourai, being the first one to create a Geoguessr for FFXIV

@@ -1,4 +1,0 @@
-cdn.eorguessr.com {
-    root * /public
-    file_server
-}
