@@ -135,3 +135,13 @@ export function expansionsValid(expansions: any) {
 
     return valid;
 }
+
+export function mapCategoriesValid(mapCategories: any) {
+    var valid = true;
+    if (!Array.isArray(mapCategories)) return false;
+    mapCategories.map(category => {
+        if (category != "World Maps" && category != "Dungeons") valid = false;
+    });
+
+    return valid;
+}

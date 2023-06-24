@@ -59,7 +59,7 @@ export default function Play() {
 
     // Set photosphere picture and preload next one
     useEffect(() => {
-        if (toFind=== null) return;
+        if (toFind === null) return;
 
         var format : string = ".webp";
         viewer!.setPanorama('photospheres/' + toFind.id + format).then(()=> {
@@ -94,8 +94,6 @@ export default function Play() {
 
 
     function pickLocations() {
-        if (gameSystem.maxRounds > Photospheres.length) throw "Max rounds number is above Photospheres selection";
-
         if (!expansionsValid(cookies.expansions)) {
             setCookie('expansions', ["ARR"], {sameSite: 'strict'})
             window.location.replace("/");
@@ -103,19 +101,18 @@ export default function Play() {
 
         for (var i = 0 ; i < gameSystem.maxRounds ; i++) {
             const randomExpansion = cookies.expansions[Math.floor(Math.random() * cookies.expansions.length)];
-            const randomMap = Universe.getRandomMap(randomExpansion); 
-
+            var randomMap = Universe.getRandomMap(randomExpansion); 
 
             var newLocation;
             var j = 0;
 
             do {
-                newLocation = Photospheres[Math.floor(Math.random() * Photospheres.length)]
+                newLocation = Photospheres[randomExpansion as keyof typeof Photospheres][Math.floor(Math.random() * Photospheres[randomExpansion as keyof typeof Photospheres].length)]
                 j++;
                 if (j >= 10000) throw "Couldn't pick a location!"
-            } while (gameData.current.locations.includes(newLocation) || newLocation.expansion !== randomExpansion || newLocation.map !== randomMap)
+            } while (gameData.current.locations.includes(newLocation) || newLocation.map !== randomMap)
 
-            if (newLocation.subArea !== undefined) newLocation.map = newLocation.subArea;
+            if ((newLocation as any).subArea !== undefined) newLocation.map = (newLocation as any).subArea;
 
             (newLocation.map as any) = Universe.getMap(newLocation.map);
             gameData.current.locations.push(newLocation);

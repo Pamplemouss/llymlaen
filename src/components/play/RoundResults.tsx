@@ -156,7 +156,6 @@ export default function RoundResults() {
                                     <motion.span animate={{ x: [-3, 3, -3] }} transition={{ repeat: Infinity, duration: 1 }}>
                                         <i className="-translate-x-[20px] group-hover:translate-x-[0px] duration-200 opacity-0 group-hover:opacity-100 fa-solid fa-arrow-right-long"></i>
                                     </motion.span>
-                                    
                                 </div>
                                 <motion.div
                                     initial={{ opacity: 0 }}

@@ -16,15 +16,15 @@ export default function MapSetup({currentMap, map, geojson} : Props) {
     map.current = useMap();
 
     // GEOJSON CREATOR
-/*     (map.current as any).pm.addControls({  
+    /* (map.current as any).pm.addControls({  
         position: 'topleft',  
         drawCircle: false,  
-        }); 
+    });
 
     map.current.on('pm:create', function(e) {
-        var latlngs = e.layer.getLatLngs();
+        var latlngs = e.layer.getLatLngs()[0];
         var polygon : any[] = [];
-        latlngs[0].map((latlng: any) => {
+        latlngs.map((latlng: any) => {
             polygon.push([latlng.lng, latlng.lat]);
         })
         console.log(JSON.stringify(polygon))
