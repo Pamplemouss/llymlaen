@@ -22,6 +22,7 @@ import MapMenu from "@/components/map/MapMenu";
 import SubAreas from "@/components/map/SubAreas";
 import GuessMarker from "./map/GuessMarker";
 import { useCookies } from "react-cookie";
+import { mapCategoriesValid } from "./CookiesManager";
 
 
 interface FuncProps {
@@ -33,7 +34,7 @@ interface FuncProps {
 }
 
 export default function Map({toFind, isMobile, is4k, mapLevel, leftCentered}: FuncProps) {
-    const [cookies, setCookie] = useCookies(['expansions']);
+    const [cookies, setCookie] = useCookies(['expansions', 'mapCategories']);
     const gameContext = useContext(GameContext);
     const blurControls = useAnimation();
     const Bounds = {
@@ -231,6 +232,7 @@ export default function Map({toFind, isMobile, is4k, mapLevel, leftCentered}: Fu
 
                 {currentMap.markers.map((marker, index) => {
                     if (!Universe.isInExpansions(marker.target, cookies.expansions)) return;
+                    if (!cookies.mapCategories.includes("Dungeons") && marker.target.dungeon) return;
                     return (
                         <LocationMarker map={map} key={"key" + marker.target.name + index} currentMap={currentMap} marker={marker} geojson={geojson} changeLocation={changeLocation}></LocationMarker>
                     )

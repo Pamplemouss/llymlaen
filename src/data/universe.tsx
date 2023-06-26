@@ -1,3 +1,5 @@
+import { CookiePopup } from "@/components/CookiesManager";
+
 type Map = {
     name: string;
     markers: {
@@ -12,6 +14,7 @@ type Map = {
     subAreas?: string[],
     menuName?: string,
     city?: boolean,
+    dungeon?: boolean,
 }
 
 type Zone = Map & {region: Map}
@@ -580,6 +583,69 @@ const Elpis : Zone = {
     exp: "EW",
 }
 
+//--- DUNGEONS ---//
+const Sastasha : Zone = {
+    name: "Sastasha",
+    region: LaNoscea,
+    markers: [],
+    exp: "ARR",
+    dungeon: true,
+}
+
+const TheTamTaraDeepcroft : Zone = {
+    name: "The Tam-Tara Deepcroft",
+    region: TheBlackShroud,
+    markers: [],
+    exp: "ARR",
+    dungeon: true,
+}
+
+const GroundLevel : Zone = {
+    name: "Ground Level",
+    region: Thanalan,
+    markers: [],
+    exp: "ARR",
+    subAreas: ["Ground Level", "First Drop", "B2"],
+    menuName: "Copperbell Mines",
+    dungeon: true,
+}
+
+const FirstDrop : Zone = {
+    name: "First Drop",
+    region: Thanalan,
+    markers: [],
+    exp: "ARR",
+    subAreas: ["Ground Level", "First Drop", "B2"],
+    menuName: "Copperbell Mines",
+    dungeon: true,
+}
+
+const B2 : Zone = {
+    name: "B2",
+    region: Thanalan,
+    markers: [],
+    exp: "ARR",
+    subAreas: ["Ground Level", "First Drop", "B2"],
+    menuName: "Copperbell Mines",
+    dungeon: true,
+}
+
+const Halatali : Zone = {
+    name: "Halatali",
+    region: Thanalan,
+    markers: [],
+    exp: "ARR",
+    dungeon: true,
+}
+
+const TheThousandMawsofTotoRak : Zone = {
+    name: "The Thousand Maws of Toto-Rak",
+    region: TheBlackShroud,
+    markers: [],
+    exp: "ARR",
+    dungeon: true,
+}
+
 // Add markers to regions and zones
 // THE BLACK SHROUDS
 TheBlackShroud.markers.push(
@@ -638,12 +704,14 @@ CentralShroud.markers.push(
     {target: OldGridania, latLng: [47.9375 , 18.0625]},
     {target: EastShroud, latLng: [33 , 51.28125]},
     {target: SouthShroud, latLng: [-75.84375 , 17.375]},
+    {target: TheTamTaraDeepcroft, latLng: [-38.678, -12.783]},
     /* {target: TheLavenderBeds, latLng: [-35.75, 40.875]}, */
 );
 SouthShroud.markers.push(
     {target: CentralShroud, latLng: [37.25 , -50.75]},
     {target: EastShroud, latLng: [41.125 , 37.75]},
     {target: EasternThanalan, latLng: [-88 , -37.875]},
+    {target: TheThousandMawsofTotoRak, latLng: [17.751, -9.244]},
 );
 EastShroud.markers.push(
     {target: OldGridania, latLng: [-8 , -80.375]},
@@ -703,6 +771,7 @@ EasternThanalan.markers.push(
     {target: CentralThanalan, latLng: [-42, -77.5]},
     {target: SouthernThanalan, latLng: [-66.75, -11.5]},
     {target: SouthShroud, latLng: [42.9375, 51.5625]},
+    {target: Halatali, latLng: [-47.509, -36.416]},
 );
 SouthernThanalan.markers.push(
     {target: CentralThanalan, latLng: [54, -59]},
@@ -712,6 +781,7 @@ WesternThanalan.markers.push(
     {target: UldahStepsOfNald, latLng: [-18, 68]},
     {target: CentralThanalan, latLng: [14.5, 36]},
     {target: LimsaLominsaLowerDecks, latLng: [33.5, -71.5]},
+    {target: GroundLevel, latLng: [24.484, 35.532]},
 );
 NorthernThanalan.markers.push(
     {target: CentralThanalan, latLng: [-70.75, 0.5]},
@@ -798,6 +868,7 @@ WesternLaNoscea.markers.push(
     {target: LimsaLominsaLowerDecks, latLng: [-52.875, 25.875]},
     {target: LowerLaNoscea, latLng: [-57, 25.5]},
     {target: MiddleLaNoscea, latLng: [-56.5, 94]},
+    {target: Sastasha, latLng: [-0.783, 36.369]}
 );
 EasternLaNoscea.markers.push(
     {target: UpperLaNoscea, latLng: [24.25, -1.25]},
@@ -1224,18 +1295,7 @@ class Universe {
     static TheSource: Map = TheSource;
     static TheFirst: Map = TheFirst;
 
-    static mapsByExpansions: {[key: string] : string[]} = {
-        "ARR": ["Ul'dah - Steps of Nald", "Ul'dah - Steps of Thal", "Northern Thanalan", "Central Thanalan", "Southern Thanalan", "Eastern Thanalan", "Western Thanalan",
-              "Old Gridania", "New Gridania", "Central Shroud", "East Shroud", "South Shroud", "North Shroud",
-              "Limsa Lominsa Lower Decks", "Limsa Lominsa Upper Decks", "Middle La Noscea", "Eastern La Noscea", "Western La Noscea", "Outer La Noscea", "Upper La Noscea", "Lower La Noscea",
-              "Coerthas Central Highlands", "Mor Dhona"],
-        "HW": ["Coerthas Western Highlands", "The Dravanian Forelands", "The Dravanian Hinterlands", "The Churning Mists", "The Sea of Clouds", "Azys La", "Ishgard - Foundation", "Ishgard - The Pillars"],
-        "SB": ["The Fringes", "The Peaks", "The Lochs", "Rhalgr's Reach", "Kugane", "Yanxia", "The Ruby Sea", "The Azim Steppe"],
-        "ShB": ["The Crystarium", "Lakeland", "Amh Araeng", "Il Mheg", "Kholusia", "The Rak'tika Greatwood", "The Tempest", "Eulmore"],
-        "EW": ["Old Sharlayan", "Labyrinthos", "Radz-at-Han", "Thavnair", "Garlemald", "Elpis", "Mare Lamentorum", "Ultima Thule"]
-    }
-
-    static subAreaMaps = [TheButtress, TheUnderstory, TheCanopy];
+    static subAreaMaps = [TheButtress, TheUnderstory, TheCanopy, GroundLevel, FirstDrop, B2];
 
     static YalmsConstant = 0.10731;
 
@@ -1270,16 +1330,36 @@ class Universe {
                 }
             })
         })
-
+        
         this.subAreaMaps.forEach(subArea => {
+            
             if (subArea.name === name) {
                 map = subArea;
                 return;
             }
+            else if (subArea.menuName === name) {
+                map = subArea;
+            }
         })
         
-        if (map === undefined) throw "Map name not found in Universe";
+        if (map === undefined) throw "Map name not found in Universe : " + name;
         return map;
+    }
+
+    static maps: {[key: string] : {[key: string] : Map[]}} = {
+        "World Maps": {
+            "ARR": [UldahStepsOfNald, UldahStepsOfThal, NorthernThanalan, CentralThanalan, SouthernThanalan, EasternThanalan, WesternThanalan,
+                    OldGridania, NewGridania, CentralShroud, EastShroud, SouthShroud, NorthShroud,
+                    LimsaLominsaLowerDecks, LimsaLominsaUpperDecks, MiddleLaNoscea, EasternLaNoscea, WesternLaNoscea, OuterLaNoscea, UpperLaNoscea, LowerLaNoscea,
+                    CoerthasCentralHighlands, MorDhona],
+            "HW": [CoerthasWesternHighlands, TheDravanianForelands, TheDravanianHinterlands, TheChurningMists, TheSeaOfClouds, AzysLa, IshgardFoundation, IshgardThePillars],
+            "SB": [TheFringes, ThePeaks, TheLochs, RhalgrsReach, Kugane, Yanxia, TheRubySea, TheAzimSteppe],
+            "ShB": [TheCrystarium, Lakeland, AmhAraeng, IlMheg, Kholusia, TheRaktikaGreatwood, TheTempest, this.getMap("Eulmore")],
+            "EW": [OldSharlayan, Labyrinthos, RadzAtHan, Thavnair, Garlemald, Elpis, MareLamentorum, UltimaThule]
+        },
+        "Dungeons": {
+            "ARR": [Sastasha, TheTamTaraDeepcroft, this.getMap("Copperbell Mines"), Halatali, TheThousandMawsofTotoRak]
+        }
     }
 
     static isRegion(map: Map) {
@@ -1318,8 +1398,14 @@ class Universe {
         return (map.name === "The Source" || map.name === "The First");
    }
 
-    static getRandomMap(expansion: string) {
-        return this.mapsByExpansions[expansion][Math.floor(Math.random() * this.mapsByExpansions[expansion].length)];
+    static getRandomMap(mapCategory: string, expansion: string) {
+        var randomMap = this.maps[mapCategory][expansion][Math.floor(Math.random() * this.maps[mapCategory][expansion].length)];
+        if (randomMap.menuName !== undefined) {
+            var randomSubArea = randomMap.subAreas![Math.floor(Math.random() * randomMap.subAreas!.length)]
+            randomMap = this.subAreaMaps.find(el => {return el.name === randomSubArea})!;
+        }
+
+        return randomMap;
     }
 
     static isInExpansions(map: Map, expansions: string[]) {

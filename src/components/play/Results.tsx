@@ -151,7 +151,7 @@ export default function Results() {
                 
 
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: gameContext.gameSystem.maxRounds*0.25 + 2.55, duration: 0.5 }}>
-                    <div className="flex gap-4 relative mt-7 items-center justify-around">
+                    <div className="flex gap-4 relative mt-7 items-center justify-evenly">
                         <div className="text-slate-400 text-xl absolute top-1/2 -left-4 -translate-y-1/2 -translate-x-full">
                             <i className="fa-solid fa-share-nodes"></i>
                         </div>

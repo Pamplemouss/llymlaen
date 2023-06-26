@@ -17,13 +17,48 @@ interface Props {
 
 export default function MapMenu({currentMap, changeLocation, regionsMenuOpen, setRegionsMenuOpen, zonesMenuOpen, setZonesMenuOpen, isMobile} : Props) {
     const gameContext = useContext(GameContext);
-    const [cookies, setCookie] = useCookies(['expansions']);
+    const [cookies, setCookie] = useCookies(['expansions', 'mapCategories']);
 
+    
     function getMapName() {
         if (Universe.isRegion(currentMap)) return "--";
         if (Universe.isWorldMap(currentMap)) return "";
         if (currentMap.subAreas !== undefined) return currentMap.menuName;
         else return currentMap.name;
+    }
+
+    function ZonesMenu() {
+        if (Universe.isWorldMap(currentMap)) return (<></>);
+
+        var menuItems : any[] = [];
+        Universe.getRegion(currentMap).markers.map((marker) => {
+            if (!Universe.isInExpansions(marker.target, cookies.expansions)) return;
+            if (Universe.getRegion(currentMap) !== Universe.getRegion(marker.target)) return;
+            menuItems.push(marker)
+        })
+
+        if (cookies.mapCategories.includes("Dungeons")) {
+            Universe.getRegion(currentMap).markers.map((marker) => {
+                if (!Universe.isInExpansions(marker.target, cookies.expansions)) return;
+                if (Universe.getRegion(currentMap) !== Universe.getRegion(marker.target)) return;
+                
+                marker.target.markers.map(marker => {
+                    if (marker.target.dungeon) {
+                        menuItems.push(marker)
+                    }
+                })
+            })
+        }
+
+        return (
+            menuItems.map(item => {
+                var name = item.target.subAreas !== undefined ? item.target.menuName : item.target.name;
+                return (
+                    <div onClick={() => {changeLocation(item.target) }} className="hover:bg-gradient-to-r hover:from-orange-300/30 hover:to-transparent px-2 rounded-full cursor-pointer whitespace-nowrap text-amber-100 text-shadow-[0px_1px_1px_rgba(0,0,0,0.85)] text-sm 4k:text-2xl" key={name}>{name}</div>
+                )
+            })
+        )
+        
     }
 
     return (
@@ -61,15 +96,7 @@ export default function MapMenu({currentMap, changeLocation, regionsMenuOpen, se
                 </div>
                 {zonesMenuOpen && !Universe.isWorldMap(currentMap) ? (
                     <div className={`absolute z-20 px-1 py-2 4k:px-3 4k:py-3 top-5 left-6 bg-[#4a4a4a] rounded flex flex-col gap-1 border border-x-2 border-y-neutral-500 border-x-neutral-600 ${isMobile ? "max-h-[13rem] overflow-y-scroll" : ""}`}>
-                        {Universe.getRegion(currentMap).markers.map((marker) => {
-                            if (!Universe.isInExpansions(marker.target, cookies.expansions)) return;
-                            if (Universe.getRegion(currentMap) !== Universe.getRegion(marker.target)) return;
-
-                            var name = marker.target.subAreas !== undefined ? marker.target.menuName : marker.target.name;
-                            return (
-                                <div onClick={() => {changeLocation(marker.target) }} className="hover:bg-gradient-to-r hover:from-orange-300/30 hover:to-transparent px-2 rounded-full cursor-pointer whitespace-nowrap text-amber-100 text-shadow-[0px_1px_1px_rgba(0,0,0,0.85)] text-sm 4k:text-2xl" key={name}>{name}</div>
-                            )
-                        })}
+                        <ZonesMenu></ZonesMenu>
                     </div>
                 ) : null}
             </div>

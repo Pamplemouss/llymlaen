@@ -20,7 +20,7 @@ export default function Home() {
 
     useEffect(() => {
         setExpansions(expansionsValid(cookies.expansions) ? cookies.expansions : ["ARR"]);
-        setMapCategories(mapCategoriesValid(cookies.mapCategories) ? cookies.mapCategories : ["World Map"]);
+        setMapCategories(mapCategoriesValid(cookies.mapCategories) ? cookies.mapCategories : ["World Maps"]);
     }, [])
 
     function expClick(expansion : string) {

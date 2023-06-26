@@ -53,6 +53,13 @@ export default function LocationMarker({currentMap, map, marker, geojson, change
                 interactive={true}
                 className={`p-[2px] ${isExit ? "tooltipRegion text-[rgb(245,215,120)] shadow-yellow-900/80" : "text-cyan-200 shadow-black"} tracking-wide text-shadow-sm text-base 4k:text-3xl font-myriad-cond bg-transparent shadow-none border-none before:border-none`}
             >
+
+                {marker.target.dungeon ? (
+                    <div className="absolute -right-1 translate-x-full">
+                        <img src="dungeon_icon.webp"></img>
+                    </div>
+                ) : ""}
+                
                 <span id={marker.target.name}></span>
                 {getLocationName()}
             </Tooltip>

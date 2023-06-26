@@ -5,7 +5,7 @@ import { useCookies } from 'react-cookie';
 import { motion, AnimatePresence } from "framer-motion";
 import dynamic from 'next/dynamic';
 import GameContext from '@/components/GameContext';
-import { expansionsValid } from '@/components/CookiesManager';
+import { expansionsValid, mapCategoriesValid } from '@/components/CookiesManager';
 import Results from '@/components/play/Results';
 import RoundResults from '@/components/play/RoundResults';
 import RoundStrip from '@/components/play/RoundStrip';
@@ -24,7 +24,7 @@ export default function Play() {
     const [totalScore, setTotalScore] = useState<number>(0);
     const [mapLevel, setMapLevel] = useState<number>()
     const [distance, setDistance] = useState<number | null>(null);
-    const [cookies, setCookie] = useCookies(['expansions', 'mapLevel']);
+    const [cookies, setCookie] = useCookies(['expansions', 'mapCategories', 'mapLevel']);
     const [round, setRound] = useState<number>(0);
     const [ended, setEnded] = useState<boolean>(false);
     const gameData = useRef<any>({locations: [], scores: []});
@@ -99,22 +99,31 @@ export default function Play() {
             window.location.replace("/");
         }
 
+        if (!mapCategoriesValid(cookies.mapCategories)) {
+            setCookie('mapCategories', ["World Maps"], {sameSite: 'strict'})
+            window.location.replace("/");
+        }
+
         for (var i = 0 ; i < gameSystem.maxRounds ; i++) {
+            const randomMapCategory = cookies.mapCategories[Math.floor(Math.random() * cookies.mapCategories.length)];
             const randomExpansion = cookies.expansions[Math.floor(Math.random() * cookies.expansions.length)];
-            var randomMap = Universe.getRandomMap(randomExpansion); 
+            var randomMap = Universe.getRandomMap(randomMapCategory, randomExpansion);
 
             var newLocation;
             var j = 0;
 
+            type mapCat = "World Maps" | "Dungeons";
+            type exp = "ARR" | "HW" | "SB" | "ShB" | "EW";
+
             do {
-                newLocation = Photospheres[randomExpansion as keyof typeof Photospheres][Math.floor(Math.random() * Photospheres[randomExpansion as keyof typeof Photospheres].length)]
+                newLocation = Photospheres[randomMapCategory as mapCat][randomExpansion as exp][Math.floor(Math.random() * Photospheres[randomMapCategory as mapCat][randomExpansion as exp].length)];
                 j++;
-                if (j >= 10000) throw "Couldn't pick a location!"
-            } while (gameData.current.locations.includes(newLocation) || newLocation.map !== randomMap)
+                if (j >= 10000) throw "Couldn't pick a location! Random map:" + randomMap.name;
+            } while (gameData.current.locations.includes(newLocation) || (newLocation.map !== randomMap.name && (newLocation as any).subArea! !== randomMap.name))
 
             if ((newLocation as any).subArea !== undefined) newLocation.map = (newLocation as any).subArea;
 
-            (newLocation.map as any) = Universe.getMap(newLocation.map);
+            (newLocation.map as any) = randomMap;
             gameData.current.locations.push(newLocation);
         }
     }
