@@ -1,3 +1,5 @@
+import SeededRandom from "@/utils/SeededRandom";
+
 type Map = {
     name: string;
     markers: {
@@ -1319,7 +1321,7 @@ class Universe {
    }
 
     static getRandomMap(expansion: string) {
-        return this.mapsByExpansions[expansion][Math.floor(Math.random() * this.mapsByExpansions[expansion].length)];
+        return this.mapsByExpansions[expansion][SeededRandom.range(0, this.mapsByExpansions[expansion].length)];
     }
 
     static isInExpansions(map: Map, expansions: string[]) {
