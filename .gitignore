@@ -42,3 +42,9 @@ next-env.d.ts
 
 # custom test
 /src/pages/test.tsx
+
+# build
+*.tfvars
+*.tfstate*
+.terraform
+*.lock.hcl

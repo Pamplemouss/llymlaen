@@ -1,0 +1,47 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx
+  namespace: eorguessr-prod
+  annotations:
+    cert-manager.io/issuer: "eorguessr-prod-issuer"
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.middlewares: eorguessr-prod-redirect@kubernetescrd
+    traefik.ingress.kubernetes.io/forwarding-headers: "true"
+spec:
+  tls:
+   - hosts:
+       - eorguessr.com
+       - www.eorguessr.com
+     secretName: tls-ingress-http-key
+  rules:
+  - host: "eorguessr.com"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: api-service
+            port:
+              number: 80
+  - host: "www.eorguessr.com"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: api-service
+            port:
+              number: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect
+  namespace: eorguessr-prod
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
