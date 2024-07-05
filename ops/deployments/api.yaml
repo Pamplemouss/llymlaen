@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment # Type of Kubernetes resource
+metadata:
+  name: "api" # Unique name of the Kubernetes resource
+  namespace: eorguessr-prod
+spec:
+  replicas: 4 # Number of pods to run at any given time
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: api # This deployment applies to any Pods matching the specified label
+  template: # This deployment will create a set of pods using the configurations in this template
+    metadata:
+      labels: # The labels that will be applied to all of the pods in this deployment
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: pampalamos/eorguessr:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: 500m
+              memory: 500Mi
+---
+apiVersion: v1
+kind: Service # Type of kubernetes resource
+metadata:
+  name: "api-service" # Unique name of the resource
+  namespace: eorguessr-prod
+spec:
+  type: NodePort # Expose the Pods by opening a port on each Node and proxying it to the service.
+  ports: # Take incoming HTTP requests on port 00 and forward them to the targetPort of 8080
+    - name: http
+      port: 80
+      targetPort: 3000
+  selector:
+    app: api
